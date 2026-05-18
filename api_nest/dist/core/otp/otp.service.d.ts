@@ -1,0 +1,64 @@
+import { EmailService } from '@core/email/email.service';
+import { UserService } from '@core/profile/profile.service';
+import { SessionService } from '@core/session/session.service';
+import { UsersService } from '@core/users/users.service';
+import { NguoiDung } from '@database/entities/auth/nguoi-dung.entity';
+import { HelperService } from '@helper/helper.service';
+import { ConfigService } from '@nestjs/config';
+import { Cache } from 'cache-manager';
+export declare class OtpService {
+    private readonly usersService;
+    private readonly userService;
+    private readonly emailService;
+    private readonly sessionService;
+    private readonly helperService;
+    private readonly configService;
+    private cacheManager;
+    private readonly logger;
+    constructor(usersService: UsersService, userService: UserService, emailService: EmailService, sessionService: SessionService, helperService: HelperService, configService: ConfigService, cacheManager: Cache);
+    generateSecretKey(user: NguoiDung): Promise<string>;
+    generateOtp(user: NguoiDung): Promise<{
+        otp: string;
+        expiresIn: number;
+    }>;
+    handleOtp(user: NguoiDung): Promise<{
+        otp: string;
+        expiresIn: number;
+    }>;
+    verifyOtp(inputOtp: string, user: NguoiDung, device_id: string): Promise<{
+        token: string;
+        isVerified: true;
+        id: number;
+        nguoi_tao: number;
+        ngay_tao: Date;
+        nguoi_cap_nhat: number;
+        ngay_cap_nhat: Date;
+        tai_khoan: string;
+        mat_khau: string;
+        so_dien_thoai: string;
+        email: string;
+        ma_vai_tro: string;
+        reset_pass_token: string;
+        avatar: string;
+        ho: string;
+        ten: string;
+        ho_va_ten: string;
+        ngay_sinh: Date;
+        gioi_tinh: number;
+        dia_chi: string;
+        tinh_id: number;
+        xa_id: number;
+        trang_thai: number;
+        need_change_password: number;
+        last_password_change: Date;
+        otp_secret: string;
+        is_otp_verify: number;
+        last_otp_verified: Date;
+        ma_vai_tro2: import("../../database/entities/auth/vai-tro.entity").VaiTro;
+        tinh: import("../../database/entities/common/tinh.entity").Tinh;
+        xa: import("../../database/entities/common/xa.entity").Xa;
+        nguoi_dung_thiet_bis: import("../../database/entities/auth/nguoi-dung-thiet-bi.entity").NguoiDungThietBi[];
+        thong_baos: import("../../database/entities/system/thong-bao.entity").ThongBao[];
+        nguoi_dung_vai_tros: import("../../database/entities/auth/nguoi-dung-vai-tro.entity").NguoiDungVaiTro[];
+    }>;
+}

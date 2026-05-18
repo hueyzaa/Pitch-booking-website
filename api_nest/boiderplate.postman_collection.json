@@ -1,0 +1,1249 @@
+{
+	"info": {
+		"_postman_id": "5ec22951-8986-42c5-b5b9-1ae0703a18cf",
+		"name": "boiderplate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11730794"
+	},
+	"item": [
+		{
+			"name": "Core",
+			"item": [
+				{
+					"name": "Authencation",
+					"item": [
+						{
+							"name": "Đăng nhập",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"tai_khoan\":\"Admin\",\n    \"mat_khau\":\"Abc@1234!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/auth/login",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Thành Công",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "device_id",
+												"value": "{{DEVICE_ID}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"tai_khoan\":\"Admin\",\n    \"mat_khau\":\"123456\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL_DEVELOP}}/auth/login",
+											"host": [
+												"{{URL_DEVELOP}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "2133"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"855-uTmm/Wf8Pkde6lWPaPYNFDH14Y8\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 14 May 2024 02:48:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"code\": 200,\n    \"status\": true,\n    \"message\": \"OK\",\n    \"data\": {\n        \"id\": 10,\n        \"nguoi_tao\": 0,\n        \"ngay_tao\": \"2024-05-14T01:45:14.000Z\",\n        \"nguoi_cap_nhat\": 0,\n        \"ngay_cap_nhat\": \"2024-05-14T01:45:14.000Z\",\n        \"tai_khoan\": \"Admin\",\n        \"email\": \"Admin@gmail.com\",\n        \"ma_vai_tro\": \"Admin\",\n        \"ho\": \"Super\",\n        \"ten\": \"Admin\",\n        \"ho_va_ten\": \"Super Admin\",\n        \"ngay_sinh\": \"2024-05-14\",\n        \"gioi_tinh\": 1,\n        \"dia_chi\": \"Toà nhà MobiFone\",\n        \"tinh_id\": 7210,\n        \"huyen_id\": 59489,\n        \"xa_id\": 1448569,\n        \"trang_thai\": 1,\n        \"need_change_password\": 1,\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsIm5ndW9pX3RhbyI6MCwibmdheV90YW8iOiIyMDI0LTA1LTE0VDAxOjQ1OjE0LjAwMFoiLCJuZ3VvaV9jYXBfbmhhdCI6MCwibmdheV9jYXBfbmhhdCI6IjIwMjQtMDUtMTRUMDE6NDU6MTQuMDAwWiIsInRhaV9raG9hbiI6IkFkbWluIiwiZW1haWwiOiJBZG1pbkBnbWFpbC5jb20iLCJtYV92YWlfdHJvIjoiQWRtaW4iLCJobyI6IlN1cGVyIiwidGVuIjoiQWRtaW4iLCJob192YV90ZW4iOiJTdXBlciBBZG1pbiIsIm5nYXlfc2luaCI6IjIwMjQtMDUtMTQiLCJnaW9pX3RpbmgiOjEsImRpYV9jaGkiOiJUb8OgIG5ow6AgTW9iaUZvbmUiLCJ0aW5oX2lkIjo3MjEwLCJodXllbl9pZCI6NTk0ODksInhhX2lkIjoxNDQ4NTY5LCJ0cmFuZ190aGFpIjoxLCJuZWVkX2NoYW5nZV9wYXNzd29yZCI6MSwibWFfdmFpX3RybzIiOnsiaWQiOjEsIm1hX3ZhaV90cm8iOiJBZG1pbiIsInRlbl92YWlfdHJvIjoiQWRtaW4iLCJuZ3VvaV90YW8iOjEsIm5nYXlfdGFvIjoiMjAyNC0wNS0xMFQwMTozNDoxMi4wMDBaIiwibmd1b2lfY2FwX25oYXQiOm51bGwsIm5nYXlfY2FwX25oYXQiOiIyMDI0LTA1LTEwVDAxOjM0OjEyLjAwMFoiLCJ0cmFuZ190aGFpIjoxLCJwaGFuX3F1eWVuIjoiW3tcIm5hbWVcIjpcInVzZXJzXCIsXCJhY3Rpb25zXCI6e1wiaW5kZXhcIjp0cnVlLFwiY3JlYXRlXCI6dHJ1ZSxcInNob3dcIjp0cnVlLFwiZWRpdFwiOnRydWUsXCJkZWxldGVcIjp0cnVlLFwiZXhwb3J0XCI6dHJ1ZX19LHtcIm5hbWVcIjpcInJvbGVzXCIsXCJhY3Rpb25zXCI6e1wiaW5kZXhcIjp0cnVlLFwiY3JlYXRlXCI6dHJ1ZSxcInNob3dcIjp0cnVlLFwiZWRpdFwiOnRydWUsXCJkZWxldGVcIjp0cnVlLFwiZXhwb3J0XCI6dHJ1ZX19XSJ9LCJwaGFuX3F1eWVuIjoiW3tcIm5hbWVcIjpcInVzZXJzXCIsXCJhY3Rpb25zXCI6e1wiaW5kZXhcIjp0cnVlLFwiY3JlYXRlXCI6dHJ1ZSxcInNob3dcIjp0cnVlLFwiZWRpdFwiOnRydWUsXCJkZWxldGVcIjp0cnVlLFwiZXhwb3J0XCI6dHJ1ZX19LHtcIm5hbWVcIjpcInJvbGVzXCIsXCJhY3Rpb25zXCI6e1wiaW5kZXhcIjp0cnVlLFwiY3JlYXRlXCI6dHJ1ZSxcInNob3dcIjp0cnVlLFwiZWRpdFwiOnRydWUsXCJkZWxldGVcIjp0cnVlLFwiZXhwb3J0XCI6dHJ1ZX19XSIsInRlbl92YWlfdHJvIjoiQWRtaW4iLCJpYXQiOjE3MTU2NTQ5MjgsImV4cCI6MTcxNTc0MTMyOH0.gEq3PRvVIFkYkTiZccmQZ5HLro6ufcnh9Zi4X2WX98g\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Đăng xuất",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/auth/logout",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Thành Công",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "device_id",
+												"value": "{{DEVICE_ID}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"tai_khoan\":\"Admin\",\n    \"mat_khau\":\"123456\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL_DEVELOP}}/auth/logout",
+											"host": [
+												"{{URL_DEVELOP}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4d-ZWYihPnSlHUS+teGW/MxqXqd3y4\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 14 May 2024 02:49:02 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"code\": 200,\n    \"status\": true,\n    \"message\": \"OK\",\n    \"data\": \"Đăng xuất thành công\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Quên mật khẩu",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"tai_khoan\":\"Admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/auth/forgot-password",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"auth",
+										"forgot-password"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Quên mật khẩu",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "device_id",
+												"value": "{{DEVICE_ID}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"tai_khoan\":\"Admin\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL_DEVELOP}}/auth/forgot-password",
+											"host": [
+												"{{URL_DEVELOP}}"
+											],
+											"path": [
+												"auth",
+												"forgot-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "138"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"8a-VbHbGvHMUpyQvNwimOxif03YiTw\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 14 May 2024 02:54:07 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"code\": 200,\n    \"status\": true,\n    \"message\": \"OK\",\n    \"data\": \"Quên mật khẩu thành công vui lòng kiểm tra Email và làm theo hướng dẫn\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Reset mật khẩu",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token_reset_pass\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvYW5ndGhhaWJtdmxAZ21haWwuY29tIiwidGFpX2tob2FuIjoiQURNSU4iLCJ0aW1lIjoxNzIyMjM1MDY1MTU3LCJpYXQiOjE3MjIyMzUwNjUsImV4cCI6MTcyMjIzNTI0NX0.n8VKnx935T5GVeJWUfhmVDy_Tmo9S4YKLfTo047VnQs\",\n    \"mat_khau_moi\":\"0987654321\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/auth/reset-password",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"auth",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Lấy thông tin cá nhân",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/profile",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cập nhật thông tin",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ho\": \"Nguyễn Văn\",\n    \"ten\": \"A\",\n    \"ngay_sinh\": \"1999-08-09\",\n    \"email\": \"hoangthaibmvl@fdfd.com\",\n    \"gioi_tinh\": 0, //0: Nữ | 1:Nam\n    \"dia_chi\": \"Toà nhà MobiFone\",\n    \"tinh_id\": 7210,\n    \"huyen_id\": 59489,\n    \"xa_id\": 1448569,\n    \"so_dien_thoai\": \"4324243\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/profile",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Đổi mật khẩu",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"is_first_change\": 0, //0: Không phải lần đầu, 1: Lần đầu đổi mật khẩu\n    \"mat_khau_hien_tai\": \"Abc@1234!\", //Không bắt buộc khi có trường is_first_change được bật\n    \"mat_khau_moi\": \"1234567\",\n    \"mat_khau_moi_xac_nhan\": \"1234567\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/profile/change-password",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"profile",
+										"change-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cập nhật avatar",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/Users/bnhthai/Downloads/hinh-nen-dien-thoai-cute-didongviet-79.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/profile/avatar",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"profile",
+										"avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Xoá tài khoản",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/profile",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Người dùng",
+					"item": [
+						{
+							"name": "Lấy tất cả",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/users",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lấy 1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/users/164",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"users",
+										"164"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Thêm mới",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ho\": \"Nguyễn\",\n    \"ten\": \"Văn B\",\n    \"tai_khoan\": \"Admin\",\n    \"mat_khau\": \"Abc@1234!\",\n    \"so_dien_thoai\": \"0919480022\",\n    \"ngay_sinh\": \"1999-08-09\",\n    \"gioi_tinh\": 1,\n    \"trang_thai\": 1,\n    \"dia_chi\": \"Địa chỉ\",\n    \"tinh_id\": 7210,\n    \"huyen_id\": 59489,\n    \"xa_id\": 1448569,\n    \"email\": \"Admin@gmail.com\",\n    \"ma_vai_tro\": \"Admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/users",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cập nhật",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ho\": \"Nguyễn\",\n    \"ten\": \"Văn C\",\n    \"so_dien_thoai\": \"0919480022\",\n    \"ngay_sinh\": \"1999-08-09\",\n    \"gioi_tinh\": 1,\n    \"trang_thai\": 1,\n    \"dia_chi\": \"Địa chỉ\",\n    \"tinh_id\": 7210,\n    \"huyen_id\": 59489,\n    \"xa_id\": 1448569,\n    \"email\": \"thai.bui@mobifone.vn\",\n    \"ma_vai_tro\": \"Admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/users/167",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"users",
+										"167"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Xoá",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/users/167",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"users",
+										"167"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Select Options",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/users/options",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"users",
+										"options"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Vai trò",
+					"item": [
+						{
+							"name": "Lấy phân quyền mặc định",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/roles/default-permission",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"roles",
+										"default-permission"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lấy tất cả",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/roles",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lấy 1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/roles/1",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"roles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Thêm mới",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ten_vai_tro\": \"TEST\",\n    \"ma_vai_tro\": \"TEST\",\n    \"phan_quyen\": [\n        {\n            \"name\": \"users\",\n            \"actions\": {\n                \"index\": true,\n                \"create\": true,\n                \"show\": true,\n                \"edit\": true,\n                \"delete\": true,\n                \"export\": true,\n                \"showMenu\": true\n            }\n        },\n        {\n            \"name\": \"roles\",\n            \"actions\": {\n                \"index\": true,\n                \"create\": true,\n                \"show\": true,\n                \"edit\": true,\n                \"delete\": true,\n                \"export\": true,\n                \"showMenu\": true\n            }\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/roles",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cập nhật",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ma_vai_tro\": \"ADMIN\",\n    \"ten_vai_tro\": \"Admin\",\n    \"phan_quyen\": [\n        {\n            \"name\": \"users\",\n            \"actions\": {\n                \"index\": true,\n                \"create\": true,\n                \"show\": true,\n                \"edit\": true,\n                \"delete\": true,\n                \"export\": true,\n                \"showMenu\": true\n            }\n        },\n        {\n            \"name\": \"roles\",\n            \"actions\": {\n                \"index\": true,\n                \"create\": true,\n                \"show\": true,\n                \"edit\": true,\n                \"delete\": true,\n                \"export\": true,\n                \"showMenu\": true\n            }\n        },\n        {\n            \"name\": \"thong-bao\",\n            \"actions\": {\n                \"index\": true,\n                \"create\": true,\n                \"show\": true,\n                \"edit\": true,\n                \"delete\": true,\n                \"export\": true,\n                \"showMenu\": true\n            }\n        },\n        {\n            \"name\": \"tinh\",\n            \"actions\": {\n                \"index\": true,\n                \"create\": true,\n                \"show\": true,\n                \"edit\": true,\n                \"delete\": true,\n                \"export\": true,\n                \"showMenu\": true\n            }\n        },\n        {\n            \"name\": \"huyen\",\n            \"actions\": {\n                \"index\": true,\n                \"create\": true,\n                \"show\": true,\n                \"edit\": true,\n                \"delete\": true,\n                \"export\": true,\n                \"showMenu\": true\n            }\n        },\n        {\n            \"name\": \"xa\",\n            \"actions\": {\n                \"index\": true,\n                \"create\": true,\n                \"show\": true,\n                \"edit\": true,\n                \"delete\": true,\n                \"export\": true,\n                \"showMenu\": true\n            }\n        },\n        {\n            \"name\": \"log\",\n            \"actions\": {\n                \"index\": true,\n                \"show\": true\n            }\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/roles/1",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"roles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Xoá",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/roles/3",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"roles",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Select Options",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/roles/options",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"roles",
+										"options"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Thông báo",
+					"item": [
+						{
+							"name": "Lấy tất cả",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/thong-bao",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"thong-bao"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lấy 1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/thong-bao/164",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"thong-bao",
+										"164"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Thêm mới",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ho\": \"Nguyễn\",\n    \"ten\": \"Văn B\",\n    \"tai_khoan\": \"vanb\",\n    \"mat_khau\": \"vanb\",\n    \"so_dien_thoai\": \"0919480022\",\n    \"ngay_sinh\": \"1999-08-09\",\n    \"gioi_tinh\": 1,\n    \"trang_thai\": 1,\n    \"dia_chi\": \"Địa chỉ\",\n    \"tinh_id\": 7210,\n    \"huyen_id\": 59489,\n    \"xa_id\": 1448569,\n    \"email\": \"thai.bui@mobifone.vn\",\n    \"ma_vai_tro\": \"Admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/users",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cập nhật",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ho\": \"Nguyễn\",\n    \"ten\": \"Văn C\",\n    \"so_dien_thoai\": \"0919480022\",\n    \"ngay_sinh\": \"1999-08-09\",\n    \"gioi_tinh\": 1,\n    \"trang_thai\": 1,\n    \"dia_chi\": \"Địa chỉ\",\n    \"tinh_id\": 7210,\n    \"huyen_id\": 59489,\n    \"xa_id\": 1448569,\n    \"email\": \"thai.bui@mobifone.vn\",\n    \"ma_vai_tro\": \"Admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_DEVELOP}}/users/167",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"users",
+										"167"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Xoá",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/users/167",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"users",
+										"167"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Select Options",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/thong-bao/options",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"thong-bao",
+										"options"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tỉnh",
+					"item": [
+						{
+							"name": "Select Options",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/tinh/options",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"tinh",
+										"options"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Huyện",
+					"item": [
+						{
+							"name": "Select Options",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/huyen/options",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"huyen",
+										"options"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Xã",
+					"item": [
+						{
+							"name": "Select Options",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/xa/options",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"xa",
+										"options"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Log",
+					"item": [
+						{
+							"name": "Lấy tất cả",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/log",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"log"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lấy 1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "device_id",
+										"value": "{{DEVICE_ID}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL_DEVELOP}}/log/20",
+									"host": [
+										"{{URL_DEVELOP}}"
+									],
+									"path": [
+										"log",
+										"20"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "example-module",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_DEVELOP}}/example-module/export-excel",
+							"host": [
+								"{{URL_DEVELOP}}"
+							],
+							"path": [
+								"example-module",
+								"export-excel"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{ACCESS_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL_DEVELOP",
+			"value": "localhost:9999",
+			"type": "string"
+		},
+		{
+			"key": "URL_STATGING",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "URL_PRODUCTION",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMwLCJuZ3VvaV90YW8iOjAsIm5nYXlfdGFvIjoiMjAyNC0wNy0yOVQwNzoxNDowNS4wMDBaIiwibmd1b2lfY2FwX25oYXQiOjAsIm5nYXlfY2FwX25oYXQiOiIyMDI0LTA3LTI5VDA3OjE0OjA1LjAwMFoiLCJ0YWlfa2hvYW4iOiJBRE1JTiIsInNvX2RpZW5fdGhvYWkiOiIwOTM5MTIzNDU2IiwiZW1haWwiOiJBZG1pbkBnbWFpbC5jb20iLCJtYV92YWlfdHJvIjoiQURNSU4iLCJhdmF0YXIiOm51bGwsImhvIjoiU3VwZXIiLCJ0ZW4iOiJBZG1pbiIsImhvX3ZhX3RlbiI6IlN1cGVyIEFkbWluIiwibmdheV9zaW5oIjoiMjAyNC0wNy0yOSIsImdpb2lfdGluaCI6MSwiZGlhX2NoaSI6IlRvw6AgbmjDoCBNb2JpRm9uZSIsInRpbmhfaWQiOjcyMTAsImh1eWVuX2lkIjo1OTQ4OSwieGFfaWQiOjE0NDg1NjksInRyYW5nX3RoYWkiOjEsIm5lZWRfY2hhbmdlX3Bhc3N3b3JkIjoxLCJwaGFuX3F1eWVuIjoiW3tcIm5hbWVcIjpcInVzZXJzXCIsXCJhY3Rpb25zXCI6e1wiaW5kZXhcIjp0cnVlLFwiY3JlYXRlXCI6dHJ1ZSxcInNob3dcIjp0cnVlLFwiZWRpdFwiOnRydWUsXCJkZWxldGVcIjp0cnVlLFwiZXhwb3J0XCI6dHJ1ZSxcInNob3dNZW51XCI6dHJ1ZX19LHtcIm5hbWVcIjpcInJvbGVzXCIsXCJhY3Rpb25zXCI6e1wiaW5kZXhcIjp0cnVlLFwiY3JlYXRlXCI6dHJ1ZSxcInNob3dcIjp0cnVlLFwiZWRpdFwiOnRydWUsXCJkZWxldGVcIjp0cnVlLFwiZXhwb3J0XCI6dHJ1ZSxcInNob3dNZW51XCI6dHJ1ZX19LHtcIm5hbWVcIjpcInRob25nLWJhb1wiLFwiYWN0aW9uc1wiOntcImluZGV4XCI6dHJ1ZSxcImNyZWF0ZVwiOnRydWUsXCJzaG93XCI6dHJ1ZSxcImVkaXRcIjp0cnVlLFwiZGVsZXRlXCI6dHJ1ZSxcImV4cG9ydFwiOnRydWUsXCJzaG93TWVudVwiOnRydWV9fSx7XCJuYW1lXCI6XCJ0aW5oXCIsXCJhY3Rpb25zXCI6e1wiaW5kZXhcIjp0cnVlLFwiY3JlYXRlXCI6dHJ1ZSxcInNob3dcIjp0cnVlLFwiZWRpdFwiOnRydWUsXCJkZWxldGVcIjp0cnVlLFwiZXhwb3J0XCI6dHJ1ZSxcInNob3dNZW51XCI6dHJ1ZX19LHtcIm5hbWVcIjpcImh1eWVuXCIsXCJhY3Rpb25zXCI6e1wiaW5kZXhcIjp0cnVlLFwiY3JlYXRlXCI6dHJ1ZSxcInNob3dcIjp0cnVlLFwiZWRpdFwiOnRydWUsXCJkZWxldGVcIjp0cnVlLFwiZXhwb3J0XCI6dHJ1ZSxcInNob3dNZW51XCI6dHJ1ZX19LHtcIm5hbWVcIjpcInhhXCIsXCJhY3Rpb25zXCI6e1wiaW5kZXhcIjp0cnVlLFwiY3JlYXRlXCI6dHJ1ZSxcInNob3dcIjp0cnVlLFwiZWRpdFwiOnRydWUsXCJkZWxldGVcIjp0cnVlLFwiZXhwb3J0XCI6dHJ1ZSxcInNob3dNZW51XCI6dHJ1ZX19LHtcIm5hbWVcIjpcImxvZ1wiLFwiYWN0aW9uc1wiOntcImluZGV4XCI6dHJ1ZSxcInNob3dcIjp0cnVlfX1dIiwidGVuX3ZhaV90cm8iOiJBZG1pbiIsImlhdCI6MTcyMjIzNzI1NCwiZXhwIjoxNzIyMzIzNjU0fQ.86w0o_HthbhvWtfkihjTKqofMXkjIMwqji-rKtivQJI",
+			"type": "string"
+		},
+		{
+			"key": "DEVICE_ID",
+			"value": "01C13AF6-0400-404C-96DF-F522812C426D",
+			"type": "string"
+		}
+	]
+}

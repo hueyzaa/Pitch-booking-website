@@ -1,0 +1,58 @@
+import { BASE_COLORS } from '../constants';
+import { ITheme } from '../types';
+
+export const darkColorsTheme: ITheme = {
+  primary: '#339CFD',
+  light: '#696969',
+  secondary: '#0072DD',
+  error: '#FF5252',
+  warning: '#FFB765',
+  success: '#57D682',
+  background: '#25284B',
+  secondaryBackground: '#1c2137',
+  secondaryBackgroundSelected: '#1c2137',
+  additionalBackground: '#1D203E',
+  collapseBackground: '#1D203E',
+  timelineBackground: '#f5f5f5',
+  siderBackground: '#121430',
+  spinnerBase: '#339CFD',
+  scroll: '#797C9A',
+  border: '#ffffff',
+  textMain: '#ffffff',
+  textLight: '#9A9B9F',
+  textWhite: '#fff',
+  textSuperLight: '#444',
+  textSecondary: '#ffffff',
+  textDark: '#404040',
+  textSiderPrimary: '#339CFD',
+  textSiderSecondary: '#797C9A',
+  subText: '#a9a9a9',
+  shadow: 'rgba(0, 0, 0, 0.07)',
+  boxShadow: 'none',
+  boxShadowLogin: 'none',
+  boxShadowHover: 'none',
+  notificationSuccess: '#EFFFF4',
+  notificationPrimary: '#D7EBFF',
+  notificationWarning: '#FFF4E7',
+  notificationError: '#FFE2E2',
+  heading: BASE_COLORS.white,
+  borderBase: '#a9a9a9',
+  disable: '#7e7e7e',
+  disabledBg: '#1c2137',
+  layoutBodyBg: '#1e2142',
+  layoutHeaderBg: '#1e2142',
+  layoutSiderBg: '#121430',
+  inputPlaceholder: 'rgba(255, 255, 255, 0.5)',
+  itemHoverBg: '#1c2137',
+  backgroundColorBase: '#1c2137',
+  avatarBg: '#1c2137',
+  alertTextColor: '#000',
+  breadcrumb: '#a9a9a9',
+  icon: '#a9a9a9',
+  iconHover: '#ffffff'
+};
+
+export const antDarkColorsTheme = {
+  successBg: '#e6fff2',
+  successBorder: '#79fcc4'
+};

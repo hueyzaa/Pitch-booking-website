@@ -1,0 +1,1 @@
+import{A as p,n as a,c9 as m,ca as g}from"./index-DpH7D4J6.js";const i=async(r,t,c,o,n=!0)=>{var e;try{const s=await p.patch(`${r}/${n?t:""}`,c);if(s.code===200)return a.success({message:((e=s.data)==null?void 0:e.message)||"Cập nhật thành công"}),o(),s.data;m(s,()=>{a.error({message:g(s.message)})})}catch(s){a.error({message:s.message})}};export{i as p};

@@ -1,0 +1,53 @@
+import { BaseCol } from '@app/components/common/BaseCol/BaseCol';
+import { BaseRow } from '@app/components/common/BaseRow/BaseRow';
+import { BaseForm } from '@app/components/common/forms/BaseForm/BaseForm';
+import { BaseInput } from '@app/components/common/inputs/BaseInput/BaseInput';
+import { BaseInputNumber } from '@app/components/common/inputs/InputNumber/BaseInputNumber';
+import SelectFormApi from '@app/components/select/SelectFormApi';
+import { createFilterQuery, formatter, parser } from '@app/utils/utils';
+
+const Form[ComponentName] = ({ isEditing }: { isEditing: boolean }) => {
+  return (
+    <BaseRow gutter={[10, 10]}>
+    <BaseCol span={12}>
+        <BaseForm.Item
+          name="ma"
+          label="Mã"
+          rules={[{ required: true, message: 'Mã không được bỏ trống' }]}
+        >
+          <BaseInput placeholder="Nhập mã" size="small" disabled={isEditing} />
+        </BaseForm.Item>
+      </BaseCol>
+      <BaseCol span={12}>
+        <BaseForm.Item
+          name='ten'
+          label='Tên'
+          rules={[{ required: true, message: 'Tên không được bỏ trống' }]}
+        >
+          <BaseInput placeholder='Nhập tên' />
+        </BaseForm.Item>
+      </BaseCol>
+      <BaseCol span={12}>
+        <BaseForm.Item
+          name='so_tien'
+          label='Số tiền'
+          rules={[{ required: true, message: 'Số tiền không được bỏ trống'}]}
+        >
+          <BaseInputNumber parser={parser} formatter={formatter} placeholder='Nhập số tiền' />
+        </BaseForm.Item>
+      </BaseCol>
+      <BaseCol span={12}>
+        <SelectFormApi
+          name='ten_select'
+          label='select'
+          path={""}
+          placeholder='Chọn select'
+          //filter={createFilterQuery(0, 'SELECT', 'equal', 0)}
+          rules={[{ required: true, message: 'select không được bỏ trống'}]}
+        />
+      </BaseCol>
+    </BaseRow>
+  );
+};
+
+export default Form[ComponentName];

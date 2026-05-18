@@ -1,0 +1,8 @@
+.ant-image-preview-img-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.ant-image-preview-img-wrapper::before {
+  display: none !important;
+} 

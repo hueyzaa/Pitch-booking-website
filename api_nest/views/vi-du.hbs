@@ -1,0 +1,74 @@
+<html lang='en'>
+
+<head>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+    body * {
+      font-family: 'Times New Roman', sans-serif;
+      font-size: 11pt;
+    }
+
+    .page-landscape-a4 {
+      width: 29.7cm;
+      margin: 0 auto;
+      padding: 1.5cm;
+    }
+
+    .page-landscape-a5 {
+      width: 21cm;
+      margin: 0 auto;
+      padding: 0.8cm;
+    }
+  </style>
+
+  <style type='text/css' media='print'>
+    @page {
+      size: A5 landscape;
+    }
+  </style>
+  <title>MẪU VÍ DỤ</title>
+</head>
+
+<body>
+
+  {{#if error}}
+  <div>{{error}}</div>
+  {{else}}
+  <div id='printArea' class='page-landscape-a5'>
+    {{!-- {{data.full}} --}}
+
+    <table width='100%'>
+      <tr style='vertical-align: top;'>
+        <td style='width: 110px;'>
+          <img style='width: 50px;' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeufD9gcyvblH9YuehILix-L0HgvkA2EY2uoSY39qPjA&s' alt='logo_aloha' />
+        </td>
+        <td style='text-align: center'>
+          <div style='font-size: 12pt'>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div style='text-align: center; margin: 3pt 0'>
+      <div style='font-size: 14pt; font-weight: bold'>EXAMPLE</div>
+    </div>
+
+    <div style='margin-top: 20pt;'>
+      <div>Ví dụ trường dữ liệu:
+        <b>{{data.truong_du_lieu}}</b>
+      </div>
+    </div>
+
+  </div>
+  {{/if}}
+
+</body>
+
+</html>
+
+<script type='text/javascript'>
+  window.addEventListener("load", function (event) {
+    window.print();
+  });
+</script>

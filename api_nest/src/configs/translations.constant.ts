@@ -1,0 +1,16 @@
+export const TABLE_NAMES_TRANSLATIONS = {
+  cau_hinh_chung: 'Cấu hình chung',
+  huyen: 'Huyện',
+  log: 'Log',
+  log_import: 'Log import',
+  log_import_detail: 'Chi tiết log import',
+  log_nhac_han: 'Log nhắc hạn',
+  log_thao_tac: 'Log thao tác',
+  nguoi_dung: 'Người dùng',
+  nguoi_dung_thiet_bi: 'Thiết bị người dùng',
+  thong_bao: 'Thông báo',
+  tinh: 'Tỉnh',
+  tuyen: 'Tuyến',
+  vai_tro: 'Vai trò',
+  xa: 'Xã',
+};

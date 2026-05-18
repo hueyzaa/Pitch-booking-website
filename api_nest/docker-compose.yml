@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+    dev:
+        container_name: api_nest_boilerplate_dev
+        image: api-nest-boilerplate-dev:1.0.0
+        build:
+            context: .
+            target: development
+            dockerfile: ./Dockerfile
+        command: npm run start:debug
+        ports:
+        # TODO Nho doi port o day
+            - 9999:9999
+        networks:
+            - nesjs-network
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        restart: unless-stopped
+    prod:
+        container_name: api_nest_boilerplate_prod
+        image: api-nest-boilerplate-prod:1.0.0
+        build:
+            context: .
+            target: production
+            dockerfile: ./Dockerfile
+        command: npm run start:prod
+        ports:
+        # TODO Nho doi port o day
+            - 9999:9999
+        networks:
+            - nesjs-network
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        restart: unless-stopped
+
+networks:
+    nesjs-network:

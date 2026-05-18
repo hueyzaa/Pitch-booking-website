@@ -1,0 +1,1 @@
+import{B as T}from"./index-DpH7D4J6.js";const s=T.QUAN_LI_DU_AN,_="common.quan-li-du-an",a="published",o="draft",S={STT:"50px",ACTION:"120px",THUMBNAIL:"120px",STATUS:"120px",ORDER:"100px",NGAY_TAO:"210px"};export{S as C,_ as P,a as S,s as a,o as b};

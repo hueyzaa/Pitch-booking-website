@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="src/assets/images/Png.png" />
+    <link rel="stylesheet" href="/main.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #initSpinner {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        z-index: 99999;
+        background: #2d2c3e;
+      }
+      .dashed-loading {
+        position: relative;
+        height: 50px;
+      }
+
+      .dashed-loading:after,
+      .dashed-loading:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+      }
+
+      .dashed-loading:before {
+        z-index: 5;
+        border: 3px dashed #ff6bcb;
+        border-left: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        -webkit-animation: dashed 1s linear infinite;
+        animation: dashed 1s linear infinite;
+      }
+
+      .dashed-loading:after {
+        z-index: 10;
+        border: 3px solid #ffb86c;
+        border-left: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        -webkit-animation: dashed 1s ease infinite;
+        animation: dashed 1s ease infinite;
+      }
+
+      @keyframes dashed {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <title>Web</title>
+  </head>
+  <body>
+    <div id="root">
+      <div id="initSpinner">
+        <div class="dashed-loading"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

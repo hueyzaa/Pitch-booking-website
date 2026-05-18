@@ -1,0 +1,128 @@
+{
+  "header": {
+    "changeLanguage": "Đổi ngôn ngữ",
+    "changeTheme": "Đổi giao diện",
+    "darkTheme": "Tối",
+    "lightTheme": "Sáng",
+    "logout": "Đăng xuất",
+    "search": "Đăng xuất",
+    "notifications": {
+      "title": "Thông báo",
+      "markReadAll": "Đánh dấu đã đọc",
+      "noNotifications": "Không có thông báo",
+      "markReadAllSuccess": "Đã đánh dấu tất cả là đã đọc",
+      "deleteAllSuccess": "Đã xoá tất cả thông báo"
+    }
+  },
+  "newPassword": {
+    "successDescription": "Vui lòng sử dụng username của bạn với mật khẩu mới để đăng nhập",
+    "successMessage": "Mật khẩu mới đã được đặt",
+    "title": "Tạo mật khẩu mới",
+    "description": "Vui lòng nhập mật khẩu mới"
+  },
+  "common": {
+    "clientError": "Lỗi",
+    "oops": "Oops",
+    "firstLogin": "Đăng nhập lần đầu",
+    "tai_chinh": "Tài chính",
+    "bang-dieu-khien": "Dashboard",
+    "confirm": "Xác nhận",
+    "save": "Lưu",
+    "cancel": "Huỷ",
+    "firstName": "Tên",
+    "lastName": "Họ",
+    "phone": "Số điện thoại",
+    "address": "Địa chỉ",
+    "securityCode": "Đặt lại mật khẩu",
+    "newPassword": "Tạo mật khẩu mới",
+    "error": "Lỗi",
+    "confirmPasswordError": "Hai mật khẩu bạn đã nhập không khớp",
+    "emailError": "Vui lòng nhập email",
+    "usernameError": "Vui lòng nhập tài khoản",
+    "back": "Trở lại",
+    "resetPassword": "Quên mật khẩu",
+    "requiredField": "Trường này là bắt buộc",
+    "notValidEmail": "Email không hợp lệ",
+    "notValidPhone": "Số điện thoại không hợp lệ",
+    "vai-tro": "Vai trò",
+    "he-thong": "Hệ thống",
+    "loginTitle": "Đăng nhập tài khoản",
+    "login": "Đăng nhập",
+    "email": "Email",
+    "update": "Cập nhật",
+    "username": "Tài khoản",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "forgotPass": "Quên mật khẩu?",
+    "nguoi-dung": "Người dùng",
+    "tai-khoan": "Tài khoản",
+    "phan-quyen": "Phân quyền",
+    "log-thao-tac": "Log thao tác",
+    "cau-hinh-chung": "Cấu hình nâng cao",
+    "lich-su": "Lịch sử",
+    "cau-hinh-he-thong": "Cấu hình hệ thống",
+    "cau-hinh-thong-tin-he-thong": "Cấu hình thông tin hệ thống",
+    "quan-ly-upload": "Quản lý upload",
+    "quan-li-du-an": "Quản lý dự án",
+    "cong-nghe": "Quản lý Công nghệ",
+    "reset": "Làm mới",
+    "view": "Xem",
+    "cau-hinh-trang": "Cấu hình trang",
+    "quan-ly-lien-he": "Quản lý Liên hệ",
+    "quan-li-dich-vu": "Quản lý dịch vụ",
+    "deleteSuccess": "Xoá thành công",
+    "deleteAll": "Xoá tất cả",
+    "seeMore": "Xem thêm"
+  },
+  "baocao": {},
+  "login": {
+    "loginInfo": "Nhập tài khoản và mật khẩu của bạn để đăng nhập",
+    "rememberMe": "Ghi nhớ"
+  },
+  "forgotPassword": {
+    "description": "Nhập tên đăng nhập của bạn và chúng tôi sẽ gửi mail xác minh để đặt lại mật khẩu của bạn",
+    "sendInstructions": "Gửi",
+    "successReset": "Chúng tôi đã gửi tới địa chỉ email của bạn liên kết đặt lại"
+  },
+  "profile": {
+    "nav": {
+      "personalInfo": {
+        "birthday": "Ngày sinh",
+        "contactInfo": "Thông tin liên hệ",
+        "female": "Nữ",
+        "language": "Ngôn ngữ",
+        "male": "Nam",
+        "nickname": "Nickname",
+        "ten-day-du": "Tên đầy đủ",
+        "notValidWebsite": "Vui lòng nhập một URL hợp lệ",
+        "notVerified": "Chưa xác minh",
+        "otherInfo": "Thông tin khác",
+        "sex": "Giới tính",
+        "title": "Thông tin cá nhân",
+        "phone": "Số điện thoại",
+        "email": "Email",
+        "wrongNumber": "Số điện thoại không hợp lệ",
+        "ngay-sinh": "Ngày sinh"
+      },
+      "securitySettings": {
+        "changePassword": "Đổi mật khẩu",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "currentPassword": "Mật khẩu hiện tại",
+        "dontMatchPassword": "Hai mật khẩu bạn đã nhập không khớp",
+        "newPassword": "Mật khẩu mới",
+        "notValidPassword": "Mật khẩu không hợp lệ",
+        "requiredPassword": "Vui lòng nhập mật khẩu của bạn",
+        "samePassword": "Mật khẩu mới của bạn không được giống với mật khẩu trước đó",
+        "title": "Đổi mật khẩu",
+        "twoFactorAuth": "Two–factor authentication",
+        "verify": "Verify",
+        "updatePassword": "Cập nhật mật khẩu"
+      }
+    },
+    "title": "Hồ sơ cá nhân"
+  },
+  "error404": {
+    "comeBack": "Trở về trang chủ",
+    "notFound": "Xin lỗi, Không tìm thấy trang"
+  }
+}

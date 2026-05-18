@@ -1,0 +1,13 @@
+[
+  {
+    "name": "default",
+    "type": "mysql",
+    "host": "10.151.120.86",
+    "port": 3306,
+    "username": "boilerplate",
+    "password": "boilerplate",
+    "database": "",
+    "synchronize": false,
+    "entities": ["entities/*.js"]
+  }
+]
