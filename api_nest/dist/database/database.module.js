@@ -24,6 +24,15 @@ const xa_entity_1 = require("./entities/common/xa.entity");
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const database_service_1 = require("./database.service");
+const loai_san_entity_1 = require("./entities/loai-san.entity");
+const san_entity_1 = require("./entities/san.entity");
+const doi_tuong_entity_1 = require("./entities/doi-tuong.entity");
+const khach_hang_entity_1 = require("./entities/khach-hang.entity");
+const bang_gia_entity_1 = require("./entities/bang-gia.entity");
+const quan_ly_gia_entity_1 = require("./entities/quan-ly-gia.entity");
+const thu_chi_entity_1 = require("./entities/thu-chi.entity");
+const trang_thai_san_entity_1 = require("./entities/trang-thai-san.entity");
+const dat_san_entity_1 = require("./entities/dat-san.entity");
 let DatabaseModule = class DatabaseModule {
 };
 DatabaseModule = __decorate([
@@ -45,6 +54,15 @@ DatabaseModule = __decorate([
                 quan_ly_upload_entity_1.QuanLyUpload,
                 quan_ly_upload_permission_entity_1.QuanLyUploadPermission,
                 nguoi_dung_vai_tro_entity_1.NguoiDungVaiTro,
+                loai_san_entity_1.LoaiSan,
+                san_entity_1.San,
+                doi_tuong_entity_1.DoiTuong,
+                khach_hang_entity_1.KhachHang,
+                bang_gia_entity_1.BangGia,
+                quan_ly_gia_entity_1.QuanLyGia,
+                thu_chi_entity_1.ThuChi,
+                trang_thai_san_entity_1.TrangThaiSan,
+                dat_san_entity_1.DatSan,
             ]),
         ],
         providers: [database_service_1.DatabaseService],

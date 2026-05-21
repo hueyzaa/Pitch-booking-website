@@ -72,7 +72,18 @@
     "quan-li-dich-vu": "Quản lý dịch vụ",
     "deleteSuccess": "Xoá thành công",
     "deleteAll": "Xoá tất cả",
-    "seeMore": "Xem thêm"
+    "seeMore": "Xem thêm",
+    "loai-san": "Loại sân",
+    "san": "Sân",
+    "doi-tuong": "Đối tượng",
+    "khach-hang": "Khách hàng",
+    "bang-gia": "Bảng giá",
+    "quan-ly-gia": "Quản lý giá",
+    "thu-chi": "Thu chi",
+    "trang-thai-san": "Trạng thái sân",
+    "dat-san": "Đặt sân",
+    "quan-ly-san": "Quản lý sân",
+    "quan-ly-khach-hang": "Quản lý khách hàng"
   },
   "baocao": {},
   "login": {

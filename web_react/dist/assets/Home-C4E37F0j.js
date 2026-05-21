@@ -1,0 +1,1 @@
+import{s,z as e,R as r,C as t}from"./index-DFD43UYP.js";const n=()=>s.jsxs(s.Fragment,{children:[s.jsx(e,{children:"Trang chủ"}),s.jsx(r,{gutter:[16,16],children:s.jsx(t,{span:24})})]});export{n as default};
