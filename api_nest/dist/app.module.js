@@ -45,6 +45,15 @@ const he_thong_module_1 = require("./he-thong/he-thong.module");
 const upload_module_1 = require("./upload/upload.module");
 const quan_ly_upload_module_1 = require("./quan-ly-upload/quan-ly-upload.module");
 const cau_hinh_trang_module_1 = require("./cau-hinh-trang/cau-hinh-trang.module");
+const loai_san_module_1 = require("./loai-san/loai-san.module");
+const san_module_1 = require("./san/san.module");
+const doi_tuong_module_1 = require("./doi-tuong/doi-tuong.module");
+const khach_hang_module_1 = require("./khach-hang/khach-hang.module");
+const bang_gia_module_1 = require("./bang-gia/bang-gia.module");
+const quan_ly_gia_module_1 = require("./quan-ly-gia/quan-ly-gia.module");
+const thu_chi_module_1 = require("./thu-chi/thu-chi.module");
+const trang_thai_san_module_1 = require("./trang-thai-san/trang-thai-san.module");
+const dat_san_module_1 = require("./dat-san/dat-san.module");
 let AppModule = AppModule_1 = class AppModule {
     configure(consumer) {
         consumer
@@ -114,6 +123,15 @@ AppModule = AppModule_1 = __decorate([
             upload_module_1.UploadModule,
             quan_ly_upload_module_1.QuanLyUploadModule,
             cau_hinh_trang_module_1.CauHinhTrangModule,
+            loai_san_module_1.LoaiSanModule,
+            san_module_1.SanModule,
+            doi_tuong_module_1.DoiTuongModule,
+            khach_hang_module_1.KhachHangModule,
+            bang_gia_module_1.BangGiaModule,
+            quan_ly_gia_module_1.QuanLyGiaModule,
+            thu_chi_module_1.ThuChiModule,
+            trang_thai_san_module_1.TrangThaiSanModule,
+            dat_san_module_1.DatSanModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [

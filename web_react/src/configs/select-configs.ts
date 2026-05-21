@@ -80,3 +80,14 @@ export const mucDoThaoTac = [
 ];
 
 export const validDay = ['thứ 2', 'thứ 3', 'thứ 4', 'thứ 5', 'thứ 6', 'thứ 7', 'chủ nhật'];
+
+export const trangThaiSelect = [
+  { value: 1, label: 'Đang áp dụng' },
+  { value: 0, label: 'Ngừng áp dụng' },
+];
+
+export const loaiGiaoDichSelect = [
+  { value: 1, label: 'Thu' },
+  { value: 0, label: 'Chi' },
+];
+

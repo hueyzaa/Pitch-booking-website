@@ -16,6 +16,15 @@ const CauHinhHeThongPage = React.lazy(() => import('@app/pages/CauHinhHeThong/Ca
 const QuanLyUploadPage = React.lazy(() => import('@app/pages/CauHinhHeThong/QuanLyUpload/QuanLyUpload'));
 const CauHinhTrangPage = React.lazy(() => import('@app/pages/CauHinhHeThong/CauHinhTrang/CauHinhTrang'));
 
+const LoaiSanPage = React.lazy(() => import('@app/pages/LoaiSan/LoaiSan'));
+const SanPage = React.lazy(() => import('@app/pages/San/San'));
+const DoiTuongPage = React.lazy(() => import('@app/pages/DoiTuong/DoiTuong'));
+const KhachHangPage = React.lazy(() => import('@app/pages/KhachHang/KhachHang'));
+const BangGiaPage = React.lazy(() => import('@app/pages/BangGia/BangGia'));
+const QuanLyGiaPage = React.lazy(() => import('@app/pages/QuanLyGia/QuanLyGia'));
+const ThuChiPage = React.lazy(() => import('@app/pages/ThuChi/ThuChi'));
+const TrangThaiSanPage = React.lazy(() => import('@app/pages/TrangThaiSan/TrangThaiSan'));
+const DatSanPage = React.lazy(() => import('@app/pages/DatSan/DatSan'));
 /*import-component-here*/
 
 // Wrapped with loading HOC
@@ -29,6 +38,15 @@ const CauHinhHeThong = withLoading(CauHinhHeThongPage);
 const QuanLyUpload = withLoading(QuanLyUploadPage);
 const CauHinhTrang = withLoading(CauHinhTrangPage);
 
+const LoaiSan = withLoading(LoaiSanPage);
+const San = withLoading(SanPage);
+const DoiTuong = withLoading(DoiTuongPage);
+const KhachHang = withLoading(KhachHangPage);
+const BangGia = withLoading(BangGiaPage);
+const QuanLyGia = withLoading(QuanLyGiaPage);
+const ThuChi = withLoading(ThuChiPage);
+const TrangThaiSan = withLoading(TrangThaiSanPage);
+const DatSan = withLoading(DatSanPage);
 /*import-component-with-loading-here*/
 
 /**
@@ -83,8 +101,43 @@ export const protectedRoutes: RouteObject[] = [
         path: 'cau-hinh-trang',
         element: <CauHinhTrang />
       },
-
+      {
+        path: 'loai-san',
+        element: <LoaiSan />
+      },
+      {
+        path: 'san',
+        element: <San />
+      },
+      {
+        path: 'doi-tuong',
+        element: <DoiTuong />
+      },
+      {
+        path: 'khach-hang',
+        element: <KhachHang />
+      },
       /*Declare route here*/
+      {
+        path: 'bang-gia',
+        element: <BangGia />
+      },
+      {
+        path: 'quan-ly-gia',
+        element: <QuanLyGia />
+      },
+      {
+        path: 'thu-chi',
+        element: <ThuChi />
+      },
+      {
+        path: 'trang-thai-san',
+        element: <TrangThaiSan />
+      },
+      {
+        path: 'dat-san',
+        element: <DatSan />
+      },
       {
         path: '*',
         element: <Error404 />

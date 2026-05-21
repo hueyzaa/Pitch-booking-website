@@ -53,6 +53,15 @@ import { HeThongModule } from './he-thong/he-thong.module';
 import { UploadModule } from './upload/upload.module';
 import { QuanLyUploadModule } from './quan-ly-upload/quan-ly-upload.module';
 import { CauHinhTrangModule } from './cau-hinh-trang/cau-hinh-trang.module';
+import { LoaiSanModule } from './loai-san/loai-san.module';
+import { SanModule } from './san/san.module';
+import { DoiTuongModule } from './doi-tuong/doi-tuong.module';
+import { KhachHangModule } from './khach-hang/khach-hang.module';
+import { BangGiaModule } from './bang-gia/bang-gia.module';
+import { QuanLyGiaModule } from './quan-ly-gia/quan-ly-gia.module';
+import { ThuChiModule } from './thu-chi/thu-chi.module';
+import { TrangThaiSanModule } from './trang-thai-san/trang-thai-san.module';
+import { DatSanModule } from './dat-san/dat-san.module';
 /*IMPORT_OTHER_MODULE_HERE*/
 
 /**
@@ -114,6 +123,15 @@ import { CauHinhTrangModule } from './cau-hinh-trang/cau-hinh-trang.module';
     UploadModule,
     QuanLyUploadModule,
     CauHinhTrangModule,
+    LoaiSanModule,
+    SanModule,
+    DoiTuongModule,
+    KhachHangModule,
+    BangGiaModule,
+    QuanLyGiaModule,
+    ThuChiModule,
+    TrangThaiSanModule,
+    DatSanModule,
     /*ADD_OTHER_MODULE_HERE*/
   ],
   controllers: [AppController],

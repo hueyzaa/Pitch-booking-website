@@ -21,6 +21,15 @@ export const API_URL = {
   QUAN_LI_DU_AN: '/quan-li-du-an',
   CONG_NGHE: '/cong-nghe',
   QUAN_LI_DICH_VU: '/quan-li-dich-vu',
+  LOAI_SAN: '/loai-san',
+  SAN: '/san',
+  DOI_TUONG: '/doi-tuong',
+  KHACH_HANG: '/khach-hang',
+  BANG_GIA: '/bang-gia',
+  QUAN_LY_GIA: '/quan-ly-gia',
+  THU_CHI: '/thu-chi',
+  TRANG_THAI_SAN: '/trang-thai-san',
+  DAT_SAN: '/dat-san',
   /*new-api-path-here*/
   OPTIONS: '/options'
 };
