@@ -33,6 +33,7 @@ const quan_ly_gia_entity_1 = require("./entities/quan-ly-gia.entity");
 const thu_chi_entity_1 = require("./entities/thu-chi.entity");
 const trang_thai_san_entity_1 = require("./entities/trang-thai-san.entity");
 const dat_san_entity_1 = require("./entities/dat-san.entity");
+const danh_gia_entity_1 = require("./entities/danh-gia.entity");
 let DatabaseModule = class DatabaseModule {
 };
 DatabaseModule = __decorate([
@@ -63,6 +64,7 @@ DatabaseModule = __decorate([
                 thu_chi_entity_1.ThuChi,
                 trang_thai_san_entity_1.TrangThaiSan,
                 dat_san_entity_1.DatSan,
+                danh_gia_entity_1.DanhGia,
             ]),
         ],
         providers: [database_service_1.DatabaseService],

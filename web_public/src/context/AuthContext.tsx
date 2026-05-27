@@ -9,6 +9,8 @@ interface User {
   ho?: string;
   ten?: string;
   ma_vai_tro?: string;
+  anh_dai_dien?: string;
+  san_yeu_thich?: string;
 }
 
 interface AuthContextProps {
@@ -17,6 +19,7 @@ interface AuthContextProps {
   isAuthenticated: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
+  updateUser: (user: Partial<User>) => void;
   loading: boolean;
 }
 
@@ -26,6 +29,7 @@ const AuthContext = createContext<AuthContextProps>({
   isAuthenticated: false,
   login: () => {},
   logout: () => {},
+  updateUser: () => {},
   loading: true,
 });
 
@@ -66,6 +70,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
   };
 
+  const updateUser = (updatedFields: Partial<User>) => {
+    if (user) {
+      const newUser = { ...user, ...updatedFields };
+      setUser(newUser);
+      localStorage.setItem('user', JSON.stringify(newUser));
+    }
+  };
+
   const isAuthenticated = !!token && !!user;
 
   return (
@@ -76,6 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAuthenticated,
         login,
         logout,
+        updateUser,
         loading,
       }}
     >

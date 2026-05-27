@@ -91,6 +91,14 @@ __decorate([
     __metadata("design:type", Date)
 ], KhachHang.prototype, "ngay_cap_nhat", void 0);
 __decorate([
+    (0, typeorm_1.Column)('varchar', { name: 'anh_dai_dien', length: 255, nullable: true }),
+    __metadata("design:type", String)
+], KhachHang.prototype, "anh_dai_dien", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text', { name: 'san_yeu_thich', nullable: true }),
+    __metadata("design:type", String)
+], KhachHang.prototype, "san_yeu_thich", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => doi_tuong_entity_1.DoiTuong, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'id_doi_tuong' }),
     __metadata("design:type", doi_tuong_entity_1.DoiTuong)

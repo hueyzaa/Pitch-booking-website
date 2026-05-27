@@ -34,6 +34,12 @@ export class UpdateSelfDto {
   ho_va_ten: string;
   nguoi_cap_nhat: number | null;
   ngay_cap_nhat: Date;
+
+  @IsOptional()
+  anh_dai_dien?: string;
+
+  @IsOptional()
+  san_yeu_thich?: string;
 }
 
 export class ChangePasswordDto {

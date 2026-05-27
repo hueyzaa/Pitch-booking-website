@@ -3,18 +3,28 @@ import { motion } from 'framer-motion';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { formatPrice } from '../utils/price.utils';
-import { getPitchDetail, getBookedSlots, createBooking } from '../api/api';
+import { getPitchDetail, getBookedSlots, createBooking, getReviewsBySan, createReview, getReviewSummary, updateProfile } from '../api/api';
+import toast, { Toaster } from 'react-hot-toast';
 import { PitchData } from '../components/PitchCard';
 import { resolveAssetUrl } from '../utils/asset.utils';
 import { useAuth } from '../context/AuthContext';
 
-const getPriceByLoaiSan = (typeName: string): number => {
-  const name = typeName?.toLowerCase() || '';
-  if (name.includes('bóng đá') || name.includes('football')) return 350000;
-  if (name.includes('cầu lông') || name.includes('badminton')) return 80000;
-  if (name.includes('tennis')) return 200000;
-  if (name.includes('bóng rổ') || name.includes('basketball')) return 150000;
-  return 120000;
+// getPriceByLoaiSan has been removed to use real data
+
+const timeAgo = (dateStr: string) => {
+  const date = new Date(dateStr);
+  const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+  let interval = seconds / 31536000;
+  if (interval > 1) return Math.floor(interval) + " năm trước";
+  interval = seconds / 2592000;
+  if (interval > 1) return Math.floor(interval) + " tháng trước";
+  interval = seconds / 86400;
+  if (interval > 1) return Math.floor(interval) + " ngày trước";
+  interval = seconds / 3600;
+  if (interval > 1) return Math.floor(interval) + " giờ trước";
+  interval = seconds / 60;
+  if (interval > 1) return Math.floor(interval) + " phút trước";
+  return "Vừa xong";
 };
 
 const amenityIconMap: Record<string, { icon: string; label: string }> = {
@@ -91,9 +101,7 @@ const generateTimeSlots = (
     const startStr = `${hour.toString().padStart(2, '0')}:00`;
     const endStr = `${(hour + 1).toString().padStart(2, '0')}:00`;
 
-    // Peak hours pricing (17:00 - 20:00) with 1.2x multiplier
-    const isPeak = hour >= 17 && hour < 20;
-    const price = isPeak ? Math.round((pricePerHour * 1.2) / 10000) * 10000 : pricePerHour;
+    const price = pricePerHour;
 
     // Check if this slot is in the past (only for today)
     const isPast = isToday && hour <= currentHour;
@@ -162,11 +170,60 @@ const generateBookingDays = () => {
 const PitchDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user: authUser, isAuthenticated } = useAuth();
+  const { user: authUser, isAuthenticated, updateUser } = useAuth();
   
   const [pitch, setPitch] = useState<PitchData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (!id) return;
+    const parsedId = parseInt(id, 10) || id;
+    if (isAuthenticated && authUser?.san_yeu_thich) {
+      try {
+        const favorites = JSON.parse(authUser.san_yeu_thich);
+        setIsFavorite(favorites.includes(parsedId) || favorites.includes(String(parsedId)));
+      } catch { setIsFavorite(false); }
+    } else {
+      const favorites = JSON.parse(localStorage.getItem('favorite_pitches') || '[]');
+      setIsFavorite(favorites.includes(parsedId) || favorites.includes(String(parsedId)));
+    }
+  }, [id, isAuthenticated, authUser]);
+
+  const toggleFavorite = async () => {
+    if (!id) return;
+    const parsedId = parseInt(id, 10) || id;
+    
+    let favorites: any[] = [];
+    if (isAuthenticated && authUser?.san_yeu_thich) {
+      try { favorites = JSON.parse(authUser.san_yeu_thich); } catch {}
+    } else {
+      favorites = JSON.parse(localStorage.getItem('favorite_pitches') || '[]');
+    }
+
+    if (favorites.includes(parsedId) || favorites.includes(String(parsedId))) {
+      favorites = favorites.filter((favId: any) => favId != parsedId);
+      setIsFavorite(false);
+    } else {
+      favorites.push(parsedId);
+      setIsFavorite(true);
+    }
+
+    const sanYeuThichStr = JSON.stringify(favorites);
+
+    if (isAuthenticated) {
+      try {
+        await updateProfile({ san_yeu_thich: sanYeuThichStr });
+        updateUser({ san_yeu_thich: sanYeuThichStr });
+      } catch (err) {
+        console.error('Failed to sync favorite', err);
+      }
+    } else {
+      localStorage.setItem('favorite_pitches', sanYeuThichStr);
+    }
+  };
   
   const [selectedDay, setSelectedDay] = useState(0);
   const [selectedSlots, setSelectedSlots] = useState<number[]>([]);
@@ -176,6 +233,41 @@ const PitchDetail: React.FC = () => {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingStatus, setBookingStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [bookingError, setBookingError] = useState('');
+
+  // Reviews states
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviewSummary, setReviewSummary] = useState({ avg_rating: 4.5, total_reviews: 0 });
+  const [reviewPage, setReviewPage] = useState(1);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewContent, setReviewContent] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+
+  const handleSubmitReview = async () => {
+    if (!reviewContent.trim() || !id || !authUser?.tai_khoan) return;
+    setSubmittingReview(true);
+    try {
+      await createReview({
+        tai_khoan: authUser.tai_khoan,
+        id_san: parseInt(id, 10),
+        so_sao: reviewRating,
+        noi_dung: reviewContent
+      });
+      setShowReviewModal(false);
+      setReviewContent('');
+      setReviewRating(5);
+      // Reload reviews
+      setReviewPage(1);
+      const summary = await getReviewSummary(id);
+      setReviewSummary(summary);
+      const reviewData = await getReviewsBySan(id, 1, 10);
+      setReviews(reviewData.collection);
+    } catch (err: any) {
+      alert(err.message || 'Lỗi khi gửi đánh giá');
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
 
   const handleToggleSlot = (slotId: number) => {
     setSelectedSlots((prev) => {
@@ -234,6 +326,27 @@ const PitchDetail: React.FC = () => {
     };
     fetchDetail();
   }, [id]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      if (!id) return;
+      try {
+        if (reviewPage === 1) {
+          const summary = await getReviewSummary(id);
+          setReviewSummary(summary);
+        }
+        const reviewData = await getReviewsBySan(id, reviewPage, 10);
+        if (reviewPage === 1) {
+          setReviews(reviewData.collection);
+        } else {
+          setReviews(prev => [...prev, ...reviewData.collection]);
+        }
+      } catch (err) {
+        console.error('Failed to fetch reviews:', err);
+      }
+    };
+    fetchReviews();
+  }, [id, reviewPage]);
 
   if (loading) {
     return (
@@ -336,37 +449,13 @@ const PitchDetail: React.FC = () => {
   }
   if (!address) address = 'Chưa cập nhật địa chỉ';
 
-  const pricePerHour = pitch.pricePerHour || getPriceByLoaiSan(typeBadge);
+  const pricePerHour = pitch.pricePerHour || 0;
   const images = getGalleryImages(pitch);
   const amenityDetails = getAmenityDetails(pitch.tien_ich || pitch.amenities);
   const timeSlots = generateTimeSlots(pricePerHour, selectedDay === 0, bookedSlotsData);
 
-  const rating = pitch.rating || (((pitch.id || 1) * 3) % 5) / 10 + 4.5;
-  const reviewCount = pitch.reviewCount || ((pitch.id || 1) * 17) % 80 + 20;
-
-  const reviews = [
-    {
-      id: 1,
-      name: 'Trần Hoàn',
-      role: '2 ngày trước',
-      rating: 5,
-      quote: 'Sân cỏ rất đẹp, mềm và không bị trơn. Hệ thống đèn chiếu sáng cực tốt, đá buổi tối rất thích. Nhân viên nhiệt tình hỗ trợ.',
-    },
-    {
-      id: 2,
-      name: 'Nguyễn Minh',
-      role: '1 tuần trước',
-      rating: 5,
-      quote: 'Chỗ để xe rộng rãi, thuận tiện. Tuy nhiên giờ cao điểm hơi đông đúc ở khu vực thay đồ. Chất lượng sân thì không có gì để chê.',
-    },
-    {
-      id: 3,
-      name: 'Anh Đức',
-      role: '2 tuần trước',
-      rating: 5,
-      quote: 'Lần đầu đặt qua SportBooking thấy rất tiện lợi, không cần gọi điện xác nhận nhiều lần. Cụm sân này luôn là lựa chọn số 1 của team mình.',
-    },
-  ];
+  const rating = reviewSummary.avg_rating || 0;
+  const reviewCount = reviewSummary.total_reviews || 0;
 
   return (
     <main>
@@ -382,13 +471,35 @@ const PitchDetail: React.FC = () => {
           </div>
         </div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          style={{ fontSize: '32px', lineHeight: '40px', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '12px', letterSpacing: '-0.01em' }}
-        >
-          {name}
-        </motion.h1>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ fontSize: '32px', lineHeight: '40px', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '12px', letterSpacing: '-0.01em' }}
+          >
+            {name}
+          </motion.h1>
+          
+          <button
+            onClick={toggleFavorite}
+            style={{
+              background: 'var(--surface-container-low)',
+              border: '1px solid var(--outline-variant)',
+              borderRadius: '50%',
+              width: '48px',
+              height: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: isFavorite ? '#ef4444' : 'var(--on-surface-variant)',
+              transition: 'all 0.2s',
+              flexShrink: 0
+            }}
+          >
+            <Icon name={isFavorite ? 'favorite' : 'favorite_border'} size={24} filled={isFavorite} />
+          </button>
+        </div>
 
         <p style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--on-surface-variant)', fontSize: '16px', marginBottom: '0' }}>
           <Icon name="location_on" size={20} />
@@ -461,9 +572,9 @@ const PitchDetail: React.FC = () => {
               <div>
                 <span style={{ fontSize: '12px', color: 'var(--outline)', fontWeight: 600 }}>Giá chỉ từ</span>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                  <span style={{ fontSize: '32px', fontWeight: 700, color: 'var(--primary)' }}>{formatPrice(pricePerHour)}</span>
-                  <span style={{ fontSize: '14px', color: 'var(--on-surface-variant)' }}>/trận</span>
-                </div>
+                  <h2 style={{ fontSize: '32px', fontWeight: 700, color: 'var(--primary)', marginBottom: '8px' }}>
+                {formatPrice(pricePerHour)}<span style={{ fontSize: '16px', color: 'var(--on-surface-variant)', fontWeight: 500 }}>/giờ</span>
+              </h2>  </div>
               </div>
               <span style={{
                 padding: '6px 12px',
@@ -602,9 +713,21 @@ const PitchDetail: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div style={{ textAlign: 'right' }}>
               <span style={{ fontWeight: 700, fontSize: '18px' }}>{rating.toFixed(1)}/5</span>
-              <p style={{ fontSize: '12px', color: 'var(--on-surface-variant)' }}>Dựa trên {reviewCount} lượt đặt</p>
+              <p style={{ fontSize: '12px', color: 'var(--on-surface-variant)' }}>Dựa trên {reviewCount} đánh giá</p>
             </div>
-            <button className="btn btn-secondary btn-pill" style={{ padding: '10px 20px' }}>Viết đánh giá</button>
+            <button 
+              className="btn btn-secondary btn-pill" 
+              style={{ padding: '10px 20px' }}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  navigate('/dang-nhap');
+                  return;
+                }
+                setShowReviewModal(true);
+              }}
+            >
+              Viết đánh giá
+            </button>
           </div>
         </div>
 
@@ -631,39 +754,125 @@ const PitchDetail: React.FC = () => {
                   fontWeight: 700,
                   fontSize: '14px',
                 }}>
-                  {review.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
+                  {(review.ten_khach_hang || 'Khách').split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()}
                 </div>
                 <div>
-                  <p style={{ fontWeight: 600, fontSize: '14px' }}>{review.name}</p>
-                  <p style={{ fontSize: '12px', color: 'var(--outline)' }}>{review.role}</p>
+                  <p style={{ fontWeight: 600, fontSize: '14px' }}>{review.ten_khach_hang || 'Người dùng ẩn danh'}</p>
+                  <p style={{ fontSize: '12px', color: 'var(--outline)' }}>{timeAgo(review.ngay_tao)}</p>
                 </div>
               </div>
               <div className="star-rating" style={{ marginBottom: '12px' }}>
-                {Array.from({ length: review.rating }).map((_, i) => (
-                  <Icon key={i} name="star" filled size={16} />
+                {Array.from({ length: review.so_sao }).map((_, i) => (
+                  <Icon key={i} name="star" filled size={16} style={{ color: '#FFB800' }} />
+                ))}
+                {Array.from({ length: 5 - review.so_sao }).map((_, i) => (
+                  <Icon key={i + review.so_sao} name="star" filled size={16} style={{ color: '#e0e0e0' }} />
                 ))}
               </div>
               <p style={{ fontSize: '14px', lineHeight: '22px', color: 'var(--on-surface-variant)' }}>
-                {review.quote}
+                {review.noi_dung}
               </p>
             </motion.div>
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: '32px' }}>
-          <button style={{
-            background: 'none',
-            border: 'none',
-            color: 'var(--primary)',
-            fontFamily: 'var(--font-main)',
-            fontWeight: 600,
-            fontSize: '14px',
-            cursor: 'pointer',
-          }}>
-            Xem thêm {reviewCount - 3} đánh giá khác
-          </button>
-        </div>
+        {reviews.length === 0 && (
+          <p style={{ textAlign: 'center', color: 'var(--on-surface-variant)', fontSize: '14px', marginTop: '32px' }}>
+            Chưa có đánh giá nào cho sân này. Hãy là người đầu tiên đánh giá!
+          </p>
+        )}
+
+        {reviews.length < reviewCount && (
+          <div style={{ textAlign: 'center', marginTop: '32px' }}>
+            <button 
+              onClick={() => setReviewPage(prev => prev + 1)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--primary)',
+                fontFamily: 'var(--font-main)',
+                fontWeight: 600,
+                fontSize: '14px',
+                cursor: 'pointer',
+              }}
+            >
+              Xem thêm {reviewCount - reviews.length} đánh giá khác
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Write Review Modal */}
+      {showReviewModal && (
+        <div className="modal-overlay" onClick={() => !submittingReview && setShowReviewModal(false)}>
+          <motion.div 
+            className="modal-content"
+            onClick={e => e.stopPropagation()}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 700 }}>Viết đánh giá của bạn</h3>
+              <button 
+                onClick={() => setShowReviewModal(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--on-surface-variant)' }}
+                disabled={submittingReview}
+              >
+                <Icon name="close" size={24} />
+              </button>
+            </div>
+            
+            <div style={{ marginBottom: '24px', textAlign: 'center' }}>
+              <p style={{ marginBottom: '12px', fontWeight: 600 }}>Chất lượng sân như thế nào?</p>
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    onClick={() => setReviewRating(star)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
+                  >
+                    <Icon 
+                      name="star" 
+                      filled={star <= reviewRating} 
+                      size={32} 
+                      style={{ color: star <= reviewRating ? '#FFB800' : '#e0e0e0', transition: 'color 0.2s' }} 
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '24px' }}>
+              <p style={{ marginBottom: '8px', fontWeight: 600 }}>Nội dung đánh giá</p>
+              <textarea
+                value={reviewContent}
+                onChange={e => setReviewContent(e.target.value)}
+                placeholder="Chia sẻ trải nghiệm của bạn về sân bóng này..."
+                rows={4}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--outline-variant)',
+                  background: 'var(--surface-container-lowest)',
+                  color: 'var(--on-surface)',
+                  fontFamily: 'inherit',
+                  resize: 'vertical'
+                }}
+              />
+            </div>
+
+            <button 
+              className="btn btn-primary" 
+              style={{ width: '100%', padding: '14px', borderRadius: '12px', fontWeight: 700 }}
+              onClick={handleSubmitReview}
+              disabled={submittingReview || !reviewContent.trim()}
+            >
+              {submittingReview ? 'Đang gửi...' : 'Gửi đánh giá'}
+            </button>
+          </motion.div>
+        </div>
+      )}
 
       <style>{`
         .pitch-header-section {

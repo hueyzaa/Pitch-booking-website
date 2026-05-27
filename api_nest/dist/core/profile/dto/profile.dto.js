@@ -61,6 +61,14 @@ __decorate([
     (0, class_validator_1.Validate)(is_phone_number_validator_1.IsPhoneNumber),
     __metadata("design:type", String)
 ], UpdateSelfDto.prototype, "so_dien_thoai", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateSelfDto.prototype, "anh_dai_dien", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateSelfDto.prototype, "san_yeu_thich", void 0);
 exports.UpdateSelfDto = UpdateSelfDto;
 class ChangePasswordDto {
 }

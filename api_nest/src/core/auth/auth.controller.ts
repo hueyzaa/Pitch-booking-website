@@ -106,8 +106,8 @@ export class AuthController {
       where: [
         { tai_khoan: body.tai_khoan },
         { email: body.email },
-        { so_dien_thoai: body.so_dien_thoai }
-      ]
+        { so_dien_thoai: body.so_dien_thoai },
+      ],
     });
 
     if (existingUser) {
@@ -118,7 +118,9 @@ export class AuthController {
     }
 
     // 2. Hash the password
-    const hashedPassword = await this.helperService.genHashedPassword(body.mat_khau);
+    const hashedPassword = await this.helperService.genHashedPassword(
+      body.mat_khau,
+    );
 
     // 3. Create NguoiDung record
     const ho_va_ten = `${body.ho || ''} ${body.ten || ''}`.trim();
@@ -168,7 +170,7 @@ export class AuthController {
         id: savedUser.id,
         tai_khoan: savedUser.tai_khoan,
         email: savedUser.email,
-      }
+      },
     };
   }
 

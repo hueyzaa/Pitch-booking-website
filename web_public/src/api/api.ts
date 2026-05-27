@@ -125,4 +125,50 @@ export const getMyBookings = async (tai_khoan: string) => {
   return response.data.data || [];
 };
 
+export const getReviewsBySan = async (id_san: number | string, page: number = 1, limit: number = 10) => {
+  const response = await instance.get(`/danh-gia/public/${id_san}`, {
+    params: { page, limit }
+  });
+  return response.data.data;
+};
+
+export const getReviewSummary = async (id_san: number | string) => {
+  const response = await instance.get(`/danh-gia/public/summary/${id_san}`);
+  return response.data.data;
+};
+
+export const createReview = async (data: {
+  tai_khoan: string;
+  id_san: number;
+  so_sao: number;
+  noi_dung: string;
+}) => {
+  const response = await instance.post('/danh-gia/public', data);
+  return response.data.data;
+};
+
+export const getProfile = async () => {
+  const response = await instance.get('/profile');
+  return response.data.data;
+};
+
+export const updateProfile = async (data: any) => {
+  const response = await instance.patch('/profile', data);
+  return response.data.data;
+};
+
+export const changePassword = async (data: any) => {
+  const response = await instance.patch('/profile/change-password', data);
+  return response.data.data;
+};
+
+export const uploadAvatar = async (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await instance.post('/profile/avatar', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return response.data.data;
+};
+
 export default instance;

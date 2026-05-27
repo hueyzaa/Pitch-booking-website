@@ -12,6 +12,8 @@ export declare class UpdateSelfDto {
     ho_va_ten: string;
     nguoi_cap_nhat: number | null;
     ngay_cap_nhat: Date;
+    anh_dai_dien?: string;
+    san_yeu_thich?: string;
 }
 export declare class ChangePasswordDto {
     mat_khau_hien_tai: string;

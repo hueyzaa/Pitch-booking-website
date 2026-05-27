@@ -62,6 +62,7 @@ import { QuanLyGiaModule } from './quan-ly-gia/quan-ly-gia.module';
 import { ThuChiModule } from './thu-chi/thu-chi.module';
 import { TrangThaiSanModule } from './trang-thai-san/trang-thai-san.module';
 import { DatSanModule } from './dat-san/dat-san.module';
+import { DanhGiaModule } from './danh-gia/danh-gia.module';
 /*IMPORT_OTHER_MODULE_HERE*/
 
 /**
@@ -132,6 +133,7 @@ import { DatSanModule } from './dat-san/dat-san.module';
     ThuChiModule,
     TrangThaiSanModule,
     DatSanModule,
+    DanhGiaModule,
     /*ADD_OTHER_MODULE_HERE*/
   ],
   controllers: [AppController],

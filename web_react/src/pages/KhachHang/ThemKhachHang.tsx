@@ -5,12 +5,13 @@ import { BaseModal } from '@app/components/common/BaseModal/BaseModal';
 import { BaseForm } from '@app/components/common/forms/BaseForm/BaseForm';
 import { useAppDispatch } from '@app/hooks/reduxHooks';
 import { appActions } from '@app/store/slices/appSlice';
+import moment from 'moment';
+import { BaseRow } from '@app/components/common/BaseRow/BaseRow';
+import { apiInstance } from '@app/api/core.api';
+import { BaseTypography } from '@app/components/common/BaseTypography/BaseTypography';
 import { useState } from 'react';
 import FormKhachHang from './FormKhachHang';
 import { useTranslation } from 'react-i18next';
-import { BaseTypography } from '@app/components/common/BaseTypography/BaseTypography';
-import moment from 'moment';
-import { BaseRow } from '@app/components/common/BaseRow/BaseRow';
 
 const ThemKhachHang = ({ path }: { path: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,8 +36,25 @@ const ThemKhachHang = ({ path }: { path: string }) => {
       handleCancel();
       dispatch(appActions.toggleReload('DANH_SACH'));
     };
+
+    let avatarPath = values.anh_dai_dien;
+    if (Array.isArray(avatarPath) && avatarPath.length > 0 && avatarPath[0].originFileObj) {
+      try {
+        const formData = new FormData();
+        formData.append('file', avatarPath[0].originFileObj);
+        const uploadRes = await apiInstance.post('upload', formData);
+        avatarPath = uploadRes.data?.data?.file_path || uploadRes.data?.file_path || uploadRes.data?.path || null;
+      } catch (err) {
+        console.error('Avatar upload failed', err);
+        avatarPath = null;
+      }
+    } else if (Array.isArray(avatarPath) && avatarPath.length === 0) {
+      avatarPath = null;
+    }
+
     const payload = {
       ...values,
+      anh_dai_dien: avatarPath,
       ho_va_ten: `${values.ho || ''} ${values.ten || ''}`.trim(),
       ngay_sinh: values.ngay_sinh ? moment(values.ngay_sinh).format('YYYY-MM-DD') : null
     };

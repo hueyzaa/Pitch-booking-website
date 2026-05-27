@@ -30,6 +30,7 @@ export const API_URL = {
   THU_CHI: '/thu-chi',
   TRANG_THAI_SAN: '/trang-thai-san',
   DAT_SAN: '/dat-san',
+  DANH_GIA: '/danh-gia',
   /*new-api-path-here*/
   OPTIONS: '/options'
 };

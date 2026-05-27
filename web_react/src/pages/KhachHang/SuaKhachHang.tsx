@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormKhachHang from './FormKhachHang';
 import moment from 'moment';
+import { apiInstance } from '@app/api/core.api';
 
 const SuaKhachHang = ({ path, id }: { path: string; id: number }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,8 +57,30 @@ const SuaKhachHang = ({ path, id }: { path: string; id: number }) => {
       handleCancel();
       dispatch(appActions.toggleReload('DANH_SACH'));
     };
+
+    let avatarPath = values.anh_dai_dien;
+    if (Array.isArray(avatarPath) && avatarPath.length > 0 && avatarPath[0].originFileObj) {
+      try {
+        const formData = new FormData();
+        formData.append('file', avatarPath[0].originFileObj);
+        const uploadRes = await apiInstance.post('upload', formData);
+        avatarPath = uploadRes.data?.data?.file_path || uploadRes.data?.file_path || uploadRes.data?.path || null;
+      } catch (err) {
+        console.error('Avatar upload failed', err);
+        avatarPath = null;
+      }
+    } else if (Array.isArray(avatarPath) && avatarPath.length === 0) {
+      avatarPath = null;
+    } else if (Array.isArray(avatarPath) && avatarPath.length > 0 && avatarPath[0].url) {
+      // Retain existing
+      avatarPath = avatarPath[0].url;
+    } else if (typeof avatarPath === 'string') {
+      // Keep it
+    }
+
     const payload = {
       ...values,
+      anh_dai_dien: avatarPath,
       ho_va_ten: `${values.ho || ''} ${values.ten || ''}`.trim(),
       ngay_sinh: values.ngay_sinh ? moment(values.ngay_sinh).format('YYYY-MM-DD') : null
     };

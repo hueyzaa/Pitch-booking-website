@@ -18,20 +18,16 @@ import {
   Response,
   Logger,
 } from '@nestjs/common';
-import {
-  CreateDatSanDto,
-  UpdateDatSanDto,
-} from './dto/dat-san.dto';
+import { CreateDatSanDto, UpdateDatSanDto } from './dto/dat-san.dto';
 import { DatSanService } from './dat-san.service';
-
 
 @Controller('dat-san')
 export class DatSanController {
   private readonly logger = new Logger(DatSanController.name);
   constructor(
-      private readonly datSanService: DatSanService,
-      private readonly helperService: HelperService,
-    ) {}
+    private readonly datSanService: DatSanService,
+    private readonly helperService: HelperService,
+  ) {}
 
   // ==================== PUBLIC ENDPOINTS (không cần quyền admin) ====================
 
@@ -41,7 +37,10 @@ export class DatSanController {
    */
   @HttpCode(200)
   @Get('public/booked-slots')
-  findBookedSlots(@Query('id_san') id_san: string, @Query('ngay') ngay: string) {
+  findBookedSlots(
+    @Query('id_san') id_san: string,
+    @Query('ngay') ngay: string,
+  ) {
     if (!id_san || !ngay) {
       return [];
     }
@@ -73,11 +72,13 @@ export class DatSanController {
 
   // ==================== ADMIN ENDPOINTS (cần quyền) ====================
 
-
   @CheckPermission(ACTION.create)
   @HttpCode(200)
   @Post()
-  create(@Body() createDatSanDto: CreateDatSanDto, @UserReq() user: UserReqData) {
+  create(
+    @Body() createDatSanDto: CreateDatSanDto,
+    @UserReq() user: UserReqData,
+  ) {
     createDatSanDto.nguoi_tao = user.id;
     createDatSanDto.nguoi_cap_nhat = user.id;
     return this.datSanService.create(createDatSanDto);
@@ -99,7 +100,6 @@ export class DatSanController {
       throw new HttpCoreException('Không tồn tại dữ liệu');
     }
   }
-
 
   //TODO Cho phép lấy không check quyền
   @HttpCode(200)

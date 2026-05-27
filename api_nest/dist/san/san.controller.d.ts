@@ -12,7 +12,7 @@ export declare class SanController {
     exportExcel(filters: FilterData, res: any): Promise<any>;
     findAllForSelectOptions(filters: any): Promise<import("../database/database.service").PaginationResult<any>>;
     findAll(filters: FilterData): Promise<import("../database/database.service").PaginationResult<any>>;
-    findOne(id: string): Promise<import("../database/entities/san.entity").San>;
-    update(id: string, updateSanDto: UpdateSanDto, user: UserReqData): Promise<import("../database/entities/san.entity").San>;
+    findOne(id: string): Promise<any>;
+    update(id: string, updateSanDto: UpdateSanDto, user: UserReqData): Promise<any>;
     remove(id: string): Promise<import("typeorm").DeleteResult>;
 }

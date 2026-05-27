@@ -13,6 +13,7 @@ import { createFilterQuery } from '@app/utils/utils';
 import { FormInstance } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { MainImageUpload } from '@app/components/common/MainImageUpload/MainImageUpload';
 
 interface FormKhachHangProps {
   isEditing?: boolean;
@@ -178,6 +179,35 @@ const FormKhachHang = ({ isEditing = false, form, disabled = false }: FormKhachH
           rules={[{ required: true, message: `Địa chỉ không được bỏ trống` }]}
         >
           <BaseInput.TextArea placeholder='Nhập số nhà, đường' disabled={disabled} rows={2} />
+        </BaseForm.Item>
+      </BaseCol>
+
+      <BaseCol span={12}>
+        <BaseForm.Item
+          name='anh_dai_dien'
+          label='Ảnh đại diện'
+          valuePropName="value"
+          getValueFromEvent={(val) => {
+            if (Array.isArray(val) && val.length > 0) return val;
+            return val;
+          }}
+        >
+          <MainImageUpload
+            title='Ảnh đại diện'
+            helperText='Tải lên ảnh đại diện của khách hàng'
+            uploadText='Tải ảnh lên'
+            altText='Ảnh đại diện'
+            disabled={disabled}
+            showTitle={false}
+          />
+        </BaseForm.Item>
+      </BaseCol>
+      <BaseCol span={12}>
+        <BaseForm.Item
+          name='san_yeu_thich'
+          label='Sân yêu thích'
+        >
+          <BaseInput placeholder='ID sân yêu thích (VD: [1,2,3])' disabled={disabled} />
         </BaseForm.Item>
       </BaseCol>
     </BaseRow>

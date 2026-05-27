@@ -228,7 +228,7 @@ export class DatSanService {
       }
     }
 
-    // 3. Calculate duration in hours
+    // 3. Calculate duration in hours and peak hour adjustment
     const [hStart, mStart] = gio_bat_dau.split(':').map(Number);
     const [hEnd, mEnd] = gio_ket_thuc.split(':').map(Number);
     const durationHours = (hEnd * 60 + mEnd - (hStart * 60 + mStart)) / 60;
@@ -241,8 +241,22 @@ export class DatSanService {
       };
     }
 
-    const donGia = giaTheoGio * (1 - phanTramGiamGia / 100);
-    const tong_tien = Math.round(durationHours * donGia);
+    // Peak hours pricing (17:00 - 20:00) with 1.2x multiplier, calculated hour by hour
+    let totalBasePrice = 0;
+    const startHour = hStart;
+    const endHour = hEnd;
+
+    for (let hour = startHour; hour < endHour; hour++) {
+      const isPeak = hour >= 17 && hour < 20;
+      const hourPrice = isPeak
+        ? Math.round((giaTheoGio * 1.2) / 10000) * 10000
+        : giaTheoGio;
+      totalBasePrice += hourPrice;
+    }
+
+    // Apply customer discount if any
+    const donGia = totalBasePrice * (1 - phanTramGiamGia / 100);
+    const tong_tien = Math.round(donGia);
 
     return { id_doi_tuong, tong_tien, phan_tram_giam_gia: phanTramGiamGia };
   }

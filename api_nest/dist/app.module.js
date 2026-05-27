@@ -54,6 +54,7 @@ const quan_ly_gia_module_1 = require("./quan-ly-gia/quan-ly-gia.module");
 const thu_chi_module_1 = require("./thu-chi/thu-chi.module");
 const trang_thai_san_module_1 = require("./trang-thai-san/trang-thai-san.module");
 const dat_san_module_1 = require("./dat-san/dat-san.module");
+const danh_gia_module_1 = require("./danh-gia/danh-gia.module");
 let AppModule = AppModule_1 = class AppModule {
     configure(consumer) {
         consumer
@@ -132,6 +133,7 @@ AppModule = AppModule_1 = __decorate([
             thu_chi_module_1.ThuChiModule,
             trang_thai_san_module_1.TrangThaiSanModule,
             dat_san_module_1.DatSanModule,
+            danh_gia_module_1.DanhGiaModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [

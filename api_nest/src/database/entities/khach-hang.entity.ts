@@ -61,6 +61,12 @@ export class KhachHang {
   })
   ngay_cap_nhat: Date;
 
+  @Column('varchar', { name: 'anh_dai_dien', length: 255, nullable: true })
+  anh_dai_dien: string | null;
+
+  @Column('text', { name: 'san_yeu_thich', nullable: true })
+  san_yeu_thich: string | null;
+
   @ManyToOne(() => DoiTuong, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'id_doi_tuong' })
   doi_tuong: DoiTuong;

@@ -190,8 +190,18 @@ let DatSanService = DatSanService_1 = class DatSanService {
                 phan_tram_giam_gia: phanTramGiamGia,
             };
         }
-        const donGia = giaTheoGio * (1 - phanTramGiamGia / 100);
-        const tong_tien = Math.round(durationHours * donGia);
+        let totalBasePrice = 0;
+        const startHour = hStart;
+        const endHour = hEnd;
+        for (let hour = startHour; hour < endHour; hour++) {
+            const isPeak = hour >= 17 && hour < 20;
+            const hourPrice = isPeak
+                ? Math.round((giaTheoGio * 1.2) / 10000) * 10000
+                : giaTheoGio;
+            totalBasePrice += hourPrice;
+        }
+        const donGia = totalBasePrice * (1 - phanTramGiamGia / 100);
+        const tong_tien = Math.round(donGia);
         return { id_doi_tuong, tong_tien, phan_tram_giam_gia: phanTramGiamGia };
     }
     async create(createDatSanDto) {

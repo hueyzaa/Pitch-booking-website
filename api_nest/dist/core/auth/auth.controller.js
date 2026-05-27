@@ -46,8 +46,8 @@ let AuthController = class AuthController {
             where: [
                 { tai_khoan: body.tai_khoan },
                 { email: body.email },
-                { so_dien_thoai: body.so_dien_thoai }
-            ]
+                { so_dien_thoai: body.so_dien_thoai },
+            ],
         });
         if (existingUser) {
             throw new core_exception_1.HttpCoreException('Tài khoản, email hoặc số điện thoại đã tồn tại trong hệ thống', contanst_1.HTTP_CODE.BAD_REQUEST);
@@ -97,7 +97,7 @@ let AuthController = class AuthController {
                 id: savedUser.id,
                 tai_khoan: savedUser.tai_khoan,
                 email: savedUser.email,
-            }
+            },
         };
     }
     async login(loginUserDto, userReq) {

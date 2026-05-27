@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from './Icon';
 import { formatPrice } from '../utils/price.utils';
 import { resolveAssetUrl } from '../utils/asset.utils';
+import { useAuth } from '../context/AuthContext';
+import { updateProfile } from '../api/api';
 
 export interface PitchData {
   id: number;
@@ -27,6 +29,8 @@ export interface PitchData {
   pricePerHour?: number;
   rating?: number;
   reviewCount?: number;
+  status?: string;
+  booked_slots_today?: number;
 }
 
 interface PitchCardProps {
@@ -34,20 +38,60 @@ interface PitchCardProps {
   variant?: 'featured' | 'list';
 }
 
-const getPriceByLoaiSan = (typeName: string): number => {
-  const name = typeName?.toLowerCase() || '';
-  if (name.includes('bóng đá') || name.includes('football')) return 350000;
-  if (name.includes('cầu lông') || name.includes('badminton')) return 80000;
-  if (name.includes('tennis')) return 200000;
-  if (name.includes('bóng rổ') || name.includes('basketball')) return 150000;
-  return 120000;
-};
+// getPriceByLoaiSan removed in favor of real DB prices
 
 const PitchCard: React.FC<PitchCardProps> = ({ pitch, variant = 'featured' }) => {
   // Normalize fields between Mock and Database
   const id = pitch.id;
   const name = pitch.ten_san || pitch.name || 'Sân thể thao';
   const typeBadge = pitch.ten_loai_san || pitch.typeBadge || (pitch.type === 'football' ? 'Bóng đá' : pitch.type === 'badminton' ? 'Cầu lông' : pitch.type === 'tennis' ? 'Tennis' : pitch.type === 'basketball' ? 'Bóng rổ' : 'Thể thao');
+  const { user, isAuthenticated, updateUser } = useAuth();
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated && user?.san_yeu_thich) {
+      try {
+        const favorites = JSON.parse(user.san_yeu_thich);
+        setIsFavorite(favorites.includes(id));
+      } catch { setIsFavorite(false); }
+    } else {
+      const favorites = JSON.parse(localStorage.getItem('favorite_pitches') || '[]');
+      setIsFavorite(favorites.includes(id));
+    }
+  }, [id, isAuthenticated, user]);
+
+  const toggleFavorite = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    let favorites: number[] = [];
+    if (isAuthenticated && user?.san_yeu_thich) {
+      try { favorites = JSON.parse(user.san_yeu_thich); } catch {}
+    } else {
+      favorites = JSON.parse(localStorage.getItem('favorite_pitches') || '[]');
+    }
+
+    if (favorites.includes(id)) {
+      favorites = favorites.filter((favId: number) => favId !== id);
+      setIsFavorite(false);
+    } else {
+      favorites.push(id);
+      setIsFavorite(true);
+    }
+
+    const sanYeuThichStr = JSON.stringify(favorites);
+
+    if (isAuthenticated) {
+      try {
+        await updateProfile({ san_yeu_thich: sanYeuThichStr });
+        updateUser({ san_yeu_thich: sanYeuThichStr });
+      } catch (err) {
+        console.error('Failed to sync favorite', err);
+      }
+    } else {
+      localStorage.setItem('favorite_pitches', sanYeuThichStr);
+    }
+  };
   
   // Format Address
   let address = pitch.address || '';
@@ -61,12 +105,12 @@ const PitchCard: React.FC<PitchCardProps> = ({ pitch, variant = 'featured' }) =>
   }
   if (!address) address = 'Chưa cập nhật địa chỉ';
 
-  const rating = ((id * 3) % 5) / 10 + 4.5;
+  const rating = pitch.rating || 0;
 
-  const pricePerHour = pitch.pricePerHour || getPriceByLoaiSan(typeBadge);
-  const originalPrice = variant === 'list' && id % 3 === 0 ? Math.round(pricePerHour * 1.2 / 10000) * 10000 : undefined;
+  const pricePerHour = pitch.pricePerHour || 0;
+  const originalPrice = variant === 'list' && pitch.discount ? Math.round(pricePerHour / (1 - pitch.discount)) : undefined;
 
-  const status = id % 4 === 0 ? 'sold_out' : id % 3 === 0 ? 'promo' : 'available';
+  const status = pitch.status || 'available';
   const statusLabel = status === 'sold_out' ? 'Hết sân' : status === 'promo' ? 'Ưu đãi' : 'Còn chỗ';
   const chipClass = status === 'available' ? 'chip-available' :
                     status === 'sold_out' ? 'chip-sold-out' : 'chip-promo';
@@ -105,6 +149,31 @@ const PitchCard: React.FC<PitchCardProps> = ({ pitch, variant = 'featured' }) =>
           >
             {statusLabel}
           </div>
+
+          {/* Favorite Button */}
+          <button
+            onClick={toggleFavorite}
+            style={{
+              position: 'absolute',
+              top: '16px',
+              right: '16px',
+              background: 'rgba(255,255,255,0.9)',
+              border: 'none',
+              borderRadius: '50%',
+              width: '36px',
+              height: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: isFavorite ? '#ef4444' : 'var(--on-surface-variant)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+              transition: 'all 0.2s',
+            }}
+          >
+            <Icon name={isFavorite ? 'favorite' : 'favorite_border'} size={20} filled={isFavorite} />
+          </button>
+
 
           {/* Type Badge (list variant) */}
           {variant === 'list' && typeBadge && (

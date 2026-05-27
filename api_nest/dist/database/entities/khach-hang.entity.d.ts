@@ -18,5 +18,7 @@ export declare class KhachHang {
     ngay_tao: Date;
     nguoi_cap_nhat: number | null;
     ngay_cap_nhat: Date;
+    anh_dai_dien: string | null;
+    san_yeu_thich: string | null;
     doi_tuong: DoiTuong;
 }

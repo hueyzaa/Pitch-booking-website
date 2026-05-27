@@ -238,5 +238,17 @@ exports.permissions = [
             showMenu: true,
         },
     },
+    {
+        name: 'danh-gia',
+        actions: {
+            index: true,
+            create: true,
+            show: true,
+            edit: true,
+            delete: true,
+            export: true,
+            showMenu: true,
+        },
+    },
 ];
 //# sourceMappingURL=permission.config.js.map

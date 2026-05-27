@@ -1,0 +1,1 @@
+import{a as o,r as e,s as r,N as c,cg as n,A as i,B as p,cb as u,n as g}from"./index-Cgakiq8m.js";const f=()=>{const t=o(),a=async()=>{try{(await i.post(`${p.LOGOUT}`)).code===200&&t(u())}catch(s){g.error({message:s.message})}};return e.useEffect(()=>{a()},[]),r.jsx(c,{to:n.AUTH.LOGIN,replace:!0})};export{f as default};

@@ -14,9 +14,9 @@ export declare class SanService {
     create(createSanDto: CreateSanDto): Promise<CreateSanDto & San>;
     findAllWithPagination(filters: FilterData): Promise<import("src/database/database.service").PaginationResult<any>>;
     findAll(options?: FindManyOptions<San>): Promise<San[]>;
-    findOneById(id: number): Promise<San>;
+    findOneById(id: number): Promise<any>;
     findOneBy(where: FindOptionsWhere<San> | FindOptionsWhere<San>[]): Promise<San>;
-    update(id: number, updateSanDto: UpdateSanDto): Promise<San>;
+    update(id: number, updateSanDto: UpdateSanDto): Promise<any>;
     remove(id: number): Promise<import("typeorm").DeleteResult>;
     removeBy(where: FindOptionsWhere<San>): Promise<import("typeorm").UpdateResult>;
     deleteBy(where: FindOptionsWhere<San>): Promise<import("typeorm").DeleteResult>;

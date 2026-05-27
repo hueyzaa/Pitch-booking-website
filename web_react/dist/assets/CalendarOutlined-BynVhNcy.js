@@ -1,0 +1,1 @@
+import{r,J as n,_ as t}from"./index-Cgakiq8m.js";import{a as o}from"./ClockCircleOutlined-DyfTnAGK.js";var d=function(a,e){return r.createElement(n,t({},a,{ref:e,icon:o}))},c=r.forwardRef(d);export{c as R};

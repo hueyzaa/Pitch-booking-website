@@ -30,6 +30,7 @@ import { QuanLyGia } from './entities/quan-ly-gia.entity';
 import { ThuChi } from './entities/thu-chi.entity';
 import { TrangThaiSan } from './entities/trang-thai-san.entity';
 import { DatSan } from './entities/dat-san.entity';
+import { DanhGia } from './entities/danh-gia.entity';
 /*IMPORT_OTHER_ENTITY_HERE*/
 
 @Global()
@@ -59,6 +60,7 @@ import { DatSan } from './entities/dat-san.entity';
       ThuChi,
       TrangThaiSan,
       DatSan,
+      DanhGia,
       /*ADD_OTHER_ENTITY_HERE*/
     ]),
   ],

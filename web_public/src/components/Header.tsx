@@ -120,7 +120,15 @@ const Header: React.FC<HeaderProps> = ({ config }) => {
                       background: 'var(--surface-container-low)'
                     }}
                   >
-                    <Icon name="account_circle" size={20} />
+                    {user?.anh_dai_dien ? (
+                      <img 
+                        src={resolveAssetUrl(user.anh_dai_dien)} 
+                        alt="Avatar" 
+                        style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover' }} 
+                      />
+                    ) : (
+                      <Icon name="account_circle" size={20} />
+                    )}
                     <span>Chào, {user?.ten || user?.ho_va_ten || user?.tai_khoan} 🌟</span>
                   </Link>
                   <button 
@@ -191,7 +199,15 @@ const Header: React.FC<HeaderProps> = ({ config }) => {
                       gap: '8px'
                     }}
                   >
-                    <Icon name="account_circle" size={20} />
+                    {user?.anh_dai_dien ? (
+                      <img 
+                        src={resolveAssetUrl(user.anh_dai_dien)} 
+                        alt="Avatar" 
+                        style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} 
+                      />
+                    ) : (
+                      <Icon name="account_circle" size={20} />
+                    )}
                     <span>Chào, {user?.ten || user?.ho_va_ten || user?.tai_khoan}</span>
                   </Link>
                   <button 

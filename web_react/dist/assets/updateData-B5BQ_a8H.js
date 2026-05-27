@@ -1,1 +1,0 @@
-import{A as p,n as e,b$ as m,c0 as g}from"./index-DFD43UYP.js";const i=async(r,t,c,o,n=!0)=>{var a;try{const s=await p.patch(`${r}/${n?t:""}`,c);if(s.code===200)return e.success({message:((a=s.data)==null?void 0:a.message)||"Cập nhật thành công"}),o(),s.data;m(s,()=>{e.error({message:g(s.message)})})}catch(s){e.error({message:s.message})}};export{i as p};

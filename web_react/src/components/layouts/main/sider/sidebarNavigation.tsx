@@ -9,7 +9,8 @@ import {
   ShoppingCartOutlined,
   DollarOutlined,
   WalletOutlined,
-  TagsOutlined
+  TagsOutlined,
+  StarOutlined
 } from '@ant-design/icons';
 
 import React from 'react';
@@ -99,6 +100,12 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
         key: 'dat-san',
         icon: <ShoppingCartOutlined />,
         url: '/dat-san'
+      },
+      {
+        title: 'common.danh-gia',
+        key: 'danh-gia',
+        icon: <StarOutlined />,
+        url: '/danh-gia'
       }
     ]
   },
@@ -167,7 +174,13 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
         url: '/log-thao-tac'
       }
     ]
-  }
+  },
 
+  {
+    title: 'common.danh-gia',
+    key: 'danh-gia',
+    icon: <StarOutlined />,
+    url: '/danh-gia'
+  }
   /*new-sidebar-nav-here*/
 ];
