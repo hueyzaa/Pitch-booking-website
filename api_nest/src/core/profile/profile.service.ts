@@ -56,8 +56,8 @@ export class UserService {
 
     const user = {
       ...findUser,
-      phan_quyen: findUser.ma_vai_tro2.phan_quyen,
-      ten_vai_tro: findUser.ma_vai_tro2.ten_vai_tro,
+      phan_quyen: findUser.ma_vai_tro2?.phan_quyen || null,
+      ten_vai_tro: findUser.ma_vai_tro2?.ten_vai_tro || null,
     };
 
     delete user.ma_vai_tro2;
@@ -75,6 +75,7 @@ export class UserService {
       ],
       relations: {
         ma_vai_tro2: true,
+        doi_tuong: true,
         nguoi_dung_vai_tros: {
           vai_tro: true,
         },
@@ -98,8 +99,8 @@ export class UserService {
 
     const createUser = {
       ...findUser,
-      phan_quyen: findUser.ma_vai_tro2.phan_quyen,
-      ten_vai_tro: findUser.ma_vai_tro2.ten_vai_tro,
+      phan_quyen: findUser.ma_vai_tro2?.phan_quyen || null,
+      ten_vai_tro: findUser.ma_vai_tro2?.ten_vai_tro || null,
     };
 
     delete createUser.ma_vai_tro2;
@@ -121,8 +122,8 @@ export class UserService {
 
     const createUser = {
       ...findUser,
-      phan_quyen: findUser.ma_vai_tro2.phan_quyen,
-      ten_vai_tro: findUser.ma_vai_tro2.ten_vai_tro,
+      phan_quyen: findUser.ma_vai_tro2?.phan_quyen || null,
+      ten_vai_tro: findUser.ma_vai_tro2?.ten_vai_tro || null,
     };
 
     delete createUser.ma_vai_tro2;

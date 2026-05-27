@@ -1,7 +1,6 @@
 export declare class QuanLyGia {
     id: number;
     id_san: number;
-    id_bang_gia: number | null;
     id_doi_tuong: number | null;
     gia_theo_gio: number;
     don_gia: number;

@@ -43,10 +43,10 @@ __decorate([
 ], CreateThuChiDto.prototype, "mo_ta", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsInt)({ message: 'ID Khách hàng phải là số nguyên' }),
+    (0, class_validator_1.IsInt)({ message: 'ID Người dùng phải là số nguyên' }),
     (0, class_transformer_1.Type)(() => Number),
     __metadata("design:type", Number)
-], CreateThuChiDto.prototype, "id_khach_hang", void 0);
+], CreateThuChiDto.prototype, "id_nguoi_dung", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsInt)({ message: 'ID Sân phải là số nguyên' }),
@@ -89,10 +89,10 @@ __decorate([
 ], UpdateThuChiDto.prototype, "mo_ta", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsInt)({ message: 'ID Khách hàng phải là số nguyên' }),
+    (0, class_validator_1.IsInt)({ message: 'ID Người dùng phải là số nguyên' }),
     (0, class_transformer_1.Type)(() => Number),
     __metadata("design:type", Number)
-], UpdateThuChiDto.prototype, "id_khach_hang", void 0);
+], UpdateThuChiDto.prototype, "id_nguoi_dung", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsInt)({ message: 'ID Sân phải là số nguyên' }),

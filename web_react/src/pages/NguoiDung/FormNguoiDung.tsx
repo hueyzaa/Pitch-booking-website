@@ -43,6 +43,14 @@ const FormNguoiDung = ({ isEditing, form }: { isEditing: boolean; form: FormInst
         />
       </BaseCol>
       <BaseCol span={8}>
+        <SelectFormApi
+          name='id_doi_tuong'
+          label='Đối tượng'
+          path={`${API_URL.DOI_TUONG}${API_URL.OPTIONS}`}
+          placeholder='Chọn đối tượng'
+        />
+      </BaseCol>
+      <BaseCol span={8}>
         <BaseForm.Item
           name='email'
           label='Email'

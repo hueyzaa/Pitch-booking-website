@@ -24,11 +24,11 @@ export const DatSanFilterForm = ({ onSearch, onReset, isLoading = false }: DatSa
   const handleFinish = (values: any) => {
     const filters: { field: string; operator: string; value: string }[] = [];
 
-    if (values.id_khach_hang) {
+    if (values.id_nguoi_dung) {
       filters.push({
-        field: 'dat_san.id_khach_hang',
+        field: 'dat_san.id_nguoi_dung',
         operator: 'equal',
-        value: values.id_khach_hang
+        value: values.id_nguoi_dung
       });
     }
 
@@ -91,10 +91,10 @@ export const DatSanFilterForm = ({ onSearch, onReset, isLoading = false }: DatSa
       <BaseRow gutter={[16, 16]}>
         <BaseCol xs={24} sm={12} lg={6}>
           <SelectFormApi
-            name='id_khach_hang'
+            name='id_nguoi_dung'
             label='Khách hàng'
             placeholder='Chọn khách hàng'
-            path={API_URL.KHACH_HANG + '/options'}
+            path={API_URL.NGUOI_DUNG + '/options'}
             size='small'
           />
         </BaseCol>

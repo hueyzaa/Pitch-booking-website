@@ -25,18 +25,23 @@ import {
 } from './dto/danh-gia.dto';
 import { DanhGiaService } from './danh-gia.service';
 
-
 @Controller('danh-gia')
 export class DanhGiaController {
   private readonly logger = new Logger(DanhGiaController.name);
   constructor(
-      private readonly danhGiaService: DanhGiaService,
-      private readonly helperService: HelperService,
-    ) {}
+    private readonly danhGiaService: DanhGiaService,
+    private readonly helperService: HelperService,
+  ) {}
 
   // ==========================================
   // PUBLIC ENDPOINTS (KHÔNG CẦN AUTHENTICATION)
   // ==========================================
+
+  @HttpCode(200)
+  @Get('public/latest')
+  async getLatestPublicReviews(@Query('limit') limit: string = '6') {
+    return this.danhGiaService.getLatestPublicReviews(+limit);
+  }
 
   @HttpCode(200)
   @Get('public/summary/:id_san')
@@ -76,7 +81,10 @@ export class DanhGiaController {
   @CheckPermission(ACTION.create)
   @HttpCode(200)
   @Post()
-  create(@Body() createDanhGiaDto: CreateDanhGiaDto, @UserReq() user: UserReqData) {
+  create(
+    @Body() createDanhGiaDto: CreateDanhGiaDto,
+    @UserReq() user: UserReqData,
+  ) {
     createDanhGiaDto.nguoi_tao = user.id;
     createDanhGiaDto.nguoi_cap_nhat = user.id;
     return this.danhGiaService.create(createDanhGiaDto);
@@ -98,7 +106,6 @@ export class DanhGiaController {
       throw new HttpCoreException('Không tồn tại dữ liệu');
     }
   }
-
 
   @HttpCode(200)
   @Get('options')

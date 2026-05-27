@@ -16,7 +16,7 @@ export declare class DatSanController {
         phan_tram_giam_gia: number;
         nguoi_tao: number;
         nguoi_cap_nhat: number;
-        id_khach_hang: number;
+        id_nguoi_dung: number;
         id_san: number;
         ngay_dat: string;
         gio_bat_dau: string;
@@ -30,7 +30,7 @@ export declare class DatSanController {
         id_doi_tuong: number;
         tong_tien: number;
         phan_tram_giam_gia: number;
-        id_khach_hang: number;
+        id_nguoi_dung: number;
         id_san: number;
         ngay_dat: string;
         gio_bat_dau: string;

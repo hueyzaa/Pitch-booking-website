@@ -4,7 +4,7 @@ import { IsNotEmptyCustom } from '@core/validators/is-not-empty.validator';
 import { IsPhoneNumber } from '@core/validators/is-phone-number.validator';
 import { IsValidPassword } from '@core/validators/is-valid-password.validator';
 import { Transform } from 'class-transformer';
-import { IsArray, Validate } from 'class-validator';
+import { IsArray, Validate, IsOptional, IsNumber, IsString } from 'class-validator';
 import { PartialType } from '@nestjs/mapped-types';
 
 /**
@@ -75,6 +75,16 @@ export class CreateUsersDto {
   /** Full name (Họ và tên) - auto-generated */
   ho_va_ten?: string;
 
+  /** Customer Group ID (Đối tượng khách hàng) */
+  @IsOptional()
+  @IsNumber()
+  id_doi_tuong?: number;
+
+  /** Favorite pitches (Sân yêu thích) */
+  @IsOptional()
+  @IsString()
+  san_yeu_thich?: string;
+
   /** Created by user ID */
   nguoi_tao?: number;
 
@@ -143,6 +153,16 @@ export class UpdateUsersDto extends PartialType(CreateUsersDto) {
 
   /** Full name (Họ và tên) - auto-generated */
   ho_va_ten?: string;
+
+  /** Customer Group ID (Đối tượng khách hàng) */
+  @IsOptional()
+  @IsNumber()
+  id_doi_tuong?: number;
+
+  /** Favorite pitches (Sân yêu thích) */
+  @IsOptional()
+  @IsString()
+  san_yeu_thich?: string;
 
   /** Updated by user ID */
   nguoi_cap_nhat?: number;

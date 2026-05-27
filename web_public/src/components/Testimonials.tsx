@@ -1,43 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Icon from './Icon';
-const testimonials = [
-  {
-    id: 1,
-    name: 'Minh Tuấn',
-    role: 'Đội trưởng FC Lão Tướng',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
-    quote: '"Từ ngày có SportBooking, mình không còn phải gọi điện từng nơi để hỏi sân nữa. App rất mượt, tìm sân nhanh và thanh toán cực kỳ tiện lợi."',
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: 'Linh Chi',
-    role: 'Người chơi Cầu lông',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face',
-    quote: '"Giao diện trực quan, dễ dùng. Thích nhất là tính năng xem được giờ trống của sân theo thời gian thực. Sẽ tiếp tục ủng hộ SportBooking lâu dài!"',
-    rating: 5,
-  },
-  {
-    id: 3,
-    name: 'Quốc Bảo',
-    role: 'Thành viên Tennis Club',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-    quote: '"Dịch vụ chăm sóc khách hàng cực kỳ tốt. Có lần mình cần hủy sân đột xuất, các bạn nhân viên đã hỗ trợ rất nhiệt tình và hoàn tiền nhanh chóng."',
-    rating: 5,
-  },
-];
+import { apiInstance } from '../api/core.api';
+import { resolveAssetUrl } from '../utils/asset.utils';
 
 const Testimonials: React.FC = () => {
+  const [testimonials, setTestimonials] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res: any = await apiInstance.get('/danh-gia/public/latest?limit=6');
+        setTestimonials(Array.isArray(res?.data) ? res.data : (Array.isArray(res) ? res : []));
+      } catch (err) {
+        console.error('Failed to fetch testimonials:', err);
+      }
+    };
+    fetchReviews();
+  }, []);
+
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : testimonials.length - 1));
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : Math.max(0, testimonials.length - 1)));
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev < testimonials.length - 1 ? prev + 1 : 0));
   };
+
+  if (testimonials.length === 0) return null;
 
   return (
     <section style={{ padding: '96px 0', overflow: 'hidden' }}>
@@ -87,24 +78,24 @@ const Testimonials: React.FC = () => {
               {/* User */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
                 <img
-                  src={t.avatar}
-                  alt={t.name}
+                  src={t.anh_dai_dien ? resolveAssetUrl(t.anh_dai_dien) : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face'}
+                  alt={t.ten_khach_hang}
                   style={{ width: '56px', height: '56px', borderRadius: '50%', objectFit: 'cover' }}
                 />
                 <div>
-                  <h5 style={{ fontSize: '14px', fontWeight: 500, color: 'var(--on-surface)' }}>{t.name}</h5>
-                  <p style={{ fontSize: '12px', color: 'var(--outline)' }}>{t.role}</p>
+                  <h5 style={{ fontSize: '14px', fontWeight: 500, color: 'var(--on-surface)' }}>{t.ten_khach_hang}</h5>
+                  <p style={{ fontSize: '12px', color: 'var(--outline)' }}>{t.ten_san || 'Thành viên SportBooking'}</p>
                 </div>
               </div>
 
               {/* Quote */}
               <p style={{ fontSize: '16px', color: 'var(--on-surface-variant)', lineHeight: '24px', fontStyle: 'italic' }}>
-                {t.quote}
+                "{t.noi_dung}"
               </p>
 
               {/* Stars */}
               <div className="star-rating" style={{ marginTop: '24px' }}>
-                {Array.from({ length: t.rating }).map((_, i) => (
+                {Array.from({ length: t.so_sao || 5 }).map((_, i) => (
                   <Icon key={i} name="star" filled size={20} />
                 ))}
               </div>

@@ -66,7 +66,6 @@ let UsersService = class UsersService {
             .createQueryBuilder('users')
             .leftJoin('nguoi_dung_vai_tro', 'nguoi_dung_vai_tro', 'nguoi_dung_vai_tro.nguoi_dung_id = users.id')
             .leftJoin('vai_tro', 'vai_tro', 'vai_tro.id = nguoi_dung_vai_tro.vai_tro_id')
-            .andWhere('users.nguoi_tao <> 0')
             .groupBy('users.id');
         const res = await this.databaseService.findWithPagination(filters, queryBuilder, [
             'users.*',
@@ -125,7 +124,6 @@ let UsersService = class UsersService {
         filters.limit = -1;
         return this.databaseService.findWithPagination(filters, this.usersRepo
             .createQueryBuilder()
-            .andWhere('nguoi_tao <> 0')
             .andWhere('trang_thai = :trang_thai', {
             trang_thai: contanst_1.STATUS.ACTIVE,
         }), ['id as value', `CONCAT(ho_va_ten) as label`], []);

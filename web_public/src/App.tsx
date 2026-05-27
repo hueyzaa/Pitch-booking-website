@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 // Context
 import { useConfig } from './context/ConfigContext';
+import { resolveAssetUrl } from './utils/asset.utils';
 
 // Components
 import Header from './components/Header';
@@ -18,6 +19,8 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
+
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const location = useLocation();
@@ -39,7 +42,16 @@ function App() {
     if (config?.HEADER_TITLE) {
       document.title = config.HEADER_TITLE;
     }
-  }, [config?.HEADER_TITLE]);
+    if (config?.HEADER_LOGO) {
+      let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
+      link.href = resolveAssetUrl(config.HEADER_LOGO);
+    }
+  }, [config?.HEADER_TITLE, config?.HEADER_LOGO]);
 
   // Scroll to top on route change
   useEffect(() => {
@@ -81,7 +93,7 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
-
+      <Toaster position="top-right" />
       <style>{`
         .core-app {
           background-color: var(--background);

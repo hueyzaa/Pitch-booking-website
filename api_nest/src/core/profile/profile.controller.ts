@@ -36,7 +36,7 @@ export class ProfileController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './secret/uploads/avatar',
+        destination: './public/uploads/avatar',
         filename: (req, file, cb) => {
           const randomName = Array(32)
             .fill(null)
@@ -60,7 +60,7 @@ export class ProfileController {
       path: file.path,
       size: file.size,
       file_type: file.mimetype,
-      loai_file: LOAI_FILE.SECRET,
+      loai_file: LOAI_FILE.PUBLIC,
       nguoi_tao: user.id,
       nguoi_cap_nhat: user.id,
     };

@@ -27,8 +27,6 @@ const database_service_1 = require("./database.service");
 const loai_san_entity_1 = require("./entities/loai-san.entity");
 const san_entity_1 = require("./entities/san.entity");
 const doi_tuong_entity_1 = require("./entities/doi-tuong.entity");
-const khach_hang_entity_1 = require("./entities/khach-hang.entity");
-const bang_gia_entity_1 = require("./entities/bang-gia.entity");
 const quan_ly_gia_entity_1 = require("./entities/quan-ly-gia.entity");
 const thu_chi_entity_1 = require("./entities/thu-chi.entity");
 const trang_thai_san_entity_1 = require("./entities/trang-thai-san.entity");
@@ -58,8 +56,6 @@ DatabaseModule = __decorate([
                 loai_san_entity_1.LoaiSan,
                 san_entity_1.San,
                 doi_tuong_entity_1.DoiTuong,
-                khach_hang_entity_1.KhachHang,
-                bang_gia_entity_1.BangGia,
                 quan_ly_gia_entity_1.QuanLyGia,
                 thu_chi_entity_1.ThuChi,
                 trang_thai_san_entity_1.TrangThaiSan,

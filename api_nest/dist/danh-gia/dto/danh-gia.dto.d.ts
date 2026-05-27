@@ -1,5 +1,5 @@
 export declare class CreateDanhGiaDto {
-    id_khach_hang: number;
+    id_nguoi_dung: number;
     id_san: number;
     so_sao: number;
     noi_dung?: string;
@@ -8,7 +8,7 @@ export declare class CreateDanhGiaDto {
     nguoi_cap_nhat?: number;
 }
 export declare class UpdateDanhGiaDto {
-    id_khach_hang?: number;
+    id_nguoi_dung?: number;
     id_san?: number;
     so_sao?: number;
     noi_dung?: string;

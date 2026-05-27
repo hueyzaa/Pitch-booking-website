@@ -7,6 +7,8 @@ import { UserService } from '@core/profile/profile.service';
 import { OtpService } from '@core/otp/otp.service';
 import { DataSource } from 'typeorm';
 import { NguoiDung } from '@database/entities/auth/nguoi-dung.entity';
+import { VaiTro } from '@database/entities/auth/vai-tro.entity';
+import { NguoiDungVaiTro } from '@database/entities/auth/nguoi-dung-vai-tro.entity';
 import { HelperService } from '@helper/helper.service';
 export declare class AuthController {
     private readonly authService;
@@ -53,6 +55,8 @@ export declare class AuthController {
         ho: string;
         ten: string;
         ho_va_ten: string;
+        id_doi_tuong: number;
+        san_yeu_thich: string;
         ngay_sinh: Date;
         gioi_tinh: number;
         dia_chi: string;
@@ -64,12 +68,13 @@ export declare class AuthController {
         otp_secret: string;
         is_otp_verify: number;
         last_otp_verified: Date;
-        ma_vai_tro2: import("../../database/entities/auth/vai-tro.entity").VaiTro;
+        ma_vai_tro2: VaiTro;
         tinh: import("../../database/entities/common/tinh.entity").Tinh;
         xa: import("../../database/entities/common/xa.entity").Xa;
+        doi_tuong: import("../../database/entities/doi-tuong.entity").DoiTuong;
         nguoi_dung_thiet_bis: import("../../database/entities/auth/nguoi-dung-thiet-bi.entity").NguoiDungThietBi[];
         thong_baos: import("../../database/entities/system/thong-bao.entity").ThongBao[];
-        nguoi_dung_vai_tros: import("../../database/entities/auth/nguoi-dung-vai-tro.entity").NguoiDungVaiTro[];
+        nguoi_dung_vai_tros: NguoiDungVaiTro[];
     }>;
     setFirebaseToken(body: SetFirebaseTokenDto, userReq: UserReqData): Promise<string>;
     updatePersonalRole(body: UpdatePersonalRoleDto, userReq: UserReqData): Promise<NguoiDung>;

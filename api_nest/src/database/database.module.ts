@@ -24,8 +24,8 @@ import { DatabaseService } from './database.service';
 import { LoaiSan } from './entities/loai-san.entity';
 import { San } from './entities/san.entity';
 import { DoiTuong } from './entities/doi-tuong.entity';
-import { KhachHang } from './entities/khach-hang.entity';
-import { BangGia } from './entities/bang-gia.entity';
+
+
 import { QuanLyGia } from './entities/quan-ly-gia.entity';
 import { ThuChi } from './entities/thu-chi.entity';
 import { TrangThaiSan } from './entities/trang-thai-san.entity';
@@ -54,8 +54,8 @@ import { DanhGia } from './entities/danh-gia.entity';
       LoaiSan,
       San,
       DoiTuong,
-      KhachHang,
-      BangGia,
+
+
       QuanLyGia,
       ThuChi,
       TrangThaiSan,

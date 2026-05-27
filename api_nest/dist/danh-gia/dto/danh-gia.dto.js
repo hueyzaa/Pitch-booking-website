@@ -17,7 +17,7 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], CreateDanhGiaDto.prototype, "id_khach_hang", void 0);
+], CreateDanhGiaDto.prototype, "id_nguoi_dung", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
@@ -47,7 +47,7 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], UpdateDanhGiaDto.prototype, "id_khach_hang", void 0);
+], UpdateDanhGiaDto.prototype, "id_nguoi_dung", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),

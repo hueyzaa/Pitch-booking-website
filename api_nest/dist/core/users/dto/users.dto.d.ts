@@ -14,6 +14,8 @@ export declare class CreateUsersDto {
     ma_vai_tro?: string;
     trang_thai: number;
     ho_va_ten?: string;
+    id_doi_tuong?: number;
+    san_yeu_thich?: string;
     nguoi_tao?: number;
     ngay_tao?: string;
     nguoi_cap_nhat?: number;
@@ -34,6 +36,8 @@ export declare class UpdateUsersDto extends UpdateUsersDto_base {
     ma_vai_tro?: string;
     trang_thai: number;
     ho_va_ten?: string;
+    id_doi_tuong?: number;
+    san_yeu_thich?: string;
     nguoi_cap_nhat?: number;
     ngay_cap_nhat?: string;
 }

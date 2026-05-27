@@ -3,7 +3,7 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min } from 'class-vali
 export class CreateDanhGiaDto {
   @IsNotEmpty()
   @IsNumber()
-  id_khach_hang: number;
+  id_nguoi_dung: number;
 
   @IsNotEmpty()
   @IsNumber()
@@ -30,7 +30,7 @@ export class CreateDanhGiaDto {
 export class UpdateDanhGiaDto {
   @IsOptional()
   @IsNumber()
-  id_khach_hang?: number;
+  id_nguoi_dung?: number;
 
   @IsOptional()
   @IsNumber()

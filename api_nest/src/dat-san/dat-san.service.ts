@@ -13,7 +13,7 @@ import {
 import { DatSan } from '../database/entities/dat-san.entity';
 import { NguoiDung } from '../database/entities/auth/nguoi-dung.entity';
 import { San } from '../database/entities/san.entity';
-import { KhachHang } from '../database/entities/khach-hang.entity';
+
 import { ThuChi } from '../database/entities/thu-chi.entity';
 import { DoiTuong } from '../database/entities/doi-tuong.entity';
 import { QuanLyGia } from '../database/entities/quan-ly-gia.entity';
@@ -106,7 +106,7 @@ export class DatSanService {
           so_tien: booking.tong_tien,
           ngay_giao_dich: booking.ngay_dat,
           mo_ta: `Thu tiền đặt sân - ${booking.ma_dat_san}`,
-          id_khach_hang: booking.id_khach_hang,
+          id_nguoi_dung: booking.id_nguoi_dung,
           id_san: booking.id_san,
           nguoi_tao: booking.nguoi_tao || nguoi_cap_nhat,
           nguoi_cap_nhat: nguoi_cap_nhat,
@@ -115,7 +115,7 @@ export class DatSanService {
         thuChi.so_tien = booking.tong_tien;
         thuChi.ngay_giao_dich = booking.ngay_dat;
         thuChi.mo_ta = `Thu tiền đặt sân - ${booking.ma_dat_san}`;
-        thuChi.id_khach_hang = booking.id_khach_hang;
+        thuChi.id_nguoi_dung = booking.id_nguoi_dung;
         thuChi.id_san = booking.id_san;
         thuChi.nguoi_cap_nhat = nguoi_cap_nhat;
       }
@@ -128,7 +128,7 @@ export class DatSanService {
   private async syncTrangThaiSan(bookingId: number, nguoi_cap_nhat: number) {
     const booking = await this.datSanRepo.findOne({
       where: { id: bookingId },
-      relations: ['khach_hang'],
+      relations: ['nguoi_dung'],
     });
     if (!booking) return;
 
@@ -137,8 +137,8 @@ export class DatSanService {
       let trangThaiSan = await this.trangThaiSanRepo.findOneBy({
         id_dat_san: booking.id,
       });
-      const tenKhachHang = booking.khach_hang
-        ? booking.khach_hang.ho_va_ten
+      const tenKhachHang = booking.nguoi_dung
+        ? booking.nguoi_dung.ho_va_ten
         : 'Khách hàng';
       const ghiChu = booking.ghi_chu
         ? booking.ghi_chu
@@ -180,11 +180,11 @@ export class DatSanService {
     phan_tram_giam_gia: number;
   }> {
     const id_san = dto.id_san ?? existingBooking?.id_san;
-    const id_khach_hang = dto.id_khach_hang ?? existingBooking?.id_khach_hang;
+    const id_nguoi_dung = dto.id_nguoi_dung ?? existingBooking?.id_nguoi_dung;
     const gio_bat_dau = dto.gio_bat_dau ?? existingBooking?.gio_bat_dau;
     const gio_ket_thuc = dto.gio_ket_thuc ?? existingBooking?.gio_ket_thuc;
 
-    if (!id_san || !id_khach_hang || !gio_bat_dau || !gio_ket_thuc) {
+    if (!id_san || !id_nguoi_dung || !gio_bat_dau || !gio_ket_thuc) {
       return {
         id_doi_tuong: dto.id_doi_tuong ?? existingBooking?.id_doi_tuong ?? null,
         tong_tien: dto.tong_tien ?? existingBooking?.tong_tien ?? 0,
@@ -205,18 +205,18 @@ export class DatSanService {
     let phanTramGiamGia = dto.phan_tram_giam_gia;
 
     // Look up customer to get their group
-    const khachHang = await this.dataSource.getRepository(KhachHang).findOne({
-      where: { id: id_khach_hang },
+    const nguoiDung = await this.dataSource.getRepository(NguoiDung).findOne({
+      where: { id: id_nguoi_dung },
       relations: ['doi_tuong'],
     });
 
-    if (khachHang) {
+    if (nguoiDung) {
       if (!id_doi_tuong) {
-        id_doi_tuong = khachHang.id_doi_tuong;
+        id_doi_tuong = nguoiDung.id_doi_tuong;
       }
       if (phanTramGiamGia === undefined || phanTramGiamGia === null) {
-        phanTramGiamGia = khachHang.doi_tuong
-          ? khachHang.doi_tuong.phan_tram_giam_gia
+        phanTramGiamGia = nguoiDung.doi_tuong
+          ? nguoiDung.doi_tuong.phan_tram_giam_gia
           : 0;
       }
     } else {
@@ -319,12 +319,12 @@ export class DatSanService {
     tong_tien: number;
     ghi_chu?: string;
   }) {
-    // 1. Tìm KhachHang theo tai_khoan
-    const khachHangRepo = this.dataSource.getRepository(KhachHang);
-    const khachHang = await khachHangRepo.findOne({
+    // 1. Tìm NguoiDung theo tai_khoan
+    const nguoiDungRepo = this.dataSource.getRepository(NguoiDung);
+    const nguoiDung = await nguoiDungRepo.findOne({
       where: { tai_khoan: data.tai_khoan },
     });
-    if (!khachHang) {
+    if (!nguoiDung) {
       throw new HttpCoreException(
         'Không tìm thấy thông tin khách hàng. Vui lòng đăng nhập lại.',
         HTTP_CODE.BAD_REQUEST,
@@ -371,14 +371,14 @@ export class DatSanService {
 
     // 5. Tính giá
     const createDto: CreateDatSanDto = {
-      id_khach_hang: khachHang.id,
+      id_nguoi_dung: nguoiDung.id,
       id_san: data.id_san,
       ngay_dat: data.ngay_dat,
       gio_bat_dau: data.gio_bat_dau,
       gio_ket_thuc: data.gio_ket_thuc,
       tong_tien: data.tong_tien,
       trang_thai: 0, // Chưa thanh toán
-      ghi_chu: data.ghi_chu || `Đặt sân online - ${khachHang.ho_va_ten}`,
+      ghi_chu: data.ghi_chu || `Đặt sân online - ${nguoiDung.ho_va_ten}`,
     };
 
     const { id_doi_tuong, tong_tien, phan_tram_giam_gia } =
@@ -390,8 +390,8 @@ export class DatSanService {
       id_doi_tuong,
       tong_tien: tong_tien || data.tong_tien,
       phan_tram_giam_gia,
-      nguoi_tao: khachHang.nguoi_tao || 0,
-      nguoi_cap_nhat: khachHang.nguoi_cap_nhat || 0,
+      nguoi_tao: nguoiDung.nguoi_tao || 0,
+      nguoi_cap_nhat: nguoiDung.nguoi_cap_nhat || 0,
     };
 
     const savedBooking = await this.datSanRepo.save(dataToSave);
@@ -404,16 +404,16 @@ export class DatSanService {
    * Public: Lấy lịch sử đặt sân của 1 khách hàng (theo tai_khoan).
    */
   async findByTaiKhoan(tai_khoan: string) {
-    const khachHangRepo = this.dataSource.getRepository(KhachHang);
-    const khachHang = await khachHangRepo.findOne({
+    const nguoiDungRepo = this.dataSource.getRepository(NguoiDung);
+    const nguoiDung = await nguoiDungRepo.findOne({
       where: { tai_khoan },
     });
-    if (!khachHang) {
+    if (!nguoiDung) {
       return [];
     }
 
     const bookings = await this.datSanRepo.find({
-      where: { id_khach_hang: khachHang.id },
+      where: { id_nguoi_dung: nguoiDung.id },
       relations: ['san', 'doi_tuong'],
       order: { ngay_dat: 'DESC', gio_bat_dau: 'DESC' },
     });
@@ -432,18 +432,18 @@ export class DatSanService {
           'nguoi_cap_nhat.id = dat_san.nguoi_cap_nhat',
         )
         .leftJoin(
-          KhachHang,
-          'khach_hang',
-          'khach_hang.id = dat_san.id_khach_hang',
+          NguoiDung,
+          'nguoi_dung',
+          'nguoi_dung.id = dat_san.id_nguoi_dung',
         )
         .leftJoin(San, 'san', 'san.id = dat_san.id_san')
         .leftJoin(DoiTuong, 'doi_tuong', 'doi_tuong.id = dat_san.id_doi_tuong'),
       [
         'dat_san.id as id',
         'dat_san.ma_dat_san as ma_dat_san',
-        'dat_san.id_khach_hang as id_khach_hang',
-        'khach_hang.ho_va_ten as ten_khach_hang',
-        'khach_hang.so_dien_thoai as so_dien_thoai_khach_hang',
+        'dat_san.id_nguoi_dung as id_nguoi_dung',
+        'nguoi_dung.ho_va_ten as ten_khach_hang',
+        'nguoi_dung.so_dien_thoai as so_dien_thoai_khach_hang',
         'dat_san.id_san as id_san',
         'san.ten_san as ten_san',
         'dat_san.id_doi_tuong as id_doi_tuong',
@@ -471,7 +471,7 @@ export class DatSanService {
   findOneById(id: number) {
     return this.datSanRepo.findOne({
       where: { id },
-      relations: ['khach_hang', 'san', 'doi_tuong'],
+      relations: ['nguoi_dung', 'san', 'doi_tuong'],
     });
   }
 
@@ -541,14 +541,14 @@ export class DatSanService {
       this.datSanRepo
         .createQueryBuilder('dat_san')
         .leftJoin(
-          KhachHang,
-          'khach_hang',
-          'khach_hang.id = dat_san.id_khach_hang',
+          NguoiDung,
+          'nguoi_dung',
+          'nguoi_dung.id = dat_san.id_nguoi_dung',
         )
         .leftJoin(San, 'san', 'san.id = dat_san.id_san'),
       [
         'dat_san.id as value',
-        `CONCAT(khach_hang.ho_va_ten, ' - ', san.ten_san, ' (', dat_san.ngay_dat, ')') as label`,
+        `CONCAT(nguoi_dung.ho_va_ten, ' - ', san.ten_san, ' (', dat_san.ngay_dat, ')') as label`,
       ], // Colums need select
       [], // Columns Overwrite
     );

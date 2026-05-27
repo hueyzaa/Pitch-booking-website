@@ -21,8 +21,7 @@ const SanPage = React.lazy(() => import('@app/pages/San/San'));
 const ThemSanPage = React.lazy(() => import('@app/pages/San/ThemSan'));
 const SuaSanPage = React.lazy(() => import('@app/pages/San/SuaSan'));
 const DoiTuongPage = React.lazy(() => import('@app/pages/DoiTuong/DoiTuong'));
-const KhachHangPage = React.lazy(() => import('@app/pages/KhachHang/KhachHang'));
-const BangGiaPage = React.lazy(() => import('@app/pages/BangGia/BangGia'));
+
 const QuanLyGiaPage = React.lazy(() => import('@app/pages/QuanLyGia/QuanLyGia'));
 const ThuChiPage = React.lazy(() => import('@app/pages/ThuChi/ThuChi'));
 const TrangThaiSanPage = React.lazy(() => import('@app/pages/TrangThaiSan/TrangThaiSan'));
@@ -46,8 +45,7 @@ const San = withLoading(SanPage);
 const ThemSan = withLoading(ThemSanPage);
 const SuaSan = withLoading(SuaSanPage);
 const DoiTuong = withLoading(DoiTuongPage);
-const KhachHang = withLoading(KhachHangPage);
-const BangGia = withLoading(BangGiaPage);
+
 const QuanLyGia = withLoading(QuanLyGiaPage);
 const ThuChi = withLoading(ThuChiPage);
 const TrangThaiSan = withLoading(TrangThaiSanPage);
@@ -132,15 +130,9 @@ export const protectedRoutes: RouteObject[] = [
         path: 'doi-tuong',
         element: <DoiTuong />
       },
-      {
-        path: 'khach-hang',
-        element: <KhachHang />
-      },
+
       /*Declare route here*/
-      {
-        path: 'bang-gia',
-        element: <BangGia />
-      },
+
       {
         path: 'quan-ly-gia',
         element: <QuanLyGia />

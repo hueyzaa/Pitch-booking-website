@@ -11,9 +11,9 @@ const FormDanhGia = ({ isEditing }: { isEditing: boolean }) => {
     <BaseRow gutter={[10, 10]}>
       <BaseCol span={12}>
         <SelectFormApi
-          name='id_khach_hang'
+          name='id_nguoi_dung'
           label='Khách hàng'
-          path={API_URL.KHACH_HANG + API_URL.OPTIONS}
+          path={API_URL.NGUOI_DUNG + API_URL.OPTIONS}
           placeholder='Chọn khách hàng'
           rules={[{ required: true, message: 'Khách hàng không được bỏ trống'}]}
           disabled={isEditing}

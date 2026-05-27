@@ -5,7 +5,7 @@ export declare class ThuChi {
     so_tien: number;
     ngay_giao_dich: string;
     mo_ta: string | null;
-    id_khach_hang: number | null;
+    id_nguoi_dung: number | null;
     id_san: number | null;
     id_dat_san: number | null;
     ghi_chu: string | null;

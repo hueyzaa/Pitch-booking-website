@@ -8,8 +8,7 @@ export class QuanLyGia {
   @Column('int', { name: 'id_san' })
   id_san: number;
 
-  @Column('int', { name: 'id_bang_gia', nullable: true })
-  id_bang_gia: number | null;
+
 
   @Column('int', { name: 'id_doi_tuong', nullable: true })
   id_doi_tuong: number | null;

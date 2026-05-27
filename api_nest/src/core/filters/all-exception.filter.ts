@@ -9,6 +9,7 @@ import {
 import { HttpAdapterHost } from '@nestjs/core';
 import { HttpCoreException } from '../exceptions/core.exception';
 import { HelperService } from '@helper/helper.service';
+import { DATABASE_GENERAL_ERROR } from '@configs/contanst';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -63,11 +64,25 @@ export class AllExceptionsFilter implements ExceptionFilter {
         );
       }
 
-      default:
+      default: {
+        const messageStr = exception?.message || '';
+        let code = 500;
+        
+        if (
+          messageStr.includes(DATABASE_GENERAL_ERROR.DUPLICATE_ENTRY) ||
+          messageStr.includes(DATABASE_GENERAL_ERROR.FOREIGN_KEY) ||
+          messageStr.includes(DATABASE_GENERAL_ERROR.NOT_NULL) ||
+          messageStr.includes(DATABASE_GENERAL_ERROR.DATA_TOO_LONG) ||
+          messageStr.includes(DATABASE_GENERAL_ERROR.ER_NO_REFERENCED_ROW_2) ||
+          messageStr.includes(DATABASE_GENERAL_ERROR.ER_WARN_DATA_OUT_OF_RANGE)
+        ) {
+          code = 400;
+        }
+
         const responseBody = {
-          code: 500,
+          code: code,
           status: false,
-          message: this.helperService.transformMessage(exception.message),
+          message: this.helperService.transformMessage(messageStr),
           data: null,
           timestamp: new Date().toISOString(),
           path: request.url,
@@ -77,7 +92,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
           responseBody,
           HttpStatus.OK,
         );
-        break;
+      }
     }
   }
 }

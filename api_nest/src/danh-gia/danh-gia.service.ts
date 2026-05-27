@@ -11,10 +11,14 @@ import {
   Repository,
 } from 'typeorm';
 import { DanhGia } from '../database/entities/danh-gia.entity';
-import { KhachHang } from '../database/entities/khach-hang.entity';
-import { San } from '../database/entities/san.entity';
 import { NguoiDung } from '../database/entities/auth/nguoi-dung.entity';
-import { CreateDanhGiaDto, PublicCreateDanhGiaDto, UpdateDanhGiaDto } from './dto/danh-gia.dto';
+import { San } from '../database/entities/san.entity';
+
+import {
+  CreateDanhGiaDto,
+  PublicCreateDanhGiaDto,
+  UpdateDanhGiaDto,
+} from './dto/danh-gia.dto';
 import { HttpCoreException } from '@core/exceptions/core.exception';
 
 @Injectable()
@@ -26,8 +30,8 @@ export class DanhGiaService {
     @InjectRepository(DanhGia)
     private danhGiaRepo: Repository<DanhGia>,
 
-    @InjectRepository(KhachHang)
-    private khachHangRepo: Repository<KhachHang>,
+    @InjectRepository(NguoiDung)
+    private nguoiDungRepo: Repository<NguoiDung>,
 
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
 
@@ -44,7 +48,11 @@ export class DanhGiaService {
       filters,
       this.danhGiaRepo
         .createQueryBuilder('danh_gia')
-        .leftJoin(KhachHang, 'khach_hang', 'khach_hang.id = danh_gia.id_khach_hang')
+        .leftJoin(
+          NguoiDung,
+          'nguoi_dung',
+          'nguoi_dung.id = danh_gia.id_nguoi_dung',
+        )
         .leftJoin(San, 'san', 'san.id = danh_gia.id_san')
         .leftJoin(NguoiDung, 'nguoi_tao', 'nguoi_tao.id = danh_gia.nguoi_tao')
         .leftJoin(
@@ -54,9 +62,9 @@ export class DanhGiaService {
         ),
       [
         'danh_gia.id as id',
-        'danh_gia.id_khach_hang as id_khach_hang',
-        'khach_hang.ho_va_ten as ten_khach_hang',
-        'khach_hang.so_dien_thoai as so_dien_thoai_khach_hang',
+        'danh_gia.id_nguoi_dung as id_nguoi_dung',
+        'nguoi_dung.ho_va_ten as ten_khach_hang',
+        'nguoi_dung.so_dien_thoai as so_dien_thoai_khach_hang',
         'danh_gia.id_san as id_san',
         'san.ten_san as ten_san',
         'danh_gia.so_sao as so_sao',
@@ -78,13 +86,11 @@ export class DanhGiaService {
   findOneById(id: number) {
     return this.danhGiaRepo.findOne({
       where: { id },
-      relations: ['khach_hang', 'san'],
+      relations: ['nguoi_dung', 'san'],
     });
   }
 
-  findOneBy(
-    where: FindOptionsWhere<DanhGia> | FindOptionsWhere<DanhGia>[],
-  ) {
+  findOneBy(where: FindOptionsWhere<DanhGia> | FindOptionsWhere<DanhGia>[]) {
     return this.danhGiaRepo.findOneBy(where);
   }
 
@@ -112,14 +118,41 @@ export class DanhGiaService {
       filters,
       this.danhGiaRepo
         .createQueryBuilder('danh_gia')
-        .leftJoin(KhachHang, 'khach_hang', 'khach_hang.id = danh_gia.id_khach_hang')
+        .leftJoin(
+          NguoiDung,
+          'nguoi_dung',
+          'nguoi_dung.id = danh_gia.id_nguoi_dung',
+        )
         .leftJoin(San, 'san', 'san.id = danh_gia.id_san'),
       [
         'danh_gia.id as value',
-        `CONCAT(khach_hang.ho_va_ten, ' - ', san.ten_san, ' (', danh_gia.so_sao, ' sao)') as label`,
+        `CONCAT(nguoi_dung.ho_va_ten, ' - ', san.ten_san, ' (', danh_gia.so_sao, ' sao)') as label`,
       ], // Colums need select
       [], // Columns Overwrite
     );
+  }
+
+  /**
+   * Lấy danh sách đánh giá mới nhất trên toàn hệ thống (public)
+   */
+  async getLatestPublicReviews(limit: number = 6) {
+    return this.danhGiaRepo
+      .createQueryBuilder('danh_gia')
+      .leftJoin(NguoiDung, 'nguoi_dung', 'nguoi_dung.id = danh_gia.id_nguoi_dung')
+      .leftJoin(San, 'san', 'san.id = danh_gia.id_san')
+      .select([
+        'danh_gia.id as id',
+        'nguoi_dung.ho_va_ten as ten_khach_hang',
+        'nguoi_dung.anh_dai_dien as anh_dai_dien',
+        'san.ten_san as ten_san',
+        'danh_gia.so_sao as so_sao',
+        'danh_gia.noi_dung as noi_dung',
+        'danh_gia.ngay_tao as ngay_tao',
+      ])
+      .where('danh_gia.trang_thai = :trangThai', { trangThai: 1 })
+      .orderBy('danh_gia.ngay_tao', 'DESC')
+      .limit(limit)
+      .getRawMany();
   }
 
   /**
@@ -130,10 +163,14 @@ export class DanhGiaService {
 
     const [reviews, total] = await this.danhGiaRepo
       .createQueryBuilder('danh_gia')
-      .leftJoin(KhachHang, 'khach_hang', 'khach_hang.id = danh_gia.id_khach_hang')
+      .leftJoin(
+        NguoiDung,
+        'nguoi_dung',
+        'nguoi_dung.id = danh_gia.id_nguoi_dung',
+      )
       .select([
         'danh_gia.id as id',
-        'khach_hang.ho_va_ten as ten_khach_hang',
+        'nguoi_dung.ho_va_ten as ten_khach_hang',
         'danh_gia.so_sao as so_sao',
         'danh_gia.noi_dung as noi_dung',
         'danh_gia.ngay_tao as ngay_tao',
@@ -176,7 +213,9 @@ export class DanhGiaService {
       .getRawOne();
 
     return {
-      avg_rating: result?.avg_rating ? parseFloat(parseFloat(result.avg_rating).toFixed(1)) : 0,
+      avg_rating: result?.avg_rating
+        ? parseFloat(parseFloat(result.avg_rating).toFixed(1))
+        : 0,
       total_reviews: parseInt(result?.total_reviews || '0', 10),
     };
   }
@@ -185,12 +224,12 @@ export class DanhGiaService {
    * Tạo đánh giá từ khách hàng (public - lookup qua tai_khoan)
    */
   async publicCreate(dto: PublicCreateDanhGiaDto) {
-    // Tìm khách hàng theo tai_khoan
-    const khachHang = await this.khachHangRepo.findOneBy({
+    // Tìm NguoiDung theo tai_khoan
+    const nguoiDung = await this.nguoiDungRepo.findOneBy({
       tai_khoan: dto.tai_khoan,
     });
 
-    if (!khachHang) {
+    if (!nguoiDung) {
       throw new HttpCoreException(
         'Không tìm thấy thông tin khách hàng. Vui lòng liên hệ quản trị viên.',
         '400',
@@ -208,7 +247,7 @@ export class DanhGiaService {
 
     // Tạo đánh giá
     const danhGia = this.danhGiaRepo.create({
-      id_khach_hang: khachHang.id,
+      id_nguoi_dung: nguoiDung.id,
       id_san: dto.id_san,
       so_sao: dto.so_sao,
       noi_dung: dto.noi_dung || null,
@@ -216,5 +255,27 @@ export class DanhGiaService {
     });
 
     return this.danhGiaRepo.save(danhGia);
+  }
+
+  /**
+   * Lấy danh sách đánh giá tốt mới nhất (public)
+   */
+  async getLatestGoodReviews(limit: number = 10) {
+    return this.danhGiaRepo
+      .createQueryBuilder('danh_gia')
+      .leftJoin(NguoiDung, 'nguoi_dung', 'nguoi_dung.id = danh_gia.id_nguoi_dung')
+      .select([
+        'danh_gia.id as id',
+        'nguoi_dung.ho_va_ten as name',
+        'danh_gia.so_sao as rating',
+        'danh_gia.noi_dung as quote',
+        'danh_gia.ngay_tao as ngay_tao',
+      ])
+      .where('danh_gia.so_sao >= :minStars', { minStars: 4 })
+      .andWhere('danh_gia.trang_thai = :trangThai', { trangThai: 1 })
+      .andWhere('danh_gia.noi_dung IS NOT NULL')
+      .orderBy('danh_gia.ngay_tao', 'DESC')
+      .limit(limit)
+      .getRawMany();
   }
 }

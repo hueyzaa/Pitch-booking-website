@@ -37,7 +37,7 @@ let ProfileController = class ProfileController {
             path: file.path,
             size: file.size,
             file_type: file.mimetype,
-            loai_file: contanst_1.LOAI_FILE.SECRET,
+            loai_file: contanst_1.LOAI_FILE.PUBLIC,
             nguoi_tao: user.id,
             nguoi_cap_nhat: user.id,
         };
@@ -65,7 +65,7 @@ __decorate([
     (0, common_1.Post)('avatar'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
         storage: (0, multer_1.diskStorage)({
-            destination: './secret/uploads/avatar',
+            destination: './public/uploads/avatar',
             filename: (req, file, cb) => {
                 const randomName = Array(32)
                     .fill(null)

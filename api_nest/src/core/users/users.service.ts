@@ -109,7 +109,6 @@ export class UsersService {
         'vai_tro',
         'vai_tro.id = nguoi_dung_vai_tro.vai_tro_id',
       )
-      .andWhere('users.nguoi_tao <> 0')
       .groupBy('users.id');
 
     const res = await this.databaseService.findWithPagination(
@@ -244,7 +243,6 @@ export class UsersService {
       filters,
       this.usersRepo
         .createQueryBuilder()
-        .andWhere('nguoi_tao <> 0')
         .andWhere('trang_thai = :trang_thai', {
           trang_thai: STATUS.ACTIVE,
         }),

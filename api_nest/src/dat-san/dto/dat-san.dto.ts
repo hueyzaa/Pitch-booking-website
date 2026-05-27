@@ -16,7 +16,7 @@ export class CreateDatSanDto {
 
   @IsNotEmpty()
   @IsInt()
-  id_khach_hang: number;
+  id_nguoi_dung: number;
 
   @IsNotEmpty()
   @IsInt()
@@ -73,7 +73,7 @@ export class CreateDatSanDto {
 export class UpdateDatSanDto {
   @IsOptional()
   @IsInt()
-  id_khach_hang?: number;
+  id_nguoi_dung?: number;
 
   @IsOptional()
   @IsInt()

@@ -10,7 +10,9 @@ interface User {
   ten?: string;
   ma_vai_tro?: string;
   anh_dai_dien?: string;
+  avatar?: string;
   san_yeu_thich?: string;
+  doi_tuong?: any;
 }
 
 interface AuthContextProps {

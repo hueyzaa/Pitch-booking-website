@@ -33,6 +33,7 @@ let UserService = class UserService {
         return this.findOneById(id);
     }
     async findOneByUserName(taiKhoan) {
+        var _a, _b;
         const findUser = await this.nguoiDungRepo.findOne({
             where: [
                 { tai_khoan: taiKhoan, trang_thai: contanst_1.STATUS.ACTIVE },
@@ -44,11 +45,12 @@ let UserService = class UserService {
         if (!findUser) {
             throw new core_exception_1.HttpCoreException(contanst_1.CORE_COMMON_ERROR.NOT_FOUND_OR_INACTIVE, contanst_1.HTTP_CODE.NOT_FOUND);
         }
-        const user = Object.assign(Object.assign({}, findUser), { phan_quyen: findUser.ma_vai_tro2.phan_quyen, ten_vai_tro: findUser.ma_vai_tro2.ten_vai_tro });
+        const user = Object.assign(Object.assign({}, findUser), { phan_quyen: ((_a = findUser.ma_vai_tro2) === null || _a === void 0 ? void 0 : _a.phan_quyen) || null, ten_vai_tro: ((_b = findUser.ma_vai_tro2) === null || _b === void 0 ? void 0 : _b.ten_vai_tro) || null });
         delete user.ma_vai_tro2;
         return user;
     }
     async findOneByUsernameOrEmailOrSDT(taiKhoan) {
+        var _a, _b;
         const findUser = await this.nguoiDungRepo.findOne({
             where: [
                 { tai_khoan: taiKhoan, trang_thai: contanst_1.STATUS.ACTIVE },
@@ -57,6 +59,7 @@ let UserService = class UserService {
             ],
             relations: {
                 ma_vai_tro2: true,
+                doi_tuong: true,
                 nguoi_dung_vai_tros: {
                     vai_tro: true,
                 },
@@ -68,11 +71,12 @@ let UserService = class UserService {
         if (!findUser) {
             throw new core_exception_1.HttpCoreException(contanst_1.CORE_COMMON_ERROR.NOT_FOUND_OR_INACTIVE, contanst_1.HTTP_CODE.NOT_FOUND);
         }
-        const createUser = Object.assign(Object.assign({}, findUser), { phan_quyen: findUser.ma_vai_tro2.phan_quyen, ten_vai_tro: findUser.ma_vai_tro2.ten_vai_tro });
+        const createUser = Object.assign(Object.assign({}, findUser), { phan_quyen: ((_a = findUser.ma_vai_tro2) === null || _a === void 0 ? void 0 : _a.phan_quyen) || null, ten_vai_tro: ((_b = findUser.ma_vai_tro2) === null || _b === void 0 ? void 0 : _b.ten_vai_tro) || null });
         delete createUser.ma_vai_tro2;
         return createUser;
     }
     async findOneByEmail(email) {
+        var _a, _b;
         const findUser = await this.nguoiDungRepo.findOne({
             where: { email: email, trang_thai: contanst_1.STATUS.ACTIVE },
             relations: { ma_vai_tro2: true },
@@ -80,7 +84,7 @@ let UserService = class UserService {
         if (!findUser) {
             throw new Error(contanst_1.CORE_COMMON_ERROR.NOT_FOUND_OR_INACTIVE);
         }
-        const createUser = Object.assign(Object.assign({}, findUser), { phan_quyen: findUser.ma_vai_tro2.phan_quyen, ten_vai_tro: findUser.ma_vai_tro2.ten_vai_tro });
+        const createUser = Object.assign(Object.assign({}, findUser), { phan_quyen: ((_a = findUser.ma_vai_tro2) === null || _a === void 0 ? void 0 : _a.phan_quyen) || null, ten_vai_tro: ((_b = findUser.ma_vai_tro2) === null || _b === void 0 ? void 0 : _b.ten_vai_tro) || null });
         delete createUser.ma_vai_tro2;
         return createUser;
     }

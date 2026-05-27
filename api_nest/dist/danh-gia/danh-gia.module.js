@@ -12,14 +12,14 @@ const typeorm_1 = require("@nestjs/typeorm");
 const danh_gia_service_1 = require("./danh-gia.service");
 const danh_gia_controller_1 = require("./danh-gia.controller");
 const danh_gia_entity_1 = require("../database/entities/danh-gia.entity");
-const khach_hang_entity_1 = require("../database/entities/khach-hang.entity");
+const nguoi_dung_entity_1 = require("../database/entities/auth/nguoi-dung.entity");
 let DanhGiaModule = class DanhGiaModule {
 };
 DanhGiaModule = __decorate([
     (0, common_1.Global)(),
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([danh_gia_entity_1.DanhGia, khach_hang_entity_1.KhachHang])
+            typeorm_1.TypeOrmModule.forFeature([danh_gia_entity_1.DanhGia, nguoi_dung_entity_1.NguoiDung])
         ],
         controllers: [danh_gia_controller_1.DanhGiaController],
         providers: [danh_gia_service_1.DanhGiaService],

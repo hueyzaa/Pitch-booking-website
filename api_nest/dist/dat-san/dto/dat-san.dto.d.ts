@@ -1,6 +1,6 @@
 export declare class CreateDatSanDto {
     ma_dat_san?: string;
-    id_khach_hang: number;
+    id_nguoi_dung: number;
     id_san: number;
     ngay_dat: string;
     gio_bat_dau: string;
@@ -14,7 +14,7 @@ export declare class CreateDatSanDto {
     nguoi_cap_nhat?: number;
 }
 export declare class UpdateDatSanDto {
-    id_khach_hang?: number;
+    id_nguoi_dung?: number;
     id_san?: number;
     ngay_dat?: string;
     gio_bat_dau?: string;

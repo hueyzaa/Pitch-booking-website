@@ -115,9 +115,9 @@ const FormDatSan = ({ isEditing = false, disabled = false }: FormDatSanProps) =>
 
       <BaseCol span={12}>
         <SelectFormApi
-          name='id_khach_hang'
+          name='id_nguoi_dung'
           label='Khách hàng'
-          path={API_URL.KHACH_HANG + '/options'}
+          path={API_URL.NGUOI_DUNG + '/options'}
           placeholder='Chọn khách hàng'
           disabled={disabled}
           rules={[{ required: true, message: 'Khách hàng không được bỏ trống' }]}

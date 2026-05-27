@@ -14,13 +14,14 @@ import { Tinh } from '../common/tinh.entity';
 import { VaiTro } from './vai-tro.entity';
 import { Xa } from '../common/xa.entity';
 import { NguoiDungVaiTro } from './nguoi-dung-vai-tro.entity';
+import { DoiTuong } from '../doi-tuong.entity';
 
 @Index('fk_nguoi_dung_vai_tro_1', ['ma_vai_tro'], {})
 @Index('idx_nd_email', ['email'], { unique: true })
 @Index('idx_nd_taikhoan', ['tai_khoan'], { unique: true })
 @Index('tinh_id', ['tinh_id'], {})
 @Index('xa_id', ['xa_id'], {})
-@Entity('nguoi_dung', {  synchronize: false })
+@Entity('nguoi_dung', { synchronize: false })
 export class NguoiDung {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
@@ -75,6 +76,12 @@ export class NguoiDung {
 
   @Column('text', { name: 'ho_va_ten' })
   ho_va_ten: string;
+
+  @Column('int', { name: 'id_doi_tuong', nullable: true })
+  id_doi_tuong: number | null;
+
+  @Column('text', { name: 'san_yeu_thich', nullable: true })
+  san_yeu_thich: string | null;
 
   @Column('date', { name: 'ngay_sinh' })
   ngay_sinh: Date;
@@ -141,6 +148,10 @@ export class NguoiDung {
   })
   @JoinColumn([{ name: 'xa_id', referencedColumnName: 'id' }])
   xa: Xa;
+
+  @ManyToOne(() => DoiTuong, { onDelete: 'RESTRICT', onUpdate: 'CASCADE' })
+  @JoinColumn({ name: 'id_doi_tuong' })
+  doi_tuong: DoiTuong;
 
   @OneToMany(
     () => NguoiDungThietBi,

@@ -144,20 +144,23 @@ export const EventGalleryUpload: React.FC<EventGalleryUploadProps> = ({ value, o
   const { t } = useTranslation();
   const resolvedUploadText = uploadText || 'Tải lên';
 
-  const fileList = React.useMemo<UploadFile[]>(() => (Array.isArray(value) ? value : []), [value]);
-
-  const resolvedFiles = React.useMemo(() => {
-    return fileList.map((item: any, index) => {
-      // Handle when item is a raw string (e.g. from raw API data)
+  const fileList = React.useMemo<UploadFile[]>(() => {
+    const rawList = Array.isArray(value) ? value : [];
+    return rawList.map((item: any, index) => {
       if (typeof item === 'string') {
         return {
-          key: `gallery-str-${index}`,
-          file: { uid: `gallery-str-${index}`, name: item.split('/').pop() || 'image.png', url: item } as any,
-          url: normalizeImageUrl(apiURL, item)
-        };
+          uid: `gallery-str-${index}`,
+          name: item.split('/').pop() || 'image.png',
+          status: 'done',
+          url: item,
+        } as UploadFile;
       }
+      return item as UploadFile;
+    });
+  }, [value]);
 
-      const file = item as UploadFile;
+  const resolvedFiles = React.useMemo(() => {
+    return fileList.map((file, index) => {
       const rawFile = file.originFileObj;
 
       if (isBlobLike(rawFile)) {

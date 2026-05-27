@@ -172,6 +172,9 @@ let AuthService = AuthService_1 = class AuthService {
     }
     async handleLoginSuccess(payload, device_id, authConfig) {
         const findUser = await this.userService.findOneByUsernameOrEmailOrSDT(payload.tai_khoan);
+        if (payload.app_type === 'admin' && findUser.ma_vai_tro === 'CUSTOMER') {
+            throw new core_exception_1.HttpCoreException('Tài khoản không có quyền truy cập trang quản trị', contanst_1.HTTP_CODE.FORBIDDEN);
+        }
         const isDeviceVerified = await auth_helpers_1.AuthHelpers.checkDeviceInCache(this.cacheManager, findUser.id, device_id);
         if (!isDeviceVerified && authConfig.TWO_FACTOR_AUTH === contanst_1.STATUS.ACTIVE) {
             await this.otpService.handleOtp(findUser);

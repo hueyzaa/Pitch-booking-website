@@ -45,13 +45,13 @@ const Footer: React.FC<FooterProps> = ({ config }) => {
               marginBottom: '16px',
             }}
           >
-            {logo ? (
+            {logo && (
               <img 
                 src={resolveAssetUrl(logo)} 
                 alt={title} 
                 style={{ height: '36px', objectFit: 'contain' }} 
               />
-            ) : null}
+            )}
             <span>{title}</span>
           </div>
           <p

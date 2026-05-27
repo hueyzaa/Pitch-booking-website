@@ -4,6 +4,7 @@ import { Tinh } from '../common/tinh.entity';
 import { VaiTro } from './vai-tro.entity';
 import { Xa } from '../common/xa.entity';
 import { NguoiDungVaiTro } from './nguoi-dung-vai-tro.entity';
+import { DoiTuong } from '../doi-tuong.entity';
 export declare class NguoiDung {
     id: number;
     nguoi_tao: number;
@@ -20,6 +21,8 @@ export declare class NguoiDung {
     ho: string;
     ten: string;
     ho_va_ten: string;
+    id_doi_tuong: number | null;
+    san_yeu_thich: string | null;
     ngay_sinh: Date;
     gioi_tinh: number;
     dia_chi: string;
@@ -34,6 +37,7 @@ export declare class NguoiDung {
     ma_vai_tro2: VaiTro;
     tinh: Tinh;
     xa: Xa;
+    doi_tuong: DoiTuong;
     nguoi_dung_thiet_bis: NguoiDungThietBi[];
     thong_baos: ThongBao[];
     nguoi_dung_vai_tros: NguoiDungVaiTro[];

@@ -75,9 +75,9 @@ const FormThuChi = ({ isEditing = false, disabled = false }: FormThuChiProps) =>
 
       <BaseCol span={12}>
         <SelectFormApi
-          name="id_khach_hang"
+          name="id_nguoi_dung"
           label="Khách hàng"
-          path={API_URL.KHACH_HANG + '/options'}
+          path={API_URL.NGUOI_DUNG + '/options'}
           placeholder="Chọn khách hàng (nếu có)"
           disabled={disabled}
         />

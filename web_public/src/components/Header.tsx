@@ -78,13 +78,13 @@ const Header: React.FC<HeaderProps> = ({ config }) => {
                 lineHeight: '32px',
               }}
             >
-              {logo ? (
+              {logo && (
                 <img 
                   src={resolveAssetUrl(logo)} 
                   alt={title} 
                   style={{ height: '40px', objectFit: 'contain' }} 
                 />
-              ) : null}
+              )}
               <span>{title}</span>
             </Link>
 

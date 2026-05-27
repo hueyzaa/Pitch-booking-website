@@ -100,15 +100,15 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             style={{
-              fontSize: 'clamp(32px, 5vw, 48px)',
-              lineHeight: 1.2,
-              fontWeight: 700,
+              fontSize: 'clamp(40px, 6vw, 64px)',
+              lineHeight: 1.15,
+              fontWeight: 800,
               color: '#ffffff',
               marginBottom: '24px',
               letterSpacing: '-0.02em',
             }}
           >
-            {mainTitle} <span style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--primary-fixed-dim)' }}>{accentTitle}</span><br />
+            {mainTitle} <span style={{ fontStyle: 'italic', fontWeight: 400, color: '#6ee7b7' }}>{accentTitle}</span><br />
             {titleSuffix}
           </motion.h1>
 
@@ -210,8 +210,8 @@ const Hero: React.FC = () => {
           justify-content: center;
           gap: 8px;
           padding: 16px 32px;
-          background: var(--primary-container);
-          color: var(--on-primary-container);
+          background: var(--primary);
+          color: var(--on-primary);
           border: none;
           border-radius: 12px;
           font-family: var(--font-main);
@@ -220,9 +220,12 @@ const Hero: React.FC = () => {
           cursor: pointer;
           transition: all 0.2s;
           white-space: nowrap;
+          box-shadow: 0 4px 14px rgba(0, 108, 73, 0.4);
         }
         .hero-search__btn:hover {
-          opacity: 0.9;
+          background: var(--primary-container);
+          color: var(--on-primary-container);
+          transform: translateY(-1px);
         }
         @media (max-width: 600px) {
           .hero-search {

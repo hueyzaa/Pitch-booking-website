@@ -5,7 +5,7 @@ export interface ThuChiEntity {
   so_tien: number;
   ngay_giao_dich: string;
   mo_ta: string | null;
-  id_khach_hang: number | null;
+  id_nguoi_dung: number | null;
   ten_khach_hang: string | null;
   id_san: number | null;
   ten_san: string | null;
@@ -21,7 +21,7 @@ export interface ThuChiFormValues {
   danh_muc: string;
   so_tien: number;
   ngay_giao_dich: any;
-  id_khach_hang?: number;
+  id_nguoi_dung?: number;
   id_san?: number;
   mo_ta?: string;
   ghi_chu?: string;

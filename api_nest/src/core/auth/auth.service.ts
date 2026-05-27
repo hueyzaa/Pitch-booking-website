@@ -316,6 +316,13 @@ export class AuthService {
       payload.tai_khoan,
     );
 
+    if (payload.app_type === 'admin' && findUser.ma_vai_tro === 'CUSTOMER') {
+      throw new HttpCoreException(
+        'Tài khoản không có quyền truy cập trang quản trị',
+        HTTP_CODE.FORBIDDEN,
+      );
+    }
+
     // Kiểm tra thiết bị đã được xác thực chưa
     const isDeviceVerified = await AuthHelpers.checkDeviceInCache(
       this.cacheManager,

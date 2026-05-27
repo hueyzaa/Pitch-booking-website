@@ -56,8 +56,8 @@ import { CauHinhTrangModule } from './cau-hinh-trang/cau-hinh-trang.module';
 import { LoaiSanModule } from './loai-san/loai-san.module';
 import { SanModule } from './san/san.module';
 import { DoiTuongModule } from './doi-tuong/doi-tuong.module';
-import { KhachHangModule } from './khach-hang/khach-hang.module';
-import { BangGiaModule } from './bang-gia/bang-gia.module';
+
+
 import { QuanLyGiaModule } from './quan-ly-gia/quan-ly-gia.module';
 import { ThuChiModule } from './thu-chi/thu-chi.module';
 import { TrangThaiSanModule } from './trang-thai-san/trang-thai-san.module';
@@ -127,8 +127,8 @@ import { DanhGiaModule } from './danh-gia/danh-gia.module';
     LoaiSanModule,
     SanModule,
     DoiTuongModule,
-    KhachHangModule,
-    BangGiaModule,
+
+
     QuanLyGiaModule,
     ThuChiModule,
     TrangThaiSanModule,

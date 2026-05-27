@@ -25,9 +25,9 @@ export class CreateThuChiDto {
   mo_ta?: string;
 
   @IsOptional()
-  @IsInt({ message: 'ID Khách hàng phải là số nguyên' })
+  @IsInt({ message: 'ID Người dùng phải là số nguyên' })
   @Type(() => Number)
-  id_khach_hang?: number;
+  id_nguoi_dung?: number;
 
   @IsOptional()
   @IsInt({ message: 'ID Sân phải là số nguyên' })
@@ -65,9 +65,9 @@ export class UpdateThuChiDto {
   mo_ta?: string;
 
   @IsOptional()
-  @IsInt({ message: 'ID Khách hàng phải là số nguyên' })
+  @IsInt({ message: 'ID Người dùng phải là số nguyên' })
   @Type(() => Number)
-  id_khach_hang?: number;
+  id_nguoi_dung?: number;
 
   @IsOptional()
   @IsInt({ message: 'ID Sân phải là số nguyên' })

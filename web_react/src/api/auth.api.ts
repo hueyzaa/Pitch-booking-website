@@ -12,7 +12,7 @@ export const Login = async (values: LoginFormData, reCapchaValue?: string) => {
     persistDeviceId(uuidv4());
   }
   try {
-    const resp: IApiSuccess = await apiInstance.post(API_URL.LOGIN, values, {
+    const resp: IApiSuccess = await apiInstance.post(API_URL.LOGIN, { ...values, app_type: 'admin' }, {
       headers: {
         re_capcha_token: reCapchaValue
       }

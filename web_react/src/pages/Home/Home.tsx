@@ -155,7 +155,7 @@ const Home: React.FC = () => {
       }
 
       // 3. Fetch customers count
-      const customers = await getListData(API_URL.KHACH_HANG, {
+      const customers = await getListData(API_URL.NGUOI_DUNG, {
         page: 1,
         limit: -1
       });

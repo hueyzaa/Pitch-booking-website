@@ -1,7 +1,7 @@
 export interface DatSanEntity {
   id: number;
   ma_dat_san: string;
-  id_khach_hang: number;
+  id_nguoi_dung: number;
   ten_khach_hang: string;
   so_dien_thoai_khach_hang: string;
   id_san: number;
@@ -25,7 +25,7 @@ export interface DatSanEntity {
 
 export interface DatSanFormValues {
   ma_dat_san?: string;
-  id_khach_hang: number;
+  id_nguoi_dung: number;
   id_san: number;
   id_doi_tuong?: number | null;
   phan_tram_giam_gia?: number;

@@ -3,16 +3,16 @@ import { DatabaseService } from 'src/database/database.service';
 import { FilterData } from 'src/database/interfaces/filter-data.interface';
 import { DataSource, FindManyOptions, FindOptionsWhere, Repository } from 'typeorm';
 import { DanhGia } from '../database/entities/danh-gia.entity';
-import { KhachHang } from '../database/entities/khach-hang.entity';
+import { NguoiDung } from '../database/entities/auth/nguoi-dung.entity';
 import { CreateDanhGiaDto, PublicCreateDanhGiaDto, UpdateDanhGiaDto } from './dto/danh-gia.dto';
 export declare class DanhGiaService {
     private readonly databaseService;
     private danhGiaRepo;
-    private khachHangRepo;
+    private nguoiDungRepo;
     private cacheManager;
     private readonly dataSource;
     private readonly logger;
-    constructor(databaseService: DatabaseService, danhGiaRepo: Repository<DanhGia>, khachHangRepo: Repository<KhachHang>, cacheManager: Cache, dataSource: DataSource);
+    constructor(databaseService: DatabaseService, danhGiaRepo: Repository<DanhGia>, nguoiDungRepo: Repository<NguoiDung>, cacheManager: Cache, dataSource: DataSource);
     create(createDanhGiaDto: CreateDanhGiaDto): Promise<CreateDanhGiaDto & DanhGia>;
     findAllWithPagination(filters: FilterData): Promise<import("src/database/database.service").PaginationResult<any>>;
     findAll(options?: FindManyOptions<DanhGia>): Promise<DanhGia[]>;
@@ -23,6 +23,7 @@ export declare class DanhGiaService {
     removeBy(where: FindOptionsWhere<DanhGia>): Promise<import("typeorm").UpdateResult>;
     deleteBy(where: FindOptionsWhere<DanhGia>): Promise<import("typeorm").DeleteResult>;
     findForSelectOptions(filters: FilterData): Promise<import("src/database/database.service").PaginationResult<any>>;
+    getLatestPublicReviews(limit?: number): Promise<any[]>;
     findBySanId(idSan: number, page?: number, limit?: number): Promise<{
         collection: any[];
         total: number;
@@ -34,4 +35,5 @@ export declare class DanhGiaService {
         total_reviews: number;
     }>;
     publicCreate(dto: PublicCreateDanhGiaDto): Promise<DanhGia>;
+    getLatestGoodReviews(limit?: number): Promise<any[]>;
 }

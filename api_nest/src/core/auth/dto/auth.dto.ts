@@ -85,6 +85,14 @@ export class LoginUserDto {
    * @optional
    */
   firebase_token?: string;
+  
+  /**
+   * Phân biệt luồng đăng nhập (admin / public)
+   * 
+   * @type {string}
+   * @optional
+   */
+  app_type?: string;
 }
 
 // ============================================================================

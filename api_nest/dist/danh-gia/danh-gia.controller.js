@@ -28,6 +28,9 @@ let DanhGiaController = DanhGiaController_1 = class DanhGiaController {
         this.helperService = helperService;
         this.logger = new common_1.Logger(DanhGiaController_1.name);
     }
+    async getLatestPublicReviews(limit = '6') {
+        return this.danhGiaService.getLatestPublicReviews(+limit);
+    }
     async getSummaryBySan(idSan) {
         if (!idSan || isNaN(+idSan)) {
             throw new core_exception_1.HttpCoreException('ID sân không hợp lệ', '400');
@@ -81,6 +84,14 @@ let DanhGiaController = DanhGiaController_1 = class DanhGiaController {
         return this.danhGiaService.remove(+id);
     }
 };
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)('public/latest'),
+    __param(0, (0, common_1.Query)('limit')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], DanhGiaController.prototype, "getLatestPublicReviews", null);
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)('public/summary/:id_san'),

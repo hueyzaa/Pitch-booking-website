@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { KhachHang } from './khach-hang.entity';
+import { NguoiDung } from './auth/nguoi-dung.entity';
 import { San } from './san.entity';
 import { DoiTuong } from './doi-tuong.entity';
 
@@ -17,8 +17,8 @@ export class DatSan {
   @Column('varchar', { name: 'ma_dat_san', unique: true, length: 50 })
   ma_dat_san: string;
 
-  @Column('int', { name: 'id_khach_hang' })
-  id_khach_hang: number;
+  @Column('int', { name: 'id_nguoi_dung' })
+  id_nguoi_dung: number;
 
   @Column('int', { name: 'id_san' })
   id_san: number;
@@ -67,9 +67,9 @@ export class DatSan {
   })
   ngay_cap_nhat: Date;
 
-  @ManyToOne(() => KhachHang, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-  @JoinColumn({ name: 'id_khach_hang' })
-  khach_hang: KhachHang;
+  @ManyToOne(() => NguoiDung, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @JoinColumn({ name: 'id_nguoi_dung' })
+  nguoi_dung: NguoiDung;
 
   @ManyToOne(() => San, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'id_san' })

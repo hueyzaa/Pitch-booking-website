@@ -42,11 +42,11 @@ export const ThuChiFilterForm = ({ onSearch, onReset, isLoading = false }: ThuCh
       });
     }
 
-    if (values.id_khach_hang) {
+    if (values.id_nguoi_dung) {
       filters.push({
-        field: 'thu_chi.id_khach_hang',
+        field: 'thu_chi.id_nguoi_dung',
         operator: 'equal',
-        value: values.id_khach_hang
+        value: values.id_nguoi_dung
       });
     }
 
@@ -103,10 +103,10 @@ export const ThuChiFilterForm = ({ onSearch, onReset, isLoading = false }: ThuCh
 
         <BaseCol xs={24} sm={12} lg={6}>
           <SelectFormApi
-            name='id_khach_hang'
+            name='id_nguoi_dung'
             label='Khách hàng'
             placeholder='Chọn khách hàng'
-            path={API_URL.KHACH_HANG + '/options'}
+            path={API_URL.NGUOI_DUNG + '/options'}
             size='small'
           />
         </BaseCol>

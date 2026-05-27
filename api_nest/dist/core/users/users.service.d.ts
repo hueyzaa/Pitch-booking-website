@@ -37,6 +37,8 @@ export declare class UsersService {
         ho: string;
         ten: string;
         ho_va_ten: string;
+        id_doi_tuong: number;
+        san_yeu_thich: string;
         ngay_sinh: Date;
         gioi_tinh: number;
         dia_chi: string;
@@ -51,6 +53,7 @@ export declare class UsersService {
         ma_vai_tro2: VaiTro;
         tinh: import("../../database/entities/common/tinh.entity").Tinh;
         xa: import("../../database/entities/common/xa.entity").Xa;
+        doi_tuong: import("../../database/entities/doi-tuong.entity").DoiTuong;
         nguoi_dung_thiet_bis: import("../../database/entities/auth/nguoi-dung-thiet-bi.entity").NguoiDungThietBi[];
         thong_baos: import("../../database/entities/system/thong-bao.entity").ThongBao[];
         nguoi_dung_vai_tros: NguoiDungVaiTro[];

@@ -13,7 +13,7 @@ import {
 import { ThuChi } from '../database/entities/thu-chi.entity';
 import { NguoiDung } from '../database/entities/auth/nguoi-dung.entity';
 import { San } from '../database/entities/san.entity';
-import { KhachHang } from '../database/entities/khach-hang.entity';
+
 import { CreateThuChiDto, UpdateThuChiDto } from './dto/thu-chi.dto';
 
 @Injectable()
@@ -47,9 +47,9 @@ export class ThuChiService {
           'nguoi_cap_nhat.id = thu_chi.nguoi_cap_nhat',
         )
         .leftJoin(
-          KhachHang,
-          'khach_hang',
-          'khach_hang.id = thu_chi.id_khach_hang',
+          NguoiDung,
+          'nguoi_dung',
+          'nguoi_dung.id = thu_chi.id_nguoi_dung',
         )
         .leftJoin(San, 'san', 'san.id = thu_chi.id_san'),
       [
@@ -59,8 +59,8 @@ export class ThuChiService {
         'thu_chi.so_tien as so_tien',
         'thu_chi.ngay_giao_dich as ngay_giao_dich',
         'thu_chi.mo_ta as mo_ta',
-        'thu_chi.id_khach_hang as id_khach_hang',
-        'khach_hang.ho_va_ten as ten_khach_hang',
+        'thu_chi.id_nguoi_dung as id_nguoi_dung',
+        'nguoi_dung.ho_va_ten as ten_khach_hang',
         'thu_chi.id_san as id_san',
         'san.ten_san as ten_san',
         'thu_chi.ghi_chu as ghi_chu',

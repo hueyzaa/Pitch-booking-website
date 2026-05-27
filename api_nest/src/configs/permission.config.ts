@@ -176,18 +176,7 @@ export const permissions = [
       showMenu: true,
     },
   },
-  {
-    name: 'bang-gia',
-    actions: {
-      index: true,
-      create: true,
-      show: true,
-      edit: true,
-      delete: true,
-      export: true,
-      showMenu: true,
-    },
-  },
+
   {
     name: 'quan-ly-gia',
     actions: {

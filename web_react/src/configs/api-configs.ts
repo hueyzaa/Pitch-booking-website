@@ -24,8 +24,8 @@ export const API_URL = {
   LOAI_SAN: '/loai-san',
   SAN: '/san',
   DOI_TUONG: '/doi-tuong',
-  KHACH_HANG: '/khach-hang',
-  BANG_GIA: '/bang-gia',
+
+
   QUAN_LY_GIA: '/quan-ly-gia',
   THU_CHI: '/thu-chi',
   TRANG_THAI_SAN: '/trang-thai-san',

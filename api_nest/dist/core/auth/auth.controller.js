@@ -26,7 +26,8 @@ const otp_service_1 = require("../otp/otp.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const nguoi_dung_entity_1 = require("../../database/entities/auth/nguoi-dung.entity");
-const khach_hang_entity_1 = require("../../database/entities/khach-hang.entity");
+const vai_tro_entity_1 = require("../../database/entities/auth/vai-tro.entity");
+const nguoi_dung_vai_tro_entity_1 = require("../../database/entities/auth/nguoi-dung-vai-tro.entity");
 const helper_service_1 = require("../../helper/helper.service");
 const core_exception_1 = require("../exceptions/core.exception");
 let AuthController = class AuthController {
@@ -41,7 +42,6 @@ let AuthController = class AuthController {
     }
     async register(body) {
         const nguoiDungRepo = this.dataSource.getRepository(nguoi_dung_entity_1.NguoiDung);
-        const khachHangRepo = this.dataSource.getRepository(khach_hang_entity_1.KhachHang);
         const existingUser = await nguoiDungRepo.findOne({
             where: [
                 { tai_khoan: body.tai_khoan },
@@ -69,28 +69,20 @@ let AuthController = class AuthController {
             xa_id: body.xa_id || 0,
             ma_vai_tro: 'USER',
             trang_thai: 1,
-            nguoi_tao: 0,
-            nguoi_cap_nhat: 0,
-        });
-        const savedUser = await nguoiDungRepo.save(newUser);
-        const newCustomer = khachHangRepo.create({
-            ho: body.ho || '',
-            ten: body.ten || '',
-            ho_va_ten: ho_va_ten || 'Khách hàng',
-            tai_khoan: body.tai_khoan,
-            mat_khau: hashedPassword,
-            email: body.email,
-            so_dien_thoai: body.so_dien_thoai,
-            ngay_sinh: body.ngay_sinh ? new Date(body.ngay_sinh) : new Date(),
-            gioi_tinh: body.gioi_tinh !== undefined ? body.gioi_tinh : 1,
-            dia_chi: body.dia_chi || '',
-            tinh_id: body.tinh_id || 0,
-            xa_id: body.xa_id || 0,
             id_doi_tuong: 1,
             nguoi_tao: 0,
             nguoi_cap_nhat: 0,
         });
-        await khachHangRepo.save(newCustomer);
+        const savedUser = await nguoiDungRepo.save(newUser);
+        const vaiTroRepo = this.dataSource.getRepository(vai_tro_entity_1.VaiTro);
+        const nguoiDungVaiTroRepo = this.dataSource.getRepository(nguoi_dung_vai_tro_entity_1.NguoiDungVaiTro);
+        const customerRole = await vaiTroRepo.findOne({ where: { ma_vai_tro: 'USER' } });
+        if (customerRole) {
+            await nguoiDungVaiTroRepo.save(nguoiDungVaiTroRepo.create({
+                nguoi_dung_id: savedUser.id,
+                vai_tro_id: customerRole.id,
+            }));
+        }
         return {
             message: 'Đăng ký tài khoản thành công',
             user: {

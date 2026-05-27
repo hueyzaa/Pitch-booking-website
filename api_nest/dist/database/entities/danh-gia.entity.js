@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DanhGia = void 0;
 const typeorm_1 = require("typeorm");
-const khach_hang_entity_1 = require("./khach-hang.entity");
+const nguoi_dung_entity_1 = require("./auth/nguoi-dung.entity");
 const san_entity_1 = require("./san.entity");
 let DanhGia = class DanhGia {
 };
@@ -20,9 +20,9 @@ __decorate([
     __metadata("design:type", Number)
 ], DanhGia.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)('int', { name: 'id_khach_hang' }),
+    (0, typeorm_1.Column)('int', { name: 'id_nguoi_dung' }),
     __metadata("design:type", Number)
-], DanhGia.prototype, "id_khach_hang", void 0);
+], DanhGia.prototype, "id_nguoi_dung", void 0);
 __decorate([
     (0, typeorm_1.Column)('int', { name: 'id_san' }),
     __metadata("design:type", Number)
@@ -60,10 +60,10 @@ __decorate([
     __metadata("design:type", Date)
 ], DanhGia.prototype, "ngay_cap_nhat", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => khach_hang_entity_1.KhachHang, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
-    (0, typeorm_1.JoinColumn)({ name: 'id_khach_hang' }),
-    __metadata("design:type", khach_hang_entity_1.KhachHang)
-], DanhGia.prototype, "khach_hang", void 0);
+    (0, typeorm_1.ManyToOne)(() => nguoi_dung_entity_1.NguoiDung, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    (0, typeorm_1.JoinColumn)({ name: 'id_nguoi_dung' }),
+    __metadata("design:type", nguoi_dung_entity_1.NguoiDung)
+], DanhGia.prototype, "nguoi_dung", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => san_entity_1.San, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'id_san' }),

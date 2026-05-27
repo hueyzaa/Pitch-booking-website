@@ -23,7 +23,7 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
-], CreateDatSanDto.prototype, "id_khach_hang", void 0);
+], CreateDatSanDto.prototype, "id_nguoi_dung", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsInt)(),
@@ -88,7 +88,7 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
-], UpdateDatSanDto.prototype, "id_khach_hang", void 0);
+], UpdateDatSanDto.prototype, "id_nguoi_dung", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsInt)(),

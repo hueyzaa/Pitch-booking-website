@@ -8,6 +8,7 @@ export declare class DanhGiaController {
     private readonly helperService;
     private readonly logger;
     constructor(danhGiaService: DanhGiaService, helperService: HelperService);
+    getLatestPublicReviews(limit?: string): Promise<any[]>;
     getSummaryBySan(idSan: string): Promise<{
         avg_rating: number;
         total_reviews: number;

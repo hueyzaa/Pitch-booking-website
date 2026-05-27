@@ -13,7 +13,9 @@ const FeaturedPitches: React.FC = () => {
     const fetchFeatured = async () => {
       try {
         const response = await getPitches({ limit: 3 });
-        if (response && Array.isArray(response.data)) {
+        if (response && Array.isArray(response.collection)) {
+          setPitches(response.collection);
+        } else if (response && Array.isArray(response.data)) {
           setPitches(response.data);
         } else if (Array.isArray(response)) {
           setPitches(response.slice(0, 3));

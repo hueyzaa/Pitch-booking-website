@@ -22,7 +22,6 @@ const typeorm_2 = require("typeorm");
 const thu_chi_entity_1 = require("../database/entities/thu-chi.entity");
 const nguoi_dung_entity_1 = require("../database/entities/auth/nguoi-dung.entity");
 const san_entity_1 = require("../database/entities/san.entity");
-const khach_hang_entity_1 = require("../database/entities/khach-hang.entity");
 let ThuChiService = ThuChiService_1 = class ThuChiService {
     constructor(databaseService, thuChiRepo, cacheManager, dataSource) {
         this.databaseService = databaseService;
@@ -39,7 +38,7 @@ let ThuChiService = ThuChiService_1 = class ThuChiService {
             .createQueryBuilder('thu_chi')
             .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_tao', 'nguoi_tao.id = thu_chi.nguoi_tao')
             .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_cap_nhat', 'nguoi_cap_nhat.id = thu_chi.nguoi_cap_nhat')
-            .leftJoin(khach_hang_entity_1.KhachHang, 'khach_hang', 'khach_hang.id = thu_chi.id_khach_hang')
+            .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_dung', 'nguoi_dung.id = thu_chi.id_nguoi_dung')
             .leftJoin(san_entity_1.San, 'san', 'san.id = thu_chi.id_san'), [
             'thu_chi.id as id',
             'thu_chi.loai_giao_dich as loai_giao_dich',
@@ -47,8 +46,8 @@ let ThuChiService = ThuChiService_1 = class ThuChiService {
             'thu_chi.so_tien as so_tien',
             'thu_chi.ngay_giao_dich as ngay_giao_dich',
             'thu_chi.mo_ta as mo_ta',
-            'thu_chi.id_khach_hang as id_khach_hang',
-            'khach_hang.ho_va_ten as ten_khach_hang',
+            'thu_chi.id_nguoi_dung as id_nguoi_dung',
+            'nguoi_dung.ho_va_ten as ten_khach_hang',
             'thu_chi.id_san as id_san',
             'san.ten_san as ten_san',
             'thu_chi.ghi_chu as ghi_chu',

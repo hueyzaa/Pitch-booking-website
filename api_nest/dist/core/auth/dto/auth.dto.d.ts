@@ -2,6 +2,7 @@ export declare class LoginUserDto {
     tai_khoan: string;
     mat_khau: string;
     firebase_token?: string;
+    app_type?: string;
 }
 export declare class ResetPasswordDto {
     token_reset_pass: string;

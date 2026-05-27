@@ -17,6 +17,7 @@ const tinh_entity_1 = require("../common/tinh.entity");
 const vai_tro_entity_1 = require("./vai-tro.entity");
 const xa_entity_1 = require("../common/xa.entity");
 const nguoi_dung_vai_tro_entity_1 = require("./nguoi-dung-vai-tro.entity");
+const doi_tuong_entity_1 = require("../doi-tuong.entity");
 let NguoiDung = class NguoiDung {
 };
 __decorate([
@@ -88,6 +89,14 @@ __decorate([
     (0, typeorm_1.Column)('text', { name: 'ho_va_ten' }),
     __metadata("design:type", String)
 ], NguoiDung.prototype, "ho_va_ten", void 0);
+__decorate([
+    (0, typeorm_1.Column)('int', { name: 'id_doi_tuong', nullable: true }),
+    __metadata("design:type", Number)
+], NguoiDung.prototype, "id_doi_tuong", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text', { name: 'san_yeu_thich', nullable: true }),
+    __metadata("design:type", String)
+], NguoiDung.prototype, "san_yeu_thich", void 0);
 __decorate([
     (0, typeorm_1.Column)('date', { name: 'ngay_sinh' }),
     __metadata("design:type", Date)
@@ -168,6 +177,11 @@ __decorate([
     (0, typeorm_1.JoinColumn)([{ name: 'xa_id', referencedColumnName: 'id' }]),
     __metadata("design:type", xa_entity_1.Xa)
 ], NguoiDung.prototype, "xa", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => doi_tuong_entity_1.DoiTuong, { onDelete: 'RESTRICT', onUpdate: 'CASCADE' }),
+    (0, typeorm_1.JoinColumn)({ name: 'id_doi_tuong' }),
+    __metadata("design:type", doi_tuong_entity_1.DoiTuong)
+], NguoiDung.prototype, "doi_tuong", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => nguoi_dung_thiet_bi_entity_1.NguoiDungThietBi, (nguoi_dung_thiet_bi) => nguoi_dung_thiet_bi.nguoi_dung),
     __metadata("design:type", Array)

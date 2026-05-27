@@ -54,9 +54,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     <aside className="filter-sidebar">
       <div className="filter-sidebar__content">
         {/* Header */}
-        <h3 style={{ fontSize: '24px', fontWeight: 600, color: 'var(--on-surface)', marginBottom: '16px', lineHeight: '32px' }}>
-          Bộ lọc
-        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', borderBottom: '2px solid var(--surface-variant)', paddingBottom: '16px' }}>
+          <Icon name="tune" size={28} style={{ color: 'var(--primary)' }} />
+          <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--on-surface)', margin: 0 }}>
+            Bộ lọc tìm kiếm
+          </h3>
+        </div>
 
         {/* Location Dropdowns */}
         <div className="filter-section">
@@ -134,6 +137,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             value={priceRange}
             onChange={(e) => onPriceRangeChange(Number(e.target.value))}
             className="filter-slider"
+            style={{ '--val': priceRange } as React.CSSProperties}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', fontSize: '12px', fontWeight: 600, color: 'var(--on-surface-variant)' }}>
             <span>50k</span>
@@ -147,8 +151,8 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {[
               { key: 'wifi', label: 'Wifi miễn phí' },
-              { key: 'parking', label: 'Gửi xe' },
-              { key: 'canteen', label: 'Canteen / Nước uống' },
+              { key: 'local_parking', label: 'Gửi xe' },
+              { key: 'coffee', label: 'Canteen / Nước uống' },
               { key: 'shower', label: 'Phòng tắm / Thay đồ' },
             ].map((item) => (
               <label key={item.key} className="filter-checkbox">
@@ -163,9 +167,9 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           </div>
         </div>
 
-        <button onClick={onApplyFilters} className="btn btn-primary" style={{ width: '100%', borderRadius: '12px', padding: '14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-          <Icon name="filter_list" size={18} />
-          Áp dụng bộ lọc
+        <button onClick={onApplyFilters} className="btn btn-primary" style={{ width: '100%', borderRadius: '12px', padding: '14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 700, fontSize: '15px', marginTop: '12px' }}>
+          <Icon name="search" size={20} />
+          Tìm kiếm ngay
         </button>
       </div>
 
@@ -199,37 +203,48 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           align-items: center;
           gap: 12px;
           cursor: pointer;
-          font-size: 16px;
-          color: var(--on-surface-variant);
+          font-size: 15px;
+          color: var(--on-surface);
           transition: color 0.2s;
+          padding: 6px 0;
         }
         .filter-checkbox:hover {
           color: var(--primary);
         }
         .filter-checkbox input[type="checkbox"] {
-          width: 20px;
-          height: 20px;
-          border-radius: 4px;
-          border: 2px solid var(--outline);
+          width: 22px;
+          height: 22px;
+          border-radius: 6px;
+          border: 2px solid var(--outline-variant);
           accent-color: var(--primary);
           cursor: pointer;
+          transition: all 0.2s ease-in-out;
+        }
+        .filter-checkbox input[type="checkbox"]:checked {
+          border-color: var(--primary);
         }
         .filter-slider {
           width: 100%;
-          height: 6px;
-          background: var(--surface-container);
+          height: 8px;
+          background: linear-gradient(to right, var(--primary) 0%, var(--primary) calc((var(--val) - 50000) / 950000 * 100%), var(--surface-variant) calc((var(--val) - 50000) / 950000 * 100%), var(--surface-variant) 100%);
           border-radius: 8px;
           appearance: none;
           cursor: pointer;
-          accent-color: var(--primary);
+          outline: none;
         }
         .filter-slider::-webkit-slider-thumb {
           appearance: none;
-          width: 20px;
-          height: 20px;
-          background: var(--primary);
+          width: 24px;
+          height: 24px;
+          background: #fff;
+          border: 2px solid var(--primary);
           border-radius: 50%;
           cursor: pointer;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+          transition: transform 0.1s;
+        }
+        .filter-slider::-webkit-slider-thumb:hover {
+          transform: scale(1.1);
         }
         .filter-select {
           width: 100%;

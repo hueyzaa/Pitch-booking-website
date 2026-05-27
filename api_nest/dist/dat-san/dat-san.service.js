@@ -22,7 +22,6 @@ const typeorm_2 = require("typeorm");
 const dat_san_entity_1 = require("../database/entities/dat-san.entity");
 const nguoi_dung_entity_1 = require("../database/entities/auth/nguoi-dung.entity");
 const san_entity_1 = require("../database/entities/san.entity");
-const khach_hang_entity_1 = require("../database/entities/khach-hang.entity");
 const thu_chi_entity_1 = require("../database/entities/thu-chi.entity");
 const doi_tuong_entity_1 = require("../database/entities/doi-tuong.entity");
 const quan_ly_gia_entity_1 = require("../database/entities/quan-ly-gia.entity");
@@ -74,7 +73,7 @@ let DatSanService = DatSanService_1 = class DatSanService {
                     so_tien: booking.tong_tien,
                     ngay_giao_dich: booking.ngay_dat,
                     mo_ta: `Thu tiền đặt sân - ${booking.ma_dat_san}`,
-                    id_khach_hang: booking.id_khach_hang,
+                    id_nguoi_dung: booking.id_nguoi_dung,
                     id_san: booking.id_san,
                     nguoi_tao: booking.nguoi_tao || nguoi_cap_nhat,
                     nguoi_cap_nhat: nguoi_cap_nhat,
@@ -84,7 +83,7 @@ let DatSanService = DatSanService_1 = class DatSanService {
                 thuChi.so_tien = booking.tong_tien;
                 thuChi.ngay_giao_dich = booking.ngay_dat;
                 thuChi.mo_ta = `Thu tiền đặt sân - ${booking.ma_dat_san}`;
-                thuChi.id_khach_hang = booking.id_khach_hang;
+                thuChi.id_nguoi_dung = booking.id_nguoi_dung;
                 thuChi.id_san = booking.id_san;
                 thuChi.nguoi_cap_nhat = nguoi_cap_nhat;
             }
@@ -97,7 +96,7 @@ let DatSanService = DatSanService_1 = class DatSanService {
     async syncTrangThaiSan(bookingId, nguoi_cap_nhat) {
         const booking = await this.datSanRepo.findOne({
             where: { id: bookingId },
-            relations: ['khach_hang'],
+            relations: ['nguoi_dung'],
         });
         if (!booking)
             return;
@@ -105,8 +104,8 @@ let DatSanService = DatSanService_1 = class DatSanService {
             let trangThaiSan = await this.trangThaiSanRepo.findOneBy({
                 id_dat_san: booking.id,
             });
-            const tenKhachHang = booking.khach_hang
-                ? booking.khach_hang.ho_va_ten
+            const tenKhachHang = booking.nguoi_dung
+                ? booking.nguoi_dung.ho_va_ten
                 : 'Khách hàng';
             const ghiChu = booking.ghi_chu
                 ? booking.ghi_chu
@@ -141,10 +140,10 @@ let DatSanService = DatSanService_1 = class DatSanService {
     async calculateBookingAmount(dto, existingBooking) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         const id_san = (_a = dto.id_san) !== null && _a !== void 0 ? _a : existingBooking === null || existingBooking === void 0 ? void 0 : existingBooking.id_san;
-        const id_khach_hang = (_b = dto.id_khach_hang) !== null && _b !== void 0 ? _b : existingBooking === null || existingBooking === void 0 ? void 0 : existingBooking.id_khach_hang;
+        const id_nguoi_dung = (_b = dto.id_nguoi_dung) !== null && _b !== void 0 ? _b : existingBooking === null || existingBooking === void 0 ? void 0 : existingBooking.id_nguoi_dung;
         const gio_bat_dau = (_c = dto.gio_bat_dau) !== null && _c !== void 0 ? _c : existingBooking === null || existingBooking === void 0 ? void 0 : existingBooking.gio_bat_dau;
         const gio_ket_thuc = (_d = dto.gio_ket_thuc) !== null && _d !== void 0 ? _d : existingBooking === null || existingBooking === void 0 ? void 0 : existingBooking.gio_ket_thuc;
-        if (!id_san || !id_khach_hang || !gio_bat_dau || !gio_ket_thuc) {
+        if (!id_san || !id_nguoi_dung || !gio_bat_dau || !gio_ket_thuc) {
             return {
                 id_doi_tuong: (_f = (_e = dto.id_doi_tuong) !== null && _e !== void 0 ? _e : existingBooking === null || existingBooking === void 0 ? void 0 : existingBooking.id_doi_tuong) !== null && _f !== void 0 ? _f : null,
                 tong_tien: (_h = (_g = dto.tong_tien) !== null && _g !== void 0 ? _g : existingBooking === null || existingBooking === void 0 ? void 0 : existingBooking.tong_tien) !== null && _h !== void 0 ? _h : 0,
@@ -158,17 +157,17 @@ let DatSanService = DatSanService_1 = class DatSanService {
         const giaTheoGio = priceRule ? Number(priceRule.gia_theo_gio) : 0;
         let id_doi_tuong = dto.id_doi_tuong;
         let phanTramGiamGia = dto.phan_tram_giam_gia;
-        const khachHang = await this.dataSource.getRepository(khach_hang_entity_1.KhachHang).findOne({
-            where: { id: id_khach_hang },
+        const nguoiDung = await this.dataSource.getRepository(nguoi_dung_entity_1.NguoiDung).findOne({
+            where: { id: id_nguoi_dung },
             relations: ['doi_tuong'],
         });
-        if (khachHang) {
+        if (nguoiDung) {
             if (!id_doi_tuong) {
-                id_doi_tuong = khachHang.id_doi_tuong;
+                id_doi_tuong = nguoiDung.id_doi_tuong;
             }
             if (phanTramGiamGia === undefined || phanTramGiamGia === null) {
-                phanTramGiamGia = khachHang.doi_tuong
-                    ? khachHang.doi_tuong.phan_tram_giam_gia
+                phanTramGiamGia = nguoiDung.doi_tuong
+                    ? nguoiDung.doi_tuong.phan_tram_giam_gia
                     : 0;
             }
         }
@@ -231,11 +230,11 @@ let DatSanService = DatSanService_1 = class DatSanService {
         return slots;
     }
     async publicCreate(data) {
-        const khachHangRepo = this.dataSource.getRepository(khach_hang_entity_1.KhachHang);
-        const khachHang = await khachHangRepo.findOne({
+        const nguoiDungRepo = this.dataSource.getRepository(nguoi_dung_entity_1.NguoiDung);
+        const nguoiDung = await nguoiDungRepo.findOne({
             where: { tai_khoan: data.tai_khoan },
         });
-        if (!khachHang) {
+        if (!nguoiDung) {
             throw new core_exception_1.HttpCoreException('Không tìm thấy thông tin khách hàng. Vui lòng đăng nhập lại.', contanst_1.HTTP_CODE.BAD_REQUEST);
         }
         await this.validateMaintenance(data.id_san, data.ngay_dat, data.gio_bat_dau, data.gio_ket_thuc);
@@ -262,33 +261,33 @@ let DatSanService = DatSanService_1 = class DatSanService {
         const randomDigits = Math.floor(1000 + Math.random() * 9000);
         const ma_dat_san = `DS${dateStr}${randomDigits}`;
         const createDto = {
-            id_khach_hang: khachHang.id,
+            id_nguoi_dung: nguoiDung.id,
             id_san: data.id_san,
             ngay_dat: data.ngay_dat,
             gio_bat_dau: data.gio_bat_dau,
             gio_ket_thuc: data.gio_ket_thuc,
             tong_tien: data.tong_tien,
             trang_thai: 0,
-            ghi_chu: data.ghi_chu || `Đặt sân online - ${khachHang.ho_va_ten}`,
+            ghi_chu: data.ghi_chu || `Đặt sân online - ${nguoiDung.ho_va_ten}`,
         };
         const { id_doi_tuong, tong_tien, phan_tram_giam_gia } = await this.calculateBookingAmount(createDto);
         const dataToSave = Object.assign(Object.assign({}, createDto), { ma_dat_san,
-            id_doi_tuong, tong_tien: tong_tien || data.tong_tien, phan_tram_giam_gia, nguoi_tao: khachHang.nguoi_tao || 0, nguoi_cap_nhat: khachHang.nguoi_cap_nhat || 0 });
+            id_doi_tuong, tong_tien: tong_tien || data.tong_tien, phan_tram_giam_gia, nguoi_tao: nguoiDung.nguoi_tao || 0, nguoi_cap_nhat: nguoiDung.nguoi_cap_nhat || 0 });
         const savedBooking = await this.datSanRepo.save(dataToSave);
         await this.syncThuChi(savedBooking.id, savedBooking.nguoi_tao);
         await this.syncTrangThaiSan(savedBooking.id, savedBooking.nguoi_tao);
         return savedBooking;
     }
     async findByTaiKhoan(tai_khoan) {
-        const khachHangRepo = this.dataSource.getRepository(khach_hang_entity_1.KhachHang);
-        const khachHang = await khachHangRepo.findOne({
+        const nguoiDungRepo = this.dataSource.getRepository(nguoi_dung_entity_1.NguoiDung);
+        const nguoiDung = await nguoiDungRepo.findOne({
             where: { tai_khoan },
         });
-        if (!khachHang) {
+        if (!nguoiDung) {
             return [];
         }
         const bookings = await this.datSanRepo.find({
-            where: { id_khach_hang: khachHang.id },
+            where: { id_nguoi_dung: nguoiDung.id },
             relations: ['san', 'doi_tuong'],
             order: { ngay_dat: 'DESC', gio_bat_dau: 'DESC' },
         });
@@ -299,14 +298,14 @@ let DatSanService = DatSanService_1 = class DatSanService {
             .createQueryBuilder('dat_san')
             .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_tao', 'nguoi_tao.id = dat_san.nguoi_tao')
             .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_cap_nhat', 'nguoi_cap_nhat.id = dat_san.nguoi_cap_nhat')
-            .leftJoin(khach_hang_entity_1.KhachHang, 'khach_hang', 'khach_hang.id = dat_san.id_khach_hang')
+            .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_dung', 'nguoi_dung.id = dat_san.id_nguoi_dung')
             .leftJoin(san_entity_1.San, 'san', 'san.id = dat_san.id_san')
             .leftJoin(doi_tuong_entity_1.DoiTuong, 'doi_tuong', 'doi_tuong.id = dat_san.id_doi_tuong'), [
             'dat_san.id as id',
             'dat_san.ma_dat_san as ma_dat_san',
-            'dat_san.id_khach_hang as id_khach_hang',
-            'khach_hang.ho_va_ten as ten_khach_hang',
-            'khach_hang.so_dien_thoai as so_dien_thoai_khach_hang',
+            'dat_san.id_nguoi_dung as id_nguoi_dung',
+            'nguoi_dung.ho_va_ten as ten_khach_hang',
+            'nguoi_dung.so_dien_thoai as so_dien_thoai_khach_hang',
             'dat_san.id_san as id_san',
             'san.ten_san as ten_san',
             'dat_san.id_doi_tuong as id_doi_tuong',
@@ -330,7 +329,7 @@ let DatSanService = DatSanService_1 = class DatSanService {
     findOneById(id) {
         return this.datSanRepo.findOne({
             where: { id },
-            relations: ['khach_hang', 'san', 'doi_tuong'],
+            relations: ['nguoi_dung', 'san', 'doi_tuong'],
         });
     }
     findOneBy(where) {
@@ -377,10 +376,10 @@ let DatSanService = DatSanService_1 = class DatSanService {
         filters.limit = -1;
         return this.databaseService.findWithPagination(filters, this.datSanRepo
             .createQueryBuilder('dat_san')
-            .leftJoin(khach_hang_entity_1.KhachHang, 'khach_hang', 'khach_hang.id = dat_san.id_khach_hang')
+            .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_dung', 'nguoi_dung.id = dat_san.id_nguoi_dung')
             .leftJoin(san_entity_1.San, 'san', 'san.id = dat_san.id_san'), [
             'dat_san.id as value',
-            `CONCAT(khach_hang.ho_va_ten, ' - ', san.ten_san, ' (', dat_san.ngay_dat, ')') as label`,
+            `CONCAT(nguoi_dung.ho_va_ten, ' - ', san.ten_san, ' (', dat_san.ngay_dat, ')') as label`,
         ], []);
     }
 };

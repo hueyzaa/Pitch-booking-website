@@ -78,6 +78,16 @@ __decorate([
     (0, class_validator_1.Validate)(is_not_empty_validator_1.IsNotEmptyCustom),
     __metadata("design:type", Number)
 ], CreateUsersDto.prototype, "trang_thai", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateUsersDto.prototype, "id_doi_tuong", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateUsersDto.prototype, "san_yeu_thich", void 0);
 exports.CreateUsersDto = CreateUsersDto;
 class UpdateUsersDto extends (0, mapped_types_1.PartialType)(CreateUsersDto) {
 }
@@ -123,6 +133,16 @@ __decorate([
     (0, class_validator_1.Validate)(is_not_empty_validator_1.IsNotEmptyCustom),
     __metadata("design:type", Number)
 ], UpdateUsersDto.prototype, "trang_thai", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], UpdateUsersDto.prototype, "id_doi_tuong", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], UpdateUsersDto.prototype, "san_yeu_thich", void 0);
 exports.UpdateUsersDto = UpdateUsersDto;
 class ImportExcelResponseDto {
 }

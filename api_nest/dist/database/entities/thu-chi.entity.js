@@ -38,9 +38,9 @@ __decorate([
     __metadata("design:type", String)
 ], ThuChi.prototype, "mo_ta", void 0);
 __decorate([
-    (0, typeorm_1.Column)('int', { name: 'id_khach_hang', nullable: true }),
+    (0, typeorm_1.Column)('int', { name: 'id_nguoi_dung', nullable: true }),
     __metadata("design:type", Number)
-], ThuChi.prototype, "id_khach_hang", void 0);
+], ThuChi.prototype, "id_nguoi_dung", void 0);
 __decorate([
     (0, typeorm_1.Column)('int', { name: 'id_san', nullable: true }),
     __metadata("design:type", Number)

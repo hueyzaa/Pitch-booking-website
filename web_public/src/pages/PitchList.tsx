@@ -153,16 +153,27 @@ const PitchList: React.FC = () => {
         const total = response.total || items.length;
         const last = response.last_page || 1;
 
-        // Perform frontend price filter as price is calculated dynamically
+        // Perform frontend price and amenity filter as price is calculated dynamically
         const filteredItems = items.filter((pitch: any) => {
-          const badge = pitch.ten_loai_san || '';
+          // Fix loai_san extraction
+          const badge = pitch.loai_san?.ten_loai_san || pitch.ten_loai_san || '';
           const name = badge.toLowerCase();
           let price = 120000;
           if (name.includes('bóng đá') || name.includes('football')) price = 350000;
           else if (name.includes('cầu lông') || name.includes('badminton')) price = 80000;
           else if (name.includes('tennis')) price = 200000;
           else if (name.includes('bóng rổ') || name.includes('basketball')) price = 150000;
-          return price <= priceRange;
+          
+          const passesPrice = price <= priceRange;
+
+          // Check amenities
+          let passesAmenities = true;
+          if (selectedAmenities.length > 0) {
+            const pitchAmenities = (pitch.tien_ich || '').toLowerCase();
+            passesAmenities = selectedAmenities.every(a => pitchAmenities.includes(a.toLowerCase()));
+          }
+
+          return passesPrice && passesAmenities;
         });
 
         setPitches(filteredItems);

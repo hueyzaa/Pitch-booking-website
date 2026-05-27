@@ -48,8 +48,6 @@ const cau_hinh_trang_module_1 = require("./cau-hinh-trang/cau-hinh-trang.module"
 const loai_san_module_1 = require("./loai-san/loai-san.module");
 const san_module_1 = require("./san/san.module");
 const doi_tuong_module_1 = require("./doi-tuong/doi-tuong.module");
-const khach_hang_module_1 = require("./khach-hang/khach-hang.module");
-const bang_gia_module_1 = require("./bang-gia/bang-gia.module");
 const quan_ly_gia_module_1 = require("./quan-ly-gia/quan-ly-gia.module");
 const thu_chi_module_1 = require("./thu-chi/thu-chi.module");
 const trang_thai_san_module_1 = require("./trang-thai-san/trang-thai-san.module");
@@ -127,8 +125,6 @@ AppModule = AppModule_1 = __decorate([
             loai_san_module_1.LoaiSanModule,
             san_module_1.SanModule,
             doi_tuong_module_1.DoiTuongModule,
-            khach_hang_module_1.KhachHangModule,
-            bang_gia_module_1.BangGiaModule,
             quan_ly_gia_module_1.QuanLyGiaModule,
             thu_chi_module_1.ThuChiModule,
             trang_thai_san_module_1.TrangThaiSanModule,

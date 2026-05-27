@@ -7,6 +7,9 @@ import { useAuth } from '../context/AuthContext';
 import { getMyBookings, getProfile, updateProfile, changePassword, getPitchDetail, uploadAvatar } from '../api/api';
 import PitchCard from '../components/PitchCard';
 import { resolveAssetUrl } from '../utils/asset.utils';
+import Cropper from 'react-easy-crop';
+import getCroppedImg from '../utils/cropImage';
+import toast from 'react-hot-toast';
 
 interface BookingRecord {
   id: number;
@@ -51,6 +54,61 @@ const Dashboard: React.FC = () => {
   const [passwordForm, setPasswordForm] = useState({ mat_khau_hien_tai: '', mat_khau_moi: '' });
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
+  const [isCropModalOpen, setIsCropModalOpen] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [rotation, setRotation] = useState(0);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const upcomingBooking = React.useMemo(() => {
+    if (!bookings || bookings.length === 0) return null;
+    const now = new Date();
+    
+    const upcoming = bookings
+      .filter(b => b.trang_thai !== 2)
+      .filter(b => {
+        try {
+          const bDate = new Date(`${b.ngay_dat}T${b.gio_bat_dau}`);
+          return bDate.getTime() > now.getTime();
+        } catch(e) { return false; }
+      })
+      .sort((a, b) => {
+        const dateA = new Date(`${a.ngay_dat}T${a.gio_bat_dau}`);
+        const dateB = new Date(`${b.ngay_dat}T${b.gio_bat_dau}`);
+        return dateA.getTime() - dateB.getTime();
+      });
+
+    return upcoming.length > 0 ? upcoming[0] : null;
+  }, [bookings]);
+
+  const onCropComplete = React.useCallback((_croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  const showCroppedImage = async () => {
+    try {
+      if (!imageSrc || !croppedAreaPixels) return;
+      const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels, rotation);
+      
+      const res = await uploadAvatar(croppedImage);
+      toast.success('Cập nhật ảnh đại diện thành công!');
+      if (res?.avatar || typeof res === 'string') {
+        const path = typeof res === 'string' ? res : res.avatar;
+        const freshUrl = resolveAssetUrl(path) + '?t=' + new Date().getTime();
+        setAvatarUrl(freshUrl);
+        updateUser({ avatar: path });
+      } else {
+        setAvatarUrl(URL.createObjectURL(croppedImage));
+      }
+      setIsCropModalOpen(false);
+      setImageSrc(null);
+    } catch (e: any) {
+      console.error(e);
+      toast.error('Lỗi cắt ảnh: ' + e.message);
+    }
+  };
+
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -65,7 +123,6 @@ const Dashboard: React.FC = () => {
           setFavoritePitchesData([]);
           return;
         }
-        // Lấy chi tiết từng sân
         const pitches = await Promise.all(
           savedFavorites.map(id => getPitchDetail(id).catch(() => null))
         );
@@ -89,9 +146,10 @@ const Dashboard: React.FC = () => {
           so_dien_thoai: data.so_dien_thoai || '',
           email: data.email || ''
         });
-        if (data.anh_dai_dien) {
-          setAvatarUrl(resolveAssetUrl(data.anh_dai_dien));
+        if (data.avatar) {
+          setAvatarUrl(resolveAssetUrl(data.avatar));
         }
+        updateUser(data);
       } catch (e) {}
     };
     fetchProfile();
@@ -100,30 +158,24 @@ const Dashboard: React.FC = () => {
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    try {
-      const res = await uploadAvatar(file);
-      alert('Cập nhật ảnh đại diện thành công!');
-      // Assuming res returns the updated profile or just the avatar path
-      if (res?.anh_dai_dien || typeof res === 'string') {
-        const path = typeof res === 'string' ? res : res.anh_dai_dien;
-        setAvatarUrl(resolveAssetUrl(path));
-        updateUser({ anh_dai_dien: path });
-      } else {
-        // Optimistic update
-        setAvatarUrl(URL.createObjectURL(file));
-      }
-    } catch (err: any) {
-      alert(err.message || 'Lỗi khi tải ảnh lên');
-    }
+    
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      setImageSrc(reader.result?.toString() || null);
+      setIsCropModalOpen(true);
+    });
+    reader.readAsDataURL(file);
+    e.target.value = '';
   };
 
   const handleUpdateProfile = async (e: any) => {
     e.preventDefault();
     try {
-      await updateProfile({ ...profileForm, ho_va_ten: `${profileForm.ho} ${profileForm.ten}`.trim() });
-      alert('Cập nhật thông tin thành công!');
+      const ho_va_ten = `${profileForm.ho || ''} ${profileForm.ten || ''}`.trim();
+      await updateProfile({ ...profileForm, ho_va_ten });
+      toast.success('Cập nhật thông tin thành công!');
     } catch (e: any) {
-      alert(e.message || 'Cập nhật thất bại');
+      toast.error(e.message || 'Cập nhật thất bại');
     }
   };
 
@@ -174,9 +226,9 @@ const Dashboard: React.FC = () => {
     navigate('/');
   };
 
-  const displayName = authUser?.ho_va_ten || authUser?.ten || authUser?.tai_khoan || 'Khách đặt sân';
+  const displayNameRaw = authUser?.ho_va_ten?.replace(/undefined/g, '')?.trim();
+  const displayName = displayNameRaw || authUser?.ten || authUser?.tai_khoan || 'Khách đặt sân';
 
-  // Calculate stats from real data
   const totalBookings = bookings.filter(b => b.trang_thai !== 2).length;
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
@@ -199,10 +251,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <main className="dashboard-layout">
-      {/* Sidebar */}
       <aside className="dashboard-sidebar">
         <div className="dashboard-profile-card">
-          {/* Avatar */}
           <div style={{ position: 'relative', width: '120px', height: '120px', margin: '0 auto 16px' }}>
               <div style={{
                 width: '100%',
@@ -220,7 +270,14 @@ const Dashboard: React.FC = () => {
                 overflow: 'hidden'
               }}>
                 {avatarUrl ? (
-                  <img src={avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img 
+                    src={avatarUrl} 
+                    alt="" 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                    onError={() => {
+                      setAvatarUrl(null);
+                    }}
+                  />
                 ) : (
                   displayName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
                 )}
@@ -267,11 +324,10 @@ const Dashboard: React.FC = () => {
             fontWeight: 700,
             margin: '0 auto',
           }}>
-            Thành viên
+            {authUser?.doi_tuong?.ten_doi_tuong || 'Thành viên'}
           </div>
         </div>
 
-        {/* Menu */}
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '24px' }}>
           {menuItems.map((item) => (
             <button
@@ -298,22 +354,49 @@ const Dashboard: React.FC = () => {
         {bookings.length > 0 && (
           <div className="reminder-card">
             <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>Lời nhắc!</h4>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', marginBottom: '16px', lineHeight: '22px' }}>
-              Bạn có trận bóng lúc 19:00 tối nay tại Sân Đại học Y.
-            </p>
-            <button style={{
-              padding: '8px 16px',
-              background: 'var(--surface-container-lowest)',
-              color: 'var(--on-surface)',
-              border: 'none',
-              borderRadius: '8px',
-              fontFamily: 'var(--font-main)',
-              fontWeight: 600,
-              fontSize: '12px',
-              cursor: 'pointer',
-            }}>
-              Xem chi tiết
-            </button>
+            {upcomingBooking ? (
+              <>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', marginBottom: '16px', lineHeight: '22px' }}>
+                  Bạn có trận bóng lúc {upcomingBooking.gio_bat_dau?.slice(0, 5)} ngày {upcomingBooking.ngay_dat} tại {upcomingBooking.san?.ten_san || 'Sân thể thao'}.
+                </p>
+                <Link to={`/san-the-thao/${upcomingBooking.san?.id || upcomingBooking.id}`}>
+                  <button style={{
+                    padding: '8px 16px',
+                    background: 'var(--surface-container-lowest)',
+                    color: 'var(--on-surface)',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontFamily: 'var(--font-main)',
+                    fontWeight: 600,
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                  }}>
+                    Xem chi tiết
+                  </button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', marginBottom: '16px', lineHeight: '22px' }}>
+                  Bạn chưa có lịch đặt sân nào sắp tới. Hãy đặt sân ngay để rèn luyện sức khỏe nhé!
+                </p>
+                <Link to="/san-the-thao">
+                  <button style={{
+                    padding: '8px 16px',
+                    background: 'var(--surface-container-lowest)',
+                    color: 'var(--on-surface)',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontFamily: 'var(--font-main)',
+                    fontWeight: 600,
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                  }}>
+                    Đặt sân ngay
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
         )}
       </aside>
@@ -363,6 +446,7 @@ const Dashboard: React.FC = () => {
               </div>
               <div className="booking-table-header">
                 <span style={{ flex: 2 }}>Tên sân / Địa chỉ</span>
+                <span style={{ flex: 1 }}>Mã đặt chỗ</span>
                 <span style={{ flex: 1.5 }}>Ngày & Giờ</span>
                 <span style={{ flex: 1 }}>Giá tiền</span>
                 <span style={{ flex: 1 }}>Trạng thái</span>
@@ -391,6 +475,9 @@ const Dashboard: React.FC = () => {
                           <p style={{ fontSize: '12px', color: 'var(--on-surface-variant)' }}>{pitchAddress}</p>
                         </div>
                       </div>
+                      <div style={{ flex: 1 }}>
+                        <span style={{ fontWeight: 700, fontSize: '13px', color: 'var(--primary)', background: 'var(--primary-container)', padding: '4px 8px', borderRadius: '6px' }}>#{booking.ma_dat_san || 'N/A'}</span>
+                      </div>
                       <div style={{ flex: 1.5 }}>
                         <p style={{ fontWeight: 500, fontSize: '14px' }}>{booking.ngay_dat}</p>
                         <p style={{ fontSize: '12px', color: 'var(--on-surface-variant)' }}>{booking.gio_bat_dau} - {booking.gio_ket_thuc}</p>
@@ -415,6 +502,7 @@ const Dashboard: React.FC = () => {
             <h2 style={{ fontSize: '24px', fontWeight: 700, marginBottom: '24px' }}>Lịch sử đặt chỗ</h2>
             <div className="booking-table-header">
               <span style={{ flex: 2 }}>Tên sân / Địa chỉ</span>
+              <span style={{ flex: 1 }}>Mã đặt chỗ</span>
               <span style={{ flex: 1.5 }}>Ngày & Giờ</span>
               <span style={{ flex: 1 }}>Giá tiền</span>
               <span style={{ flex: 1 }}>Trạng thái</span>
@@ -449,6 +537,9 @@ const Dashboard: React.FC = () => {
                           <p style={{ fontWeight: 600, fontSize: '14px' }}>{pitchName}</p>
                           <p style={{ fontSize: '12px', color: 'var(--on-surface-variant)' }}>{pitchAddress}</p>
                         </div>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <span style={{ fontWeight: 700, fontSize: '13px', color: 'var(--primary)', background: 'var(--primary-container)', padding: '4px 8px', borderRadius: '6px' }}>#{booking.ma_dat_san || 'N/A'}</span>
                       </div>
                       <div style={{ flex: 1.5 }}>
                         <p style={{ fontWeight: 500, fontSize: '14px' }}>{booking.ngay_dat}</p>
@@ -537,6 +628,90 @@ const Dashboard: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Crop Modal */}
+      {isCropModalOpen && imageSrc && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999
+        }}>
+          <div style={{
+            background: 'var(--surface-bright)',
+            padding: '24px',
+            borderRadius: '16px',
+            width: '90%',
+            maxWidth: '500px',
+            boxShadow: 'var(--shadow-lg)'
+          }}>
+            <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>Chỉnh sửa ảnh đại diện</h3>
+            
+            <div style={{ position: 'relative', width: '100%', height: '300px', background: '#333' }}>
+              <Cropper
+                image={imageSrc}
+                crop={crop}
+                zoom={zoom}
+                rotation={rotation}
+                aspect={1}
+                cropShape="round"
+                showGrid={false}
+                onCropChange={setCrop}
+                onCropComplete={onCropComplete}
+                onZoomChange={setZoom}
+                onRotationChange={setRotation}
+              />
+            </div>
+            
+            <div style={{ marginTop: '16px' }}>
+              <label style={{ fontSize: '12px', display: 'block', marginBottom: '8px' }}>Thu phóng</label>
+              <input
+                type="range"
+                value={zoom}
+                min={1}
+                max={3}
+                step={0.1}
+                onChange={(e) => setZoom(Number(e.target.value))}
+                style={{ width: '100%' }}
+              />
+            </div>
+
+            <div style={{ marginTop: '12px' }}>
+              <label style={{ fontSize: '12px', display: 'block', marginBottom: '8px' }}>Xoay ảnh</label>
+              <input
+                type="range"
+                value={rotation}
+                min={0}
+                max={360}
+                step={1}
+                onChange={(e) => setRotation(Number(e.target.value))}
+                style={{ width: '100%' }}
+              />
+            </div>
+            
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+              <button 
+                className="btn btn-secondary" 
+                onClick={() => { setIsCropModalOpen(false); setImageSrc(null); }}
+              >
+                Huỷ
+              </button>
+              <button 
+                className="btn btn-primary" 
+                onClick={showCroppedImage}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .dashboard-layout {

@@ -20,8 +20,8 @@ export class ThuChi {
   @Column('varchar', { name: 'mo_ta', length: 500, nullable: true })
   mo_ta: string | null;
 
-  @Column('int', { name: 'id_khach_hang', nullable: true })
-  id_khach_hang: number | null;
+  @Column('int', { name: 'id_nguoi_dung', nullable: true })
+  id_nguoi_dung: number | null;
 
   @Column('int', { name: 'id_san', nullable: true })
   id_san: number | null;

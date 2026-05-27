@@ -4,7 +4,7 @@ export declare class CreateThuChiDto {
     so_tien: number;
     ngay_giao_dich: string;
     mo_ta?: string;
-    id_khach_hang?: number;
+    id_nguoi_dung?: number;
     id_san?: number;
     ghi_chu?: string;
     nguoi_tao?: number;
@@ -16,7 +16,7 @@ export declare class UpdateThuChiDto {
     so_tien?: number;
     ngay_giao_dich?: string;
     mo_ta?: string;
-    id_khach_hang?: number;
+    id_nguoi_dung?: number;
     id_san?: number;
     ghi_chu?: string;
     nguoi_cap_nhat?: number;

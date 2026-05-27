@@ -47,16 +47,17 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
         key: 'users',
         icon: <UserOutlined />,
         url: '/tai-khoan/nguoi-dung'
+      },
+      {
+        title: 'common.doi-tuong',
+        key: 'doi-tuong',
+        icon: <TagsOutlined />,
+        url: '/doi-tuong'
       }
     ]
   },
 
-  {
-    title: 'common.bang-gia',
-    key: 'bang-gia',
-    icon: <DollarOutlined />,
-    url: '/bang-gia'
-  },
+
 
   {
     title: 'common.quan-ly-gia',
@@ -110,25 +111,7 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
     ]
   },
 
-  {
-    title: 'common.quan-ly-khach-hang',
-    key: 'quan-ly-khach-hang',
-    icon: <TeamOutlined />,
-    children: [
-      {
-        title: 'common.doi-tuong',
-        key: 'doi-tuong',
-        icon: <TagsOutlined />,
-        url: '/doi-tuong'
-      },
-      {
-        title: 'common.khach-hang',
-        key: 'khach-hang',
-        icon: <UserOutlined />,
-        url: '/khach-hang'
-      }
-    ]
-  },
+
 
   {
     title: 'common.cau-hinh-he-thong',
@@ -174,13 +157,6 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
         url: '/log-thao-tac'
       }
     ]
-  },
-
-  {
-    title: 'common.danh-gia',
-    key: 'danh-gia',
-    icon: <StarOutlined />,
-    url: '/danh-gia'
   }
   /*new-sidebar-nav-here*/
 ];

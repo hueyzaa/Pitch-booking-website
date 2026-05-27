@@ -15,6 +15,7 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const core_exception_1 = require("../exceptions/core.exception");
 const helper_service_1 = require("../../helper/helper.service");
+const contanst_1 = require("../../configs/contanst");
 let AllExceptionsFilter = AllExceptionsFilter_1 = class AllExceptionsFilter {
     constructor(httpAdapterHost, helperService) {
         this.httpAdapterHost = httpAdapterHost;
@@ -52,17 +53,27 @@ let AllExceptionsFilter = AllExceptionsFilter_1 = class AllExceptionsFilter {
                 }
                 return httpAdapter.reply(ctx.getResponse(), responseBody, common_1.HttpStatus.OK);
             }
-            default:
+            default: {
+                const messageStr = (exception === null || exception === void 0 ? void 0 : exception.message) || '';
+                let code = 500;
+                if (messageStr.includes(contanst_1.DATABASE_GENERAL_ERROR.DUPLICATE_ENTRY) ||
+                    messageStr.includes(contanst_1.DATABASE_GENERAL_ERROR.FOREIGN_KEY) ||
+                    messageStr.includes(contanst_1.DATABASE_GENERAL_ERROR.NOT_NULL) ||
+                    messageStr.includes(contanst_1.DATABASE_GENERAL_ERROR.DATA_TOO_LONG) ||
+                    messageStr.includes(contanst_1.DATABASE_GENERAL_ERROR.ER_NO_REFERENCED_ROW_2) ||
+                    messageStr.includes(contanst_1.DATABASE_GENERAL_ERROR.ER_WARN_DATA_OUT_OF_RANGE)) {
+                    code = 400;
+                }
                 const responseBody = {
-                    code: 500,
+                    code: code,
                     status: false,
-                    message: this.helperService.transformMessage(exception.message),
+                    message: this.helperService.transformMessage(messageStr),
                     data: null,
                     timestamp: new Date().toISOString(),
                     path: request.url,
                 };
                 return httpAdapter.reply(ctx.getResponse(), responseBody, common_1.HttpStatus.OK);
-                break;
+            }
         }
     }
 };

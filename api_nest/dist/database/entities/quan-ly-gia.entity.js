@@ -22,10 +22,6 @@ __decorate([
     __metadata("design:type", Number)
 ], QuanLyGia.prototype, "id_san", void 0);
 __decorate([
-    (0, typeorm_1.Column)('int', { name: 'id_bang_gia', nullable: true }),
-    __metadata("design:type", Number)
-], QuanLyGia.prototype, "id_bang_gia", void 0);
-__decorate([
     (0, typeorm_1.Column)('int', { name: 'id_doi_tuong', nullable: true }),
     __metadata("design:type", Number)
 ], QuanLyGia.prototype, "id_doi_tuong", void 0);

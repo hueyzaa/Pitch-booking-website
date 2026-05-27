@@ -45,7 +45,7 @@ const DanhSachVaiTro = ({ path, permission }: { path: string; permission: Action
       title: 'Thao tác',
       dataIndex: 'id',
       align: 'center',
-      width: '10%',
+      width: '15%',
       render: (id: number, record: any) => {
         return (
           <BaseSpace size={0}>
