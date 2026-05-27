@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { getPageConfig } from './api/api';
-import { resolveAssetUrl } from './utils/asset.utils';
-
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+
+// Context
+import { useConfig } from './context/ConfigContext';
 
 // Components
 import Header from './components/Header';
@@ -12,93 +12,41 @@ import LoadingScreen from './components/LoadingScreen';
 
 // Pages
 import Home from './pages/Home';
+import PitchList from './pages/PitchList';
+import PitchDetail from './pages/PitchDetail';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import NotFound from './pages/NotFound';
-
 
 function App() {
   const location = useLocation();
-  const [data, setData] = useState<{
-    config: any;
-    loading: boolean;
-  }>({
-    config: null,
-    loading: true,
-  });
-
+  const { config, loading, error, refresh } = useConfig();
   const [assetsLoaded, setAssetsLoaded] = useState(false);
-  const [error, setError] = useState(false);
-
-  const fetchData = async () => {
-    setData(prev => ({ ...prev, loading: true }));
-    setAssetsLoaded(false);
-    setError(false);
-
-    try {
-      const config = await getPageConfig();
-
-      // Strict validation: Ensure config has actual data
-      if (!config || (Array.isArray(config) && config.length === 0)) {
-        throw new Error('Critical data is missing or empty');
-      }
-
-      // Preload Hero Image if available
-      const heroImgKey = 'HOME_HERO_IMG';
-      const heroImgUrl = config.find((c: any) => c.key === heroImgKey)?.value || 'src/assets/hero-visual.png';
-      
-      const preloadImage = (url: string) => {
-        return new Promise((resolve) => {
-          const img = new Image();
-          img.src = resolveAssetUrl(url);
-          img.onload = resolve;
-          img.onerror = resolve; // Continue even if image fails, but at least we tried
-        });
-      };
-
-      await preloadImage(heroImgUrl);
-
-      // Add a small artificial delay for smoother visual experience
-      await new Promise(resolve => setTimeout(resolve, 800));
-
-      setData({
-        config,
-        loading: false,
-      });
-      setAssetsLoaded(true);
-      setError(false);
-    } catch (err) {
-      console.error('Error fetching data:', err);
-      // Keep loading as true but set error, so LoadingScreen can show Error UI
-      setError(true);
-    }
-  };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!loading) {
+      const timer = setTimeout(() => {
+        setAssetsLoaded(true);
+      }, 600);
+      return () => clearTimeout(timer);
+    } else {
+      setAssetsLoaded(false);
+    }
+  }, [loading]);
 
   useEffect(() => {
-    if (data.config) {
-      const title = data.config.find((c: any) => c.key === 'HEADER_TITLE')?.value;
-      const logo = data.config.find((c: any) => c.key === 'HEADER_LOGO')?.value;
-      
-      if (title) {
-        document.title = title;
-      }
-      
-      if (logo) {
-        let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-        if (!link) {
-          link = document.createElement('link');
-          link.rel = 'icon';
-          document.getElementsByTagName('head')[0].appendChild(link);
-        }
-        link.href = resolveAssetUrl(logo);
-      }
+    if (config?.HEADER_TITLE) {
+      document.title = config.HEADER_TITLE;
     }
-  }, [data.config]);
+  }, [config?.HEADER_TITLE]);
 
-  // Combined readiness check: Must have data, assets loaded, and NO error
-  const isReady = !data.loading && assetsLoaded && !error && data.config;
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  const isReady = !loading && assetsLoaded && !error && config;
 
   return (
     <div className="core-app">
@@ -106,33 +54,38 @@ function App() {
         {!isReady ? (
           <LoadingScreen 
             key="loader" 
-            config={data.config} 
+            config={config} 
             error={error} 
-            onRetry={fetchData} 
+            onRetry={refresh} 
           />
         ) : (
           <motion.div 
             key="content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Header config={data.config} />
+            <Header config={config} />
             
             <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<Home config={data.config} />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/san-the-thao" element={<PitchList />} />
+              <Route path="/san-the-thao/:id" element={<PitchDetail />} />
+              <Route path="/tai-khoan" element={<Dashboard />} />
+              <Route path="/dang-nhap" element={<Login />} />
+              <Route path="/dang-ky" element={<Register />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
 
-            <Footer config={data.config} />
+            <Footer config={config} />
           </motion.div>
         )}
       </AnimatePresence>
 
       <style>{`
         .core-app {
-          background-color: var(--bg);
-          color: var(--text);
+          background-color: var(--background);
+          color: var(--on-background);
           min-height: 100vh;
         }
         
@@ -150,4 +103,3 @@ function App() {
 }
 
 export default App;
-

@@ -22,6 +22,8 @@ const typeorm_2 = require("typeorm");
 const san_entity_1 = require("../database/entities/san.entity");
 const loai_san_entity_1 = require("../database/entities/loai-san.entity");
 const nguoi_dung_entity_1 = require("../database/entities/auth/nguoi-dung.entity");
+const tinh_entity_1 = require("../database/entities/common/tinh.entity");
+const xa_entity_1 = require("../database/entities/common/xa.entity");
 let SanService = SanService_1 = class SanService {
     constructor(databaseService, sanRepo, cacheManager, dataSource) {
         this.databaseService = databaseService;
@@ -38,11 +40,22 @@ let SanService = SanService_1 = class SanService {
             .createQueryBuilder('san')
             .leftJoin(loai_san_entity_1.LoaiSan, 'loai_san', 'loai_san.id = san.id_loai_san')
             .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_tao', 'nguoi_tao.id = san.nguoi_tao')
-            .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_cap_nhat', 'nguoi_cap_nhat.id = san.nguoi_cap_nhat'), [
+            .leftJoin(nguoi_dung_entity_1.NguoiDung, 'nguoi_cap_nhat', 'nguoi_cap_nhat.id = san.nguoi_cap_nhat')
+            .leftJoin(tinh_entity_1.Tinh, 'tinh', 'tinh.id = san.tinh_id')
+            .leftJoin(xa_entity_1.Xa, 'xa', 'xa.id = san.xa_id'), [
             'san.id as id',
             'san.ten_san as ten_san',
             'san.id_loai_san as id_loai_san',
             'loai_san.ten_loai_san as ten_loai_san',
+            'san.dia_chi as dia_chi',
+            'san.tinh_id as tinh_id',
+            'san.xa_id as xa_id',
+            'tinh.name as ten_tinh',
+            'xa.name as ten_xa',
+            'san.tien_ich as tien_ich',
+            'san.anh_chinh as anh_chinh',
+            'san.anh_chi_tiet as anh_chi_tiet',
+            'san.mo_ta as mo_ta',
             'san.ngay_tao as ngay_tao',
             'nguoi_tao.ho_va_ten as ten_nguoi_tao',
             'san.ngay_cap_nhat as ngay_cap_nhat',

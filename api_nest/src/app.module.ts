@@ -177,6 +177,12 @@ export class AppModule implements NestModule {
         'uploads/(.*)',
         'uploads_old/(.*)',
         'cau-hinh-trang/public',
+        { path: 'san', method: RequestMethod.GET },
+        { path: 'san/:id', method: RequestMethod.GET },
+        { path: 'loai-san', method: RequestMethod.GET },
+        { path: 'loai-san/options', method: RequestMethod.GET },
+        { path: 'tinh/options', method: RequestMethod.GET },
+        { path: 'xa/options', method: RequestMethod.GET },
       )
       .forRoutes('*');
 
@@ -187,6 +193,7 @@ export class AppModule implements NestModule {
         'public/uploads/(.*)',
         'public/uploads_old/(.*)',
         'auth/login',
+        'auth/register',
         'auth/forgot-password',
         'auth/reset-password',
         'auth/verify-otp',
@@ -197,6 +204,12 @@ export class AppModule implements NestModule {
         'images/(.*)',
         'example-module/*',
         'cau-hinh-trang/public',
+        { path: 'san', method: RequestMethod.GET },
+        { path: 'san/:id', method: RequestMethod.GET },
+        { path: 'loai-san', method: RequestMethod.GET },
+        { path: 'loai-san/options', method: RequestMethod.GET },
+        { path: 'tinh/options', method: RequestMethod.GET },
+        { path: 'xa/options', method: RequestMethod.GET },
       )
       .forRoutes('*');
 

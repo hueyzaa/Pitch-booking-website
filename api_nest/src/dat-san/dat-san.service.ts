@@ -280,6 +280,132 @@ export class DatSanService {
     return savedBooking;
   }
 
+  /**
+   * Public: Lấy danh sách khung giờ đã đặt / bảo trì của 1 sân trong 1 ngày.
+   * Trả về mảng các slot { gio_bat_dau, gio_ket_thuc, trang_thai }.
+   */
+  async findBookedSlots(id_san: number, ngay: string) {
+    const slots = await this.trangThaiSanRepo.find({
+      where: { id_san, ngay },
+      select: ['gio_bat_dau', 'gio_ket_thuc', 'trang_thai'],
+    });
+    return slots;
+  }
+
+  /**
+   * Public: Tạo đặt sân từ website công khai.
+   * Tìm KhachHang bằng tai_khoan, tạo booking, sync trạng thái sân.
+   */
+  async publicCreate(data: {
+    tai_khoan: string;
+    id_san: number;
+    ngay_dat: string;
+    gio_bat_dau: string;
+    gio_ket_thuc: string;
+    tong_tien: number;
+    ghi_chu?: string;
+  }) {
+    // 1. Tìm KhachHang theo tai_khoan
+    const khachHangRepo = this.dataSource.getRepository(KhachHang);
+    const khachHang = await khachHangRepo.findOne({
+      where: { tai_khoan: data.tai_khoan },
+    });
+    if (!khachHang) {
+      throw new HttpCoreException(
+        'Không tìm thấy thông tin khách hàng. Vui lòng đăng nhập lại.',
+        HTTP_CODE.BAD_REQUEST,
+      );
+    }
+
+    // 2. Kiểm tra bảo trì
+    await this.validateMaintenance(
+      data.id_san,
+      data.ngay_dat,
+      data.gio_bat_dau,
+      data.gio_ket_thuc,
+    );
+
+    // 3. Kiểm tra trùng lịch (slot đã có người đặt)
+    const existingSlot = await this.trangThaiSanRepo
+      .createQueryBuilder('tts')
+      .where('tts.id_san = :id_san', { id_san: data.id_san })
+      .andWhere('tts.ngay = :ngay', { ngay: data.ngay_dat })
+      .andWhere('tts.trang_thai IN (:...statuses)', { statuses: [1, 2] })
+      .andWhere('tts.gio_bat_dau < :gio_ket_thuc', {
+        gio_ket_thuc: data.gio_ket_thuc,
+      })
+      .andWhere('tts.gio_ket_thuc > :gio_bat_dau', {
+        gio_bat_dau: data.gio_bat_dau,
+      })
+      .getOne();
+
+    if (existingSlot) {
+      throw new HttpCoreException(
+        `Khung giờ ${data.gio_bat_dau} - ${data.gio_ket_thuc} đã có người đặt hoặc đang bảo trì.`,
+        HTTP_CODE.BAD_REQUEST,
+      );
+    }
+
+    // 4. Tạo mã đặt sân
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const dateStr = `${yyyy}${mm}${dd}`;
+    const randomDigits = Math.floor(1000 + Math.random() * 9000);
+    const ma_dat_san = `DS${dateStr}${randomDigits}`;
+
+    // 5. Tính giá
+    const createDto: CreateDatSanDto = {
+      id_khach_hang: khachHang.id,
+      id_san: data.id_san,
+      ngay_dat: data.ngay_dat,
+      gio_bat_dau: data.gio_bat_dau,
+      gio_ket_thuc: data.gio_ket_thuc,
+      tong_tien: data.tong_tien,
+      trang_thai: 0, // Chưa thanh toán
+      ghi_chu: data.ghi_chu || `Đặt sân online - ${khachHang.ho_va_ten}`,
+    };
+
+    const { id_doi_tuong, tong_tien, phan_tram_giam_gia } =
+      await this.calculateBookingAmount(createDto);
+
+    const dataToSave = {
+      ...createDto,
+      ma_dat_san,
+      id_doi_tuong,
+      tong_tien: tong_tien || data.tong_tien,
+      phan_tram_giam_gia,
+      nguoi_tao: khachHang.nguoi_tao || 0,
+      nguoi_cap_nhat: khachHang.nguoi_cap_nhat || 0,
+    };
+
+    const savedBooking = await this.datSanRepo.save(dataToSave);
+    await this.syncThuChi(savedBooking.id, savedBooking.nguoi_tao);
+    await this.syncTrangThaiSan(savedBooking.id, savedBooking.nguoi_tao);
+    return savedBooking;
+  }
+
+  /**
+   * Public: Lấy lịch sử đặt sân của 1 khách hàng (theo tai_khoan).
+   */
+  async findByTaiKhoan(tai_khoan: string) {
+    const khachHangRepo = this.dataSource.getRepository(KhachHang);
+    const khachHang = await khachHangRepo.findOne({
+      where: { tai_khoan },
+    });
+    if (!khachHang) {
+      return [];
+    }
+
+    const bookings = await this.datSanRepo.find({
+      where: { id_khach_hang: khachHang.id },
+      relations: ['san', 'doi_tuong'],
+      order: { ngay_dat: 'DESC', gio_bat_dau: 'DESC' },
+    });
+    return bookings;
+  }
+
   findAllWithPagination(filters: FilterData) {
     return this.databaseService.findWithPagination(
       filters,

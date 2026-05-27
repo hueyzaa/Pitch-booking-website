@@ -1,93 +1,66 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import Icon from '../components/Icon';
 
 const NotFound: React.FC = () => {
   return (
     <div style={{
-      height: '100vh',
-      width: '100vw',
-      background: '#000000',
+      minHeight: 'calc(100vh - 80px)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '2rem',
+      padding: '4rem 2rem',
       textAlign: 'center',
+      background: 'var(--background)',
     }}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         <h1 style={{
-          fontSize: 'clamp(8rem, 20vw, 15rem)',
+          fontSize: 'clamp(6rem, 15vw, 12rem)',
           fontWeight: 900,
           lineHeight: 1,
-          margin: 0,
-          color: 'transparent',
-          WebkitTextStroke: '1px rgba(255, 255, 255, 0.1)',
+          color: 'var(--surface-container-high)',
           letterSpacing: '-0.05em',
         }}>
           404
         </h1>
-        
-        <h2 className="text-editorial" style={{
-          fontSize: 'clamp(2rem, 5vw, 4rem)',
-          color: 'white',
-          marginTop: '-2rem',
-          marginBottom: '2rem',
+
+        <h2 style={{
+          fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+          color: 'var(--on-surface)',
+          marginTop: '-1rem',
+          marginBottom: '1.5rem',
+          fontWeight: 700,
         }}>
-          Lost in Space
+          Không tìm thấy trang
         </h2>
-        
+
         <p style={{
-          color: 'rgba(255, 255, 255, 0.4)',
-          maxWidth: '450px',
-          margin: '0 auto 4rem',
-          fontSize: '1.1rem',
+          color: 'var(--on-surface-variant)',
+          maxWidth: '400px',
+          margin: '0 auto 3rem',
+          fontSize: '1rem',
           lineHeight: 1.6,
         }}>
-          The page you are looking for has been moved, removed, or never existed in this dimension.
+          Trang bạn đang tìm kiếm đã được di chuyển, xóa hoặc không tồn tại.
         </p>
 
-        <Link to="/" style={{ textDecoration: 'none' }}>
-          <motion.div
+        <Link to="/">
+          <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              padding: '1.2rem 2.5rem',
-              background: 'white',
-              color: 'black',
-              borderRadius: '100px',
-              fontWeight: 700,
-              fontSize: '1rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-            }}
+            className="btn btn-primary btn-pill btn-lg"
           >
-            <ArrowLeft size={20} />
-            Keep Exploring
-          </motion.div>
+            <Icon name="arrow_back" size={20} />
+            Về trang chủ
+          </motion.button>
         </Link>
       </motion.div>
-
-      {/* Background Decorative Element */}
-      <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '60vw',
-        height: '60vh',
-        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%)',
-        zIndex: -1,
-        filter: 'blur(100px)',
-      }} />
     </div>
   );
 };

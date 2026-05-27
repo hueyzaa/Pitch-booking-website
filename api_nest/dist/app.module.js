@@ -58,11 +58,11 @@ let AppModule = AppModule_1 = class AppModule {
     configure(consumer) {
         consumer
             .apply(header_checker_middleware_1.HeaderCheckerMiddleware)
-            .exclude('secret/uploads/(.*)', 'public/uploads/(.*)', 'public/uploads_old/(.*)', 'filemau/(.*)', 'images/(.*)', 'he-thong/get-logo-va-ten', '(.*)/export/(.*)', 'uploads/(.*)', 'uploads_old/(.*)', 'cau-hinh-trang/public')
+            .exclude('secret/uploads/(.*)', 'public/uploads/(.*)', 'public/uploads_old/(.*)', 'filemau/(.*)', 'images/(.*)', 'he-thong/get-logo-va-ten', '(.*)/export/(.*)', 'uploads/(.*)', 'uploads_old/(.*)', 'cau-hinh-trang/public', { path: 'san', method: common_1.RequestMethod.GET }, { path: 'san/:id', method: common_1.RequestMethod.GET }, { path: 'loai-san', method: common_1.RequestMethod.GET }, { path: 'loai-san/options', method: common_1.RequestMethod.GET }, { path: 'tinh/options', method: common_1.RequestMethod.GET }, { path: 'xa/options', method: common_1.RequestMethod.GET })
             .forRoutes('*');
         consumer
             .apply(auth_middleware_1.AuthMiddleware)
-            .exclude('secret/uploads/(.*)', 'public/uploads/(.*)', 'public/uploads_old/(.*)', 'auth/login', 'auth/forgot-password', 'auth/reset-password', 'auth/verify-otp', 'he-thong/get-logo-va-ten', 'auth/generate-otp', '/mobile-api/login', 'filemau/(.*)', 'images/(.*)', 'example-module/*', 'cau-hinh-trang/public')
+            .exclude('secret/uploads/(.*)', 'public/uploads/(.*)', 'public/uploads_old/(.*)', 'auth/login', 'auth/register', 'auth/forgot-password', 'auth/reset-password', 'auth/verify-otp', 'he-thong/get-logo-va-ten', 'auth/generate-otp', '/mobile-api/login', 'filemau/(.*)', 'images/(.*)', 'example-module/*', 'cau-hinh-trang/public', { path: 'san', method: common_1.RequestMethod.GET }, { path: 'san/:id', method: common_1.RequestMethod.GET }, { path: 'loai-san', method: common_1.RequestMethod.GET }, { path: 'loai-san/options', method: common_1.RequestMethod.GET }, { path: 'tinh/options', method: common_1.RequestMethod.GET }, { path: 'xa/options', method: common_1.RequestMethod.GET })
             .forRoutes('*');
         consumer
             .apply(logging_middleware_1.LoggerMiddleware)

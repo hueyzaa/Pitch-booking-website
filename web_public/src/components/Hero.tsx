@@ -1,194 +1,240 @@
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import BackgroundGradient from './BackgroundGradient';
+import { useNavigate } from 'react-router-dom';
+import Icon from './Icon';
+import { useConfig } from '../context/ConfigContext';
 import { resolveAssetUrl } from '../utils/asset.utils';
 
-interface HeroProps {
-  config?: any[];
-}
+const DEFAULT_HERO_BACKGROUND = 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=1920&h=900&fit=crop';
 
-const Hero: React.FC<HeroProps> = ({ config }) => {
-  // Extract configuration values with defaults
-  const configMap: Record<string, string> = config?.reduce((acc, curr) => ({ ...acc, [curr.key]: curr.value }), {}) || {};
-  
-  const badgeText = configMap['HOME_HERO_BADGE'] || 'Modern Web App';
-  const titleMain = configMap['HOME_HERO_TITLE_MAIN'] || 'Stunning';
-  const titleAccent = configMap['HOME_HERO_TITLE_ACCENT'] || 'Digital';
-  const titleSuffix = configMap['HOME_HERO_TITLE_SUFFIX'] || 'Solutions';
-  const subtext = configMap['HOME_HERO_DESC'] || 'Crafting premium, scalable web solutions that deliver exceptional user experiences and modern aesthetics.';
-  const heroImage = configMap['HOME_HERO_IMG'] || 'src/assets/hero-visual.png';
+const Hero: React.FC = () => {
+  const { config } = useConfig();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
 
+  const badge = config?.HOME_HERO_BADGE || 'Đặt Sân Thể Thao';
+  const mainTitle = config?.HOME_HERO_TITLE_MAIN || 'Đam mê';
+  const accentTitle = config?.HOME_HERO_TITLE_ACCENT || 'dẫn lối,';
+  const titleSuffix = config?.HOME_HERO_TITLE_SUFFIX || 'đặt sân dễ dàng';
+  const desc = config?.HOME_HERO_DESC || 'Khám phá và đặt ngay những sân thể thao chất lượng nhất quanh bạn chỉ với vài lần chạm. Tiết kiệm thời gian, bùng nổ đam mê.';
+  const heroImg = config?.HOME_HERO_IMG ? resolveAssetUrl(config.HOME_HERO_IMG) : DEFAULT_HERO_BACKGROUND;
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/san-the-thao?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate('/san-the-thao');
+    }
+  };
 
   return (
-    <section id="home" style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-      overflow: 'hidden',
-      padding: '8rem 2rem 4rem 2rem',
-      textAlign: 'center',
-    }}>
-      <BackgroundGradient />
-
-      <div className="container" style={{ 
-        zIndex: 1, 
-        display: 'grid', 
-        gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 0.8fr)',
-        gap: '5vw',
+    <section
+      id="hero"
+      style={{
+        position: 'relative',
+        minHeight: '600px',
+        display: 'flex',
         alignItems: 'center',
-        flex: 1,
-        width: '100%',
-      }}>
-        {/* Left Side: Content */}
-        <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          {/* Badge */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              padding: '0.5rem 1.25rem',
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: '100px',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              color: 'rgba(255, 255, 255, 0.8)',
-              marginBottom: '2.5rem',
-              gap: '0.6rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em'
-            }}
-          >
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#FF4500' }} />
-            {badgeText}
-          </motion.div>
+        paddingTop: '80px',
+        paddingBottom: '128px',
+      }}
+    >
+      {/* Background */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <img
+          src={heroImg}
+          alt="SportBooking Hero"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(135deg, rgba(0,108,73,0.9) 0%, rgba(11,28,48,0.85) 100%)',
+          }}
+        />
+      </div>
 
-          {/* Headline */}
-          <motion.h1 
+      {/* Content */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          maxWidth: 'var(--container-max)',
+          margin: '0 auto',
+          padding: '0 var(--margin-desktop)',
+          width: '100%',
+        }}
+      >
+        <div style={{ maxWidth: '672px' }}>
+          {badge && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 16px',
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '9999px',
+                color: '#ffffff',
+                fontSize: '12px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                marginBottom: '16px',
+              }}
+            >
+              <span style={{ display: 'inline-block', width: '6px', height: '6px', background: 'var(--primary-container)', borderRadius: '50%' }}></span>
+              {badge}
+            </motion.div>
+          )}
+
+          <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            style={{ 
-              fontSize: 'clamp(2.5rem, 6.5vw, 6.5rem)', 
-              fontWeight: 800, 
-              lineHeight: 1,
-              letterSpacing: '-0.05em',
-              color: 'white',
-              maxWidth: '100%',
-              marginBottom: '2rem',
-              textTransform: 'uppercase'
+            transition={{ duration: 0.8 }}
+            style={{
+              fontSize: 'clamp(32px, 5vw, 48px)',
+              lineHeight: 1.2,
+              fontWeight: 700,
+              color: '#ffffff',
+              marginBottom: '24px',
+              letterSpacing: '-0.02em',
             }}
           >
-            {titleMain} <br />
-            <span className="text-editorial" style={{ 
-              color: '#FF4500', 
-              fontSize: '1.1em',
-              textTransform: 'none',
-              marginLeft: '-0.1em'
-            }}>{titleAccent}</span> <br /> 
+            {mainTitle} <span style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--primary-fixed-dim)' }}>{accentTitle}</span><br />
             {titleSuffix}
           </motion.h1>
 
-          {/* Subtext */}
-          <motion.div 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            style={{
+              fontSize: '18px',
+              lineHeight: '28px',
+              color: 'rgba(255,255,255,0.9)',
+              marginBottom: '40px',
+              maxWidth: '560px',
+            }}
+          >
+            {desc}
+          </motion.p>
+
+          {/* Unified Search Bar */}
+          <motion.form
+            onSubmit={handleSearch}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            style={{
-              fontSize: '1.25rem',
-              color: 'rgba(255, 255, 255, 0.5)',
-              marginBottom: '3.5rem',
-              maxWidth: '550px',
-              lineHeight: 1.6,
-              fontWeight: 400,
-            }}
-            dangerouslySetInnerHTML={{ __html: subtext }}
-          />
-
-          {/* Buttons */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            style={{ display: 'flex', gap: '1.25rem' }}
+            className="hero-search"
           >
-            <a href="#about" className="btn btn-primary" style={{ minWidth: '180px', borderRadius: '2rem' }}>
-              Get Started Now
-            </a>
-            <a href="#about" className="btn btn-secondary" style={{ minWidth: '180px', borderRadius: '2rem', backdropFilter: 'blur(10px)', background: 'rgba(255,255,255,0.03)' }}>
-              Learn More
-            </a>
-          </motion.div>
-        </div>
+            <div className="hero-search__field">
+              <Icon name="search" size={24} style={{ color: 'var(--outline)' }} />
+              <div style={{ flex: 1 }}>
+                <label className="hero-search__label">Tìm sân</label>
+                <input
+                  className="hero-search__input"
+                  placeholder="Nhập tên sân, địa chỉ hoặc khu vực cần tìm kiếm..."
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
 
-        {/* Right Side: Visual */}
-        <motion.div
-           initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
-           animate={{ opacity: 1, scale: 1, rotate: 0 }}
-           transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-           style={{ position: 'relative', width: '100%', aspectRatio: '1/1' }}
-        >
-          <div style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: '2.5rem',
-            overflow: 'hidden',
-            border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: '0 40px 100px -20px rgba(0,0,0,0.8)',
-            position: 'relative',
-            zIndex: 2
-          }}>
-            <img 
-              src={resolveAssetUrl(heroImage)} 
-              alt="Digital Experience Visual" 
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-            />
-            {/* Glossy Overlay */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%)',
-              pointerEvents: 'none'
-            }} />
-          </div>
-          
-          {/* Decorative Glow behind the image */}
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '120%',
-            height: '120%',
-            background: 'radial-gradient(circle, rgba(255, 69, 0, 0.1) 0%, transparent 70%)',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 1,
-            pointerEvents: 'none'
-          }} />
-        </motion.div>
+            {/* Search Button */}
+            <button
+              className="hero-search__btn"
+              type="submit"
+            >
+              <Icon name="search" size={22} />
+              <span>Tìm kiếm</span>
+            </button>
+          </motion.form>
+        </div>
       </div>
 
-      {/* Decorative Gradient Overlay at bottom */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: '15vh',
-        background: 'linear-gradient(to top, #000000 0%, transparent 100%)',
-        zIndex: 2,
-        pointerEvents: 'none'
-      }} />
+      <style>{`
+        .hero-search {
+          background: var(--surface-container-lowest);
+          padding: 8px;
+          border-radius: 16px;
+          box-shadow: var(--shadow-xl);
+          display: flex;
+          gap: 8px;
+          align-items: stretch;
+        }
+        .hero-search__field {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          padding: 12px 20px;
+          background: var(--surface-container-low);
+          border-radius: 12px;
+          gap: 12px;
+        }
+        .hero-search__label {
+          display: block;
+          font-size: 10px;
+          font-weight: 700;
+          color: var(--outline);
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          margin-bottom: 2px;
+        }
+        .hero-search__input {
+          width: 100%;
+          background: transparent;
+          border: none;
+          font-family: var(--font-main);
+          font-size: 16px;
+          font-weight: 500;
+          color: var(--on-surface);
+          outline: none;
+          padding: 0;
+        }
+        .hero-search__input::placeholder {
+          color: var(--outline);
+          opacity: 0.7;
+        }
+        .hero-search__btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 16px 32px;
+          background: var(--primary-container);
+          color: var(--on-primary-container);
+          border: none;
+          border-radius: 12px;
+          font-family: var(--font-main);
+          font-weight: 700;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.2s;
+          white-space: nowrap;
+        }
+        .hero-search__btn:hover {
+          opacity: 0.9;
+        }
+        @media (max-width: 600px) {
+          .hero-search {
+            flex-direction: column;
+          }
+          .hero-search__btn {
+            padding: 14px;
+          }
+        }
+      `}</style>
     </section>
   );
 };
 
 export default Hero;
-

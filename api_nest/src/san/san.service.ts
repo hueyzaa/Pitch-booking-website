@@ -13,6 +13,8 @@ import {
 import { San } from '../database/entities/san.entity';
 import { LoaiSan } from '../database/entities/loai-san.entity';
 import { NguoiDung } from '../database/entities/auth/nguoi-dung.entity';
+import { Tinh } from '../database/entities/common/tinh.entity';
+import { Xa } from '../database/entities/common/xa.entity';
 import { CreateSanDto, UpdateSanDto } from './dto/san.dto';
 
 @Injectable()
@@ -45,12 +47,23 @@ export class SanService {
           NguoiDung,
           'nguoi_cap_nhat',
           'nguoi_cap_nhat.id = san.nguoi_cap_nhat',
-        ),
+        )
+        .leftJoin(Tinh, 'tinh', 'tinh.id = san.tinh_id')
+        .leftJoin(Xa, 'xa', 'xa.id = san.xa_id'),
       [
         'san.id as id',
         'san.ten_san as ten_san',
         'san.id_loai_san as id_loai_san',
         'loai_san.ten_loai_san as ten_loai_san',
+        'san.dia_chi as dia_chi',
+        'san.tinh_id as tinh_id',
+        'san.xa_id as xa_id',
+        'tinh.name as ten_tinh',
+        'xa.name as ten_xa',
+        'san.tien_ich as tien_ich',
+        'san.anh_chinh as anh_chinh',
+        'san.anh_chi_tiet as anh_chi_tiet',
+        'san.mo_ta as mo_ta',
         'san.ngay_tao as ngay_tao',
         'nguoi_tao.ho_va_ten as ten_nguoi_tao',
         'san.ngay_cap_nhat as ngay_cap_nhat',
@@ -68,9 +81,7 @@ export class SanService {
     return this.sanRepo.findOneBy({ id: id });
   }
 
-  findOneBy(
-    where: FindOptionsWhere<San> | FindOptionsWhere<San>[],
-  ) {
+  findOneBy(where: FindOptionsWhere<San> | FindOptionsWhere<San>[]) {
     return this.sanRepo.findOneBy(where);
   }
 
@@ -84,7 +95,7 @@ export class SanService {
   }
 
   removeBy(where: FindOptionsWhere<San>) {
-    return this.sanRepo.update(where, {  });
+    return this.sanRepo.update(where, {});
   }
 
   deleteBy(where: FindOptionsWhere<San>) {

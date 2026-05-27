@@ -21,6 +21,19 @@ const SuaKhachHang = ({ path, id }: { path: string; id: number }) => {
 
   const showModal = async () => {
     const data = await getDataById(id, path);
+    
+    // Split ho_va_ten if ho or ten are missing in database record
+    if (data.ho_va_ten && (!data.ho || !data.ten)) {
+      const parts = data.ho_va_ten.trim().split(/\s+/);
+      if (parts.length > 1) {
+        data.ho = parts.slice(0, -1).join(' ');
+        data.ten = parts[parts.length - 1];
+      } else {
+        data.ho = '';
+        data.ten = data.ho_va_ten;
+      }
+    }
+
     Object.keys(data).forEach((key) => {
       if (data[key]) {
         if (/ngay_|_ngay/.test(key) || /ngay/.test(key) || /thoi_gian|_thoi/.test(key)) {
@@ -45,6 +58,7 @@ const SuaKhachHang = ({ path, id }: { path: string; id: number }) => {
     };
     const payload = {
       ...values,
+      ho_va_ten: `${values.ho || ''} ${values.ten || ''}`.trim(),
       ngay_sinh: values.ngay_sinh ? moment(values.ngay_sinh).format('YYYY-MM-DD') : null
     };
     patchData(path, id, payload, closeModel);
@@ -59,6 +73,7 @@ const SuaKhachHang = ({ path, id }: { path: string; id: number }) => {
         open={isModalOpen}
         onCancel={handleCancel}
         maskClosable={false}
+        size="large"
         centered
         footer={[
           <BaseButton
@@ -74,7 +89,7 @@ const SuaKhachHang = ({ path, id }: { path: string; id: number }) => {
         ]}
       >
         <BaseForm id={`formSuaKhachHang-${id}`} form={form} layout='vertical' onFinish={onUpdate}>
-          <FormKhachHang isEditing/>
+          <FormKhachHang form={form} isEditing/>
         </BaseForm>
       </BaseModal>
     </>

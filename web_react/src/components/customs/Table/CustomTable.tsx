@@ -207,6 +207,7 @@ const CustomTable = ({
         columns={columns as ColumnTypes}
         rowKey={rowKey}
         rowSelection={rowSelection}
+        tableLayout='fixed'
       />
       {total ? (
         <PaginationStyle

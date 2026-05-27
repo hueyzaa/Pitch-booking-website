@@ -33,6 +33,47 @@ export class DatSanController {
       private readonly helperService: HelperService,
     ) {}
 
+  // ==================== PUBLIC ENDPOINTS (không cần quyền admin) ====================
+
+  /**
+   * Lấy danh sách khung giờ đã đặt / bảo trì của 1 sân trong 1 ngày.
+   * GET /dat-san/public/booked-slots?id_san=1&ngay=2026-05-27
+   */
+  @HttpCode(200)
+  @Get('public/booked-slots')
+  findBookedSlots(@Query('id_san') id_san: string, @Query('ngay') ngay: string) {
+    if (!id_san || !ngay) {
+      return [];
+    }
+    return this.datSanService.findBookedSlots(+id_san, ngay);
+  }
+
+  /**
+   * Tạo đặt sân từ website công khai (user đã đăng nhập).
+   * POST /dat-san/public/book
+   */
+  @HttpCode(200)
+  @Post('public/book')
+  publicBook(@Body() body: any) {
+    return this.datSanService.publicCreate(body);
+  }
+
+  /**
+   * Lấy lịch sử đặt sân của user theo tai_khoan.
+   * GET /dat-san/public/my-bookings?tai_khoan=xxx
+   */
+  @HttpCode(200)
+  @Get('public/my-bookings')
+  findMyBookings(@Query('tai_khoan') tai_khoan: string) {
+    if (!tai_khoan) {
+      return [];
+    }
+    return this.datSanService.findByTaiKhoan(tai_khoan);
+  }
+
+  // ==================== ADMIN ENDPOINTS (cần quyền) ====================
+
+
   @CheckPermission(ACTION.create)
   @HttpCode(200)
   @Post()

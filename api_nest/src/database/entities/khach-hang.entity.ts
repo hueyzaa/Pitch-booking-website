@@ -27,6 +27,24 @@ export class KhachHang {
   @Column('int', { name: 'id_doi_tuong' })
   id_doi_tuong: number;
 
+  @Column('varchar', { name: 'ho', length: 255, nullable: true })
+  ho: string | null;
+
+  @Column('varchar', { name: 'ten', length: 255, nullable: true })
+  ten: string | null;
+
+  @Column('varchar', { name: 'tai_khoan', length: 255, nullable: true })
+  tai_khoan: string | null;
+
+  @Column('varchar', { name: 'mat_khau', length: 255, nullable: true })
+  mat_khau: string | null;
+
+  @Column('int', { name: 'tinh_id', nullable: true })
+  tinh_id: number | null;
+
+  @Column('int', { name: 'xa_id', nullable: true })
+  xa_id: number | null;
+
   @Column('int', { name: 'nguoi_tao' })
   nguoi_tao: number;
 

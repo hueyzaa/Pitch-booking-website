@@ -38,6 +38,31 @@ export declare class DatSanService {
         nguoi_tao?: number;
         nguoi_cap_nhat?: number;
     } & DatSan>;
+    findBookedSlots(id_san: number, ngay: string): Promise<TrangThaiSan[]>;
+    publicCreate(data: {
+        tai_khoan: string;
+        id_san: number;
+        ngay_dat: string;
+        gio_bat_dau: string;
+        gio_ket_thuc: string;
+        tong_tien: number;
+        ghi_chu?: string;
+    }): Promise<{
+        ma_dat_san: string;
+        id_doi_tuong: number;
+        tong_tien: number;
+        phan_tram_giam_gia: number;
+        nguoi_tao: number;
+        nguoi_cap_nhat: number;
+        id_khach_hang: number;
+        id_san: number;
+        ngay_dat: string;
+        gio_bat_dau: string;
+        gio_ket_thuc: string;
+        trang_thai: number;
+        ghi_chu?: string;
+    } & DatSan>;
+    findByTaiKhoan(tai_khoan: string): Promise<DatSan[]>;
     findAllWithPagination(filters: FilterData): Promise<import("src/database/database.service").PaginationResult<any>>;
     findAll(options?: FindManyOptions<DatSan>): Promise<DatSan[]>;
     findOneById(id: number): Promise<DatSan>;

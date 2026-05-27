@@ -28,6 +28,21 @@ let DatSanController = DatSanController_1 = class DatSanController {
         this.helperService = helperService;
         this.logger = new common_1.Logger(DatSanController_1.name);
     }
+    findBookedSlots(id_san, ngay) {
+        if (!id_san || !ngay) {
+            return [];
+        }
+        return this.datSanService.findBookedSlots(+id_san, ngay);
+    }
+    publicBook(body) {
+        return this.datSanService.publicCreate(body);
+    }
+    findMyBookings(tai_khoan) {
+        if (!tai_khoan) {
+            return [];
+        }
+        return this.datSanService.findByTaiKhoan(tai_khoan);
+    }
     create(createDatSanDto, user) {
         createDatSanDto.nguoi_tao = user.id;
         createDatSanDto.nguoi_cap_nhat = user.id;
@@ -63,6 +78,31 @@ let DatSanController = DatSanController_1 = class DatSanController {
         return this.datSanService.remove(+id);
     }
 };
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)('public/booked-slots'),
+    __param(0, (0, common_1.Query)('id_san')),
+    __param(1, (0, common_1.Query)('ngay')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], DatSanController.prototype, "findBookedSlots", null);
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Post)('public/book'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], DatSanController.prototype, "publicBook", null);
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)('public/my-bookings'),
+    __param(0, (0, common_1.Query)('tai_khoan')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], DatSanController.prototype, "findMyBookings", null);
 __decorate([
     (0, check_permission_decorator_1.CheckPermission)(main_config_1.ACTION.create),
     (0, common_1.HttpCode)(200),

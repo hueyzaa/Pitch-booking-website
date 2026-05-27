@@ -8,6 +8,23 @@ export declare class DatSanController {
     private readonly helperService;
     private readonly logger;
     constructor(datSanService: DatSanService, helperService: HelperService);
+    findBookedSlots(id_san: string, ngay: string): any[] | Promise<import("../database/entities/trang-thai-san.entity").TrangThaiSan[]>;
+    publicBook(body: any): Promise<{
+        ma_dat_san: string;
+        id_doi_tuong: number;
+        tong_tien: number;
+        phan_tram_giam_gia: number;
+        nguoi_tao: number;
+        nguoi_cap_nhat: number;
+        id_khach_hang: number;
+        id_san: number;
+        ngay_dat: string;
+        gio_bat_dau: string;
+        gio_ket_thuc: string;
+        trang_thai: number;
+        ghi_chu?: string;
+    } & import("../database/entities/dat-san.entity").DatSan>;
+    findMyBookings(tai_khoan: string): any[] | Promise<import("../database/entities/dat-san.entity").DatSan[]>;
     create(createDatSanDto: CreateDatSanDto, user: UserReqData): Promise<{
         ma_dat_san: string;
         id_doi_tuong: number;

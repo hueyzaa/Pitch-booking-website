@@ -92,7 +92,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], SanController.prototype, "findAllForSelectOptions", null);
 __decorate([
-    (0, check_permission_decorator_1.CheckPermission)(main_config_1.ACTION.index),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
@@ -101,7 +100,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], SanController.prototype, "findAll", null);
 __decorate([
-    (0, check_permission_decorator_1.CheckPermission)(main_config_1.ACTION.show),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),

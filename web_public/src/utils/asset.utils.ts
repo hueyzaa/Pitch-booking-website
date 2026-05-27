@@ -6,8 +6,8 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:9999';
  */
 export const resolveAssetUrl = (path: string | undefined): string => {
   if (!path) {
-    // Return a professional placeholder image
-    return 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop';
+    // Return a professional sports stadium placeholder image
+    return 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1000&auto=format&fit=crop';
   }
 
   // If it's already an absolute URL, return it

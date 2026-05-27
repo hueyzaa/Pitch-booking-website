@@ -47,6 +47,30 @@ __decorate([
     __metadata("design:type", Number)
 ], KhachHang.prototype, "id_doi_tuong", void 0);
 __decorate([
+    (0, typeorm_1.Column)('varchar', { name: 'ho', length: 255, nullable: true }),
+    __metadata("design:type", String)
+], KhachHang.prototype, "ho", void 0);
+__decorate([
+    (0, typeorm_1.Column)('varchar', { name: 'ten', length: 255, nullable: true }),
+    __metadata("design:type", String)
+], KhachHang.prototype, "ten", void 0);
+__decorate([
+    (0, typeorm_1.Column)('varchar', { name: 'tai_khoan', length: 255, nullable: true }),
+    __metadata("design:type", String)
+], KhachHang.prototype, "tai_khoan", void 0);
+__decorate([
+    (0, typeorm_1.Column)('varchar', { name: 'mat_khau', length: 255, nullable: true }),
+    __metadata("design:type", String)
+], KhachHang.prototype, "mat_khau", void 0);
+__decorate([
+    (0, typeorm_1.Column)('int', { name: 'tinh_id', nullable: true }),
+    __metadata("design:type", Number)
+], KhachHang.prototype, "tinh_id", void 0);
+__decorate([
+    (0, typeorm_1.Column)('int', { name: 'xa_id', nullable: true }),
+    __metadata("design:type", Number)
+], KhachHang.prototype, "xa_id", void 0);
+__decorate([
     (0, typeorm_1.Column)('int', { name: 'nguoi_tao' }),
     __metadata("design:type", Number)
 ], KhachHang.prototype, "nguoi_tao", void 0);

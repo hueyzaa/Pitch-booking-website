@@ -18,6 +18,8 @@ export const Table = styled(AntdTable)`
     font-size: ${FONT_SIZE.xs};
     line-height: 1.25rem;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   & tbody .ant-table-row-expand-icon {

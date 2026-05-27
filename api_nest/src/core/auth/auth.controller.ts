@@ -23,6 +23,12 @@ import { HTTP_CODE } from '@configs/contanst';
 import { SessionService } from '@core/session/session.service';
 import { UserService } from '@core/profile/profile.service';
 import { OtpService } from '@core/otp/otp.service';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+import { NguoiDung } from '@database/entities/auth/nguoi-dung.entity';
+import { KhachHang } from '@database/entities/khach-hang.entity';
+import { HelperService } from '@helper/helper.service';
+import { HttpCoreException } from '@core/exceptions/core.exception';
 
 /**
  * Controller xử lý các endpoint liên quan đến authentication
@@ -46,6 +52,9 @@ export class AuthController {
     private readonly userService: UserService,
     private readonly sessionService: SessionService,
     private readonly otpService: OtpService,
+    private readonly helperService: HelperService,
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
   ) {}
 
   /**
@@ -86,6 +95,83 @@ export class AuthController {
    * }
    * ```
    */
+  @HttpCode(200)
+  @Post('/register')
+  async register(@Body() body: any) {
+    const nguoiDungRepo = this.dataSource.getRepository(NguoiDung);
+    const khachHangRepo = this.dataSource.getRepository(KhachHang);
+
+    // 1. Check if username or email or phone already exists
+    const existingUser = await nguoiDungRepo.findOne({
+      where: [
+        { tai_khoan: body.tai_khoan },
+        { email: body.email },
+        { so_dien_thoai: body.so_dien_thoai }
+      ]
+    });
+
+    if (existingUser) {
+      throw new HttpCoreException(
+        'Tài khoản, email hoặc số điện thoại đã tồn tại trong hệ thống',
+        HTTP_CODE.BAD_REQUEST,
+      );
+    }
+
+    // 2. Hash the password
+    const hashedPassword = await this.helperService.genHashedPassword(body.mat_khau);
+
+    // 3. Create NguoiDung record
+    const ho_va_ten = `${body.ho || ''} ${body.ten || ''}`.trim();
+    const newUser = nguoiDungRepo.create({
+      ho: body.ho || '',
+      ten: body.ten || '',
+      ho_va_ten: ho_va_ten || 'Khách hàng',
+      tai_khoan: body.tai_khoan,
+      mat_khau: hashedPassword,
+      email: body.email,
+      so_dien_thoai: body.so_dien_thoai,
+      ngay_sinh: body.ngay_sinh ? new Date(body.ngay_sinh) : new Date(),
+      gioi_tinh: body.gioi_tinh !== undefined ? body.gioi_tinh : 1,
+      dia_chi: body.dia_chi || '',
+      tinh_id: body.tinh_id || 0,
+      xa_id: body.xa_id || 0,
+      ma_vai_tro: 'USER',
+      trang_thai: 1,
+      nguoi_tao: 0,
+      nguoi_cap_nhat: 0,
+    });
+    const savedUser = await nguoiDungRepo.save(newUser);
+
+    // 4. Create corresponding KhachHang record
+    const newCustomer = khachHangRepo.create({
+      ho: body.ho || '',
+      ten: body.ten || '',
+      ho_va_ten: ho_va_ten || 'Khách hàng',
+      tai_khoan: body.tai_khoan,
+      mat_khau: hashedPassword,
+      email: body.email,
+      so_dien_thoai: body.so_dien_thoai,
+      ngay_sinh: body.ngay_sinh ? new Date(body.ngay_sinh) : new Date(),
+      gioi_tinh: body.gioi_tinh !== undefined ? body.gioi_tinh : 1,
+      dia_chi: body.dia_chi || '',
+      tinh_id: body.tinh_id || 0,
+      xa_id: body.xa_id || 0,
+      id_doi_tuong: 1, // Default DoiTuong id for registered players (usually default 1)
+      nguoi_tao: 0,
+      nguoi_cap_nhat: 0,
+    });
+    await khachHangRepo.save(newCustomer);
+
+    return {
+      message: 'Đăng ký tài khoản thành công',
+      user: {
+        id: savedUser.id,
+        tai_khoan: savedUser.tai_khoan,
+        email: savedUser.email,
+      }
+    };
+  }
+
   @HttpCode(200)
   @Post('/login')
   @Throttle({ default: { limit: 10, ttl: seconds(60) } })

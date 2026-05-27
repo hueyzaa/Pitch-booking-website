@@ -44,6 +44,32 @@ __decorate([
     (0, class_validator_1.IsInt)({ message: 'ID Đối tượng phải là số nguyên' }),
     __metadata("design:type", Number)
 ], CreateKhachHangDto.prototype, "id_doi_tuong", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateKhachHangDto.prototype, "ho", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateKhachHangDto.prototype, "ten", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateKhachHangDto.prototype, "tai_khoan", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateKhachHangDto.prototype, "mat_khau", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsInt)({ message: 'ID Tỉnh phải là số nguyên' }),
+    __metadata("design:type", Number)
+], CreateKhachHangDto.prototype, "tinh_id", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsInt)({ message: 'ID Xã phải là số nguyên' }),
+    __metadata("design:type", Number)
+], CreateKhachHangDto.prototype, "xa_id", void 0);
 exports.CreateKhachHangDto = CreateKhachHangDto;
 class UpdateKhachHangDto {
 }
@@ -78,5 +104,31 @@ __decorate([
     (0, class_validator_1.IsInt)({ message: 'ID Đối tượng phải là số nguyên' }),
     __metadata("design:type", Number)
 ], UpdateKhachHangDto.prototype, "id_doi_tuong", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateKhachHangDto.prototype, "ho", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateKhachHangDto.prototype, "ten", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateKhachHangDto.prototype, "tai_khoan", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateKhachHangDto.prototype, "mat_khau", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsInt)({ message: 'ID Tỉnh phải là số nguyên' }),
+    __metadata("design:type", Number)
+], UpdateKhachHangDto.prototype, "tinh_id", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsInt)({ message: 'ID Xã phải là số nguyên' }),
+    __metadata("design:type", Number)
+], UpdateKhachHangDto.prototype, "xa_id", void 0);
 exports.UpdateKhachHangDto = UpdateKhachHangDto;
 //# sourceMappingURL=khach-hang.dto.js.map

@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.San = void 0;
 const typeorm_1 = require("typeorm");
 const loai_san_entity_1 = require("./loai-san.entity");
+const tinh_entity_1 = require("./common/tinh.entity");
+const xa_entity_1 = require("./common/xa.entity");
 let San = class San {
 };
 __decorate([
@@ -47,10 +49,48 @@ __decorate([
     __metadata("design:type", Date)
 ], San.prototype, "ngay_cap_nhat", void 0);
 __decorate([
+    (0, typeorm_1.Column)('varchar', { name: 'dia_chi', length: 500, nullable: true }),
+    __metadata("design:type", String)
+], San.prototype, "dia_chi", void 0);
+__decorate([
+    (0, typeorm_1.Column)('int', { name: 'tinh_id', nullable: true }),
+    __metadata("design:type", Number)
+], San.prototype, "tinh_id", void 0);
+__decorate([
+    (0, typeorm_1.Column)('int', { name: 'xa_id', nullable: true }),
+    __metadata("design:type", Number)
+], San.prototype, "xa_id", void 0);
+__decorate([
+    (0, typeorm_1.Column)('simple-array', { name: 'tien_ich', nullable: true }),
+    __metadata("design:type", Array)
+], San.prototype, "tien_ich", void 0);
+__decorate([
+    (0, typeorm_1.Column)('varchar', { name: 'anh_chinh', length: 500, nullable: true }),
+    __metadata("design:type", String)
+], San.prototype, "anh_chinh", void 0);
+__decorate([
+    (0, typeorm_1.Column)('simple-array', { name: 'anh_chi_tiet', nullable: true }),
+    __metadata("design:type", Array)
+], San.prototype, "anh_chi_tiet", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text', { name: 'mo_ta', nullable: true }),
+    __metadata("design:type", String)
+], San.prototype, "mo_ta", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => loai_san_entity_1.LoaiSan, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'id_loai_san' }),
     __metadata("design:type", loai_san_entity_1.LoaiSan)
 ], San.prototype, "loai_san", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => tinh_entity_1.Tinh, { onDelete: 'RESTRICT', onUpdate: 'RESTRICT' }),
+    (0, typeorm_1.JoinColumn)({ name: 'tinh_id' }),
+    __metadata("design:type", tinh_entity_1.Tinh)
+], San.prototype, "tinh", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => xa_entity_1.Xa, { onDelete: 'RESTRICT', onUpdate: 'RESTRICT' }),
+    (0, typeorm_1.JoinColumn)({ name: 'xa_id' }),
+    __metadata("design:type", xa_entity_1.Xa)
+], San.prototype, "xa", void 0);
 San = __decorate([
     (0, typeorm_1.Entity)('san', { synchronize: true })
 ], San);

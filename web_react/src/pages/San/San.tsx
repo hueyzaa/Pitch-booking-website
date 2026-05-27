@@ -2,7 +2,6 @@ import { BaseCard } from '@app/components/common/BaseCard/BaseCard';
 import { BaseCol } from '@app/components/common/BaseCol/BaseCol';
 import { BaseRow } from '@app/components/common/BaseRow/BaseRow';
 import { BaseTypography } from '@app/components/common/BaseTypography/BaseTypography';
-import ThemSan from './ThemSan';
 import DanhSachSan from './DanhSachSan';
 import { API_URL } from '@app/configs/api-configs';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
@@ -11,7 +10,9 @@ import { getPermissionUser } from '@app/utils/redux.utils';
 import { useAppSelector } from '@app/hooks/reduxHooks';
 import { Actions } from '@app/interfaces/interfaces';
 import ExportTable from '@app/components/customs/exportExcel/ExportTable';
-
+import { useNavigate } from 'react-router-dom';
+import { BaseButton } from '@app/components/common/BaseButton/BaseButton';
+import { PlusOutlined } from '@ant-design/icons';
 
 const San = () => {
   const path = API_URL.SAN;
@@ -20,6 +21,10 @@ const San = () => {
   const query = useAppSelector((state) => state.app.queryData);
   const columns = useAppSelector((state) => state.app.columns);
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const title = `Thêm ${t(page).toLowerCase()}`;
+
   return (
     <>
       <PageTitle>{t(page)}</PageTitle>
@@ -29,18 +34,26 @@ const San = () => {
             <BaseRow justify='space-between' align='middle'>
               <BaseCol>
                 <BaseTypography.Title level={4} className='typography-title'>
-                {t(page).toUpperCase()}
+                  {t(page).toUpperCase()}
                 </BaseTypography.Title>
               </BaseCol>
               <BaseCol style={{ display: 'flex', gap: '1rem' }}>
                 {permission.export && <ExportTable columns={columns} path={path} params={query} />}
-                {permission.create && <ThemSan path={path} />}
+                {permission.create && (
+                  <BaseButton
+                    type='primary'
+                    size='small'
+                    title={title}
+                    icon={<PlusOutlined />}
+                    onClick={() => navigate('/san/them')}
+                  >
+                    Thêm
+                  </BaseButton>
+                )}
               </BaseCol>
             </BaseRow>
           </BaseCol>
-          <BaseCol span={24}>
-            {permission.show && <DanhSachSan path={path} permission={permission}  />}
-          </BaseCol>
+          <BaseCol span={24}>{permission.show && <DanhSachSan path={path} permission={permission} />}</BaseCol>
         </BaseRow>
       </BaseCard>
     </>

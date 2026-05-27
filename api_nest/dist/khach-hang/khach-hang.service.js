@@ -22,15 +22,20 @@ const typeorm_2 = require("typeorm");
 const khach_hang_entity_1 = require("../database/entities/khach-hang.entity");
 const nguoi_dung_entity_1 = require("../database/entities/auth/nguoi-dung.entity");
 const doi_tuong_entity_1 = require("../database/entities/doi-tuong.entity");
+const helper_service_1 = require("../helper/helper.service");
 let KhachHangService = KhachHangService_1 = class KhachHangService {
-    constructor(databaseService, khachHangRepo, cacheManager, dataSource) {
+    constructor(databaseService, helperService, khachHangRepo, cacheManager, dataSource) {
         this.databaseService = databaseService;
+        this.helperService = helperService;
         this.khachHangRepo = khachHangRepo;
         this.cacheManager = cacheManager;
         this.dataSource = dataSource;
         this.logger = new common_1.Logger(KhachHangService_1.name);
     }
-    create(createKhachHangDto) {
+    async create(createKhachHangDto) {
+        if (createKhachHangDto.mat_khau) {
+            createKhachHangDto.mat_khau = await this.helperService.genHashedPassword(createKhachHangDto.mat_khau);
+        }
         return this.khachHangRepo.save(createKhachHangDto);
     }
     findAllWithPagination(filters) {
@@ -64,6 +69,9 @@ let KhachHangService = KhachHangService_1 = class KhachHangService {
         return this.khachHangRepo.findOneBy(where);
     }
     async update(id, updateKhachHangDto) {
+        if (updateKhachHangDto.mat_khau) {
+            updateKhachHangDto.mat_khau = await this.helperService.genHashedPassword(updateKhachHangDto.mat_khau);
+        }
         await this.khachHangRepo.update(id, updateKhachHangDto);
         return await this.findOneById(id);
     }
@@ -90,10 +98,11 @@ let KhachHangService = KhachHangService_1 = class KhachHangService {
 };
 KhachHangService = KhachHangService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __param(1, (0, typeorm_1.InjectRepository)(khach_hang_entity_1.KhachHang)),
-    __param(2, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
-    __param(3, (0, typeorm_1.InjectDataSource)()),
+    __param(2, (0, typeorm_1.InjectRepository)(khach_hang_entity_1.KhachHang)),
+    __param(3, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
+    __param(4, (0, typeorm_1.InjectDataSource)()),
     __metadata("design:paramtypes", [database_service_1.DatabaseService,
+        helper_service_1.HelperService,
         typeorm_2.Repository, Object, typeorm_2.DataSource])
 ], KhachHangService);
 exports.KhachHangService = KhachHangService;

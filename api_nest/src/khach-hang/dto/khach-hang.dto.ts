@@ -25,6 +25,26 @@ export class CreateKhachHangDto {
   @IsInt({ message: 'ID Đối tượng phải là số nguyên' })
   id_doi_tuong: number;
 
+  @IsOptional()
+  ho?: string;
+
+  @IsOptional()
+  ten?: string;
+
+  @IsOptional()
+  tai_khoan?: string;
+
+  @IsOptional()
+  mat_khau?: string;
+
+  @IsOptional()
+  @IsInt({ message: 'ID Tỉnh phải là số nguyên' })
+  tinh_id?: number;
+
+  @IsOptional()
+  @IsInt({ message: 'ID Xã phải là số nguyên' })
+  xa_id?: number;
+
   nguoi_tao?: number;
   nguoi_cap_nhat?: number;
 }
@@ -53,6 +73,26 @@ export class UpdateKhachHangDto {
   @IsNotEmpty({ message: 'Đối tượng không được để trống' })
   @IsInt({ message: 'ID Đối tượng phải là số nguyên' })
   id_doi_tuong: number;
+
+  @IsOptional()
+  ho?: string;
+
+  @IsOptional()
+  ten?: string;
+
+  @IsOptional()
+  tai_khoan?: string;
+
+  @IsOptional()
+  mat_khau?: string;
+
+  @IsOptional()
+  @IsInt({ message: 'ID Tỉnh phải là số nguyên' })
+  tinh_id?: number;
+
+  @IsOptional()
+  @IsInt({ message: 'ID Xã phải là số nguyên' })
+  xa_id?: number;
 
   nguoi_cap_nhat?: number;
 }

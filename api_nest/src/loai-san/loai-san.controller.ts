@@ -18,25 +18,24 @@ import {
   Response,
   Logger,
 } from '@nestjs/common';
-import {
-  CreateLoaiSanDto,
-  UpdateLoaiSanDto,
-} from './dto/loai-san.dto';
+import { CreateLoaiSanDto, UpdateLoaiSanDto } from './dto/loai-san.dto';
 import { LoaiSanService } from './loai-san.service';
-
 
 @Controller('loai-san')
 export class LoaiSanController {
   private readonly logger = new Logger(LoaiSanController.name);
   constructor(
-      private readonly loaiSanService: LoaiSanService,
-      private readonly helperService: HelperService,
-    ) {}
+    private readonly loaiSanService: LoaiSanService,
+    private readonly helperService: HelperService,
+  ) {}
 
   @CheckPermission(ACTION.create)
   @HttpCode(200)
   @Post()
-  create(@Body() createLoaiSanDto: CreateLoaiSanDto, @UserReq() user: UserReqData) {
+  create(
+    @Body() createLoaiSanDto: CreateLoaiSanDto,
+    @UserReq() user: UserReqData,
+  ) {
     createLoaiSanDto.nguoi_tao = user.id;
     createLoaiSanDto.nguoi_cap_nhat = user.id;
     return this.loaiSanService.create(createLoaiSanDto);
@@ -59,7 +58,6 @@ export class LoaiSanController {
     }
   }
 
-
   //TODO Cho phép lấy không check quyền
   @HttpCode(200)
   @Get('options')
@@ -67,14 +65,12 @@ export class LoaiSanController {
     return this.loaiSanService.findForSelectOptions(filters);
   }
 
-  @CheckPermission(ACTION.index)
   @HttpCode(200)
   @Get()
   findAll(@Query() filters: FilterData) {
     return this.loaiSanService.findAllWithPagination(filters);
   }
 
-  @CheckPermission(ACTION.show)
   @HttpCode(200)
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#99a69e",
+                    "outline": "#6c7a71",
+                    "on-surface": "#0b1c30",
+                    "on-primary-container": "#00422b",
+                    "on-primary-fixed-variant": "#005236",
+                    "primary-fixed-dim": "#4edea3",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#bbcabf",
+                    "on-tertiary-container": "#303c36",
+                    "surface-container": "#e5eeff",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "surface-dim": "#cbdbf5",
+                    "primary-container": "#10b981",
+                    "surface-tint": "#006c49",
+                    "on-primary-fixed": "#002113",
+                    "surface-container-high": "#dce9ff",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#4edea3",
+                    "on-tertiary-fixed-variant": "#3e4943",
+                    "on-tertiary-fixed": "#131e19",
+                    "surface-bright": "#f8f9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-secondary-fixed": "#131b2e",
+                    "surface-variant": "#d3e4fe",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "secondary-container": "#dae2fd",
+                    "surface-container-highest": "#d3e4fe",
+                    "secondary-fixed": "#dae2fd",
+                    "tertiary": "#55615a",
+                    "primary": "#006c49",
+                    "on-background": "#0b1c30",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#6ffbbe",
+                    "tertiary-fixed-dim": "#bdcac1",
+                    "background": "#f8f9ff",
+                    "surface": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-secondary-container": "#5c647a",
+                    "secondary": "#565e74",
+                    "on-surface-variant": "#3c4a42",
+                    "tertiary-fixed": "#d9e6dd",
+                    "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "container-max": "1280px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Lexend"],
+                    "headline-xl": ["Lexend"],
+                    "label-md": ["Lexend"],
+                    "headline-lg-mobile": ["Lexend"],
+                    "body-md": ["Lexend"],
+                    "label-sm": ["Lexend"],
+                    "headline-md": ["Lexend"],
+                    "headline-lg": ["Lexend"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(0,108,73,0.9) 0%, rgba(11,28,48,0.85) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- TopAppBar -->
+<header class="bg-surface-bright dark:bg-on-surface shadow-[0_4px_15px_rgba(0,0,0,0.05)] docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center h-20 px-margin-desktop max-w-container-max mx-auto w-full">
+<div class="flex items-center gap-8">
+<a class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tight" href="#">SportBooking</a>
+<nav class="hidden md:flex gap-6">
+<a class="text-primary dark:text-primary-fixed-dim font-bold border-b-2 border-primary pb-1 font-label-md text-label-md transition-all duration-200" href="#">Trang chủ</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Sân bóng</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Cầu lông</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Tennis</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Hướng dẫn</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant font-medium font-label-md text-label-md px-4 py-2 hover:bg-surface-container rounded-lg transition-all">Đăng nhập</button>
+<button class="bg-primary text-on-primary font-bold font-label-md text-label-md px-6 py-2 rounded-full shadow-md hover:opacity-90 active:scale-95 transition-all">Đăng ký</button>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-[600px] flex items-center pt-20 pb-32">
+<div class="absolute inset-0 z-0">
+<img alt="Hero Banner" class="w-full h-full object-cover" data-alt="A cinematic, high-speed action shot of a professional soccer player mid-kick on a vibrant green field under stadium floodlights. The lighting is dramatic and energetic, with sharp contrasts and a sense of movement. The overall atmosphere is intense and professional, utilizing a primary green and deep navy palette to evoke a modern sports vibe. Soft bokeh in the background highlights the focus on the athlete's powerful motion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL6KlpsWVw5GHmmS-6qemHsoKISu31giDFIpEH3R4RA9Q5YDQ0l1UPZKjpXKqkL5VhyrxF07GySTcECHMOyG55_UOZkkejrgxauwoizDUKB2le_ut-x70HhnIFV4T3caacU9cSbfM22PrbmKMAXSRIZnt1Q5fiX22aOTesQczzi7CcTnI0-_4G5Nk918X20AavBzmZpRXm3N_Ne0SrSPRLyTb3QfMBWuCBJyJ4syTrfW2kbFO5Ui-pYMa7-cq069FWDfHfljDM_kd1"/>
+<div class="absolute inset-0 hero-gradient"></div>
+</div>
+<div class="relative z-10 max-w-container-max mx-auto px-margin-desktop w-full text-center md:text-left">
+<div class="max-w-2xl">
+<h1 class="text-on-primary font-headline-xl text-headline-xl mb-6">Đam mê dẫn lối,<br/>đặt sân dễ dàng</h1>
+<p class="text-on-primary/90 font-body-lg text-body-lg mb-10">Khám phá và đặt ngay những sân thể thao chất lượng nhất quanh bạn chỉ với vài lần chạm. Tiết kiệm thời gian, bùng nổ đam mê.</p>
+<!-- Search Bar -->
+<div class="bg-surface-container-lowest p-2 rounded-2xl shadow-xl flex flex-col md:flex-row gap-2 items-stretch">
+<div class="flex-1 flex items-center px-4 py-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-outline mr-3">sports_soccer</span>
+<div class="flex-1">
+<label class="block text-[10px] font-bold text-outline uppercase tracking-wider">Môn thể thao</label>
+<select class="w-full bg-transparent border-none p-0 focus:ring-0 font-label-md text-label-md text-on-surface">
+<option>Bóng đá</option>
+<option>Cầu lông</option>
+<option>Tennis</option>
+<option>Bóng rổ</option>
+</select>
+</div>
+</div>
+<div class="flex-1 flex items-center px-4 py-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-outline mr-3">location_on</span>
+<div class="flex-1">
+<label class="block text-[10px] font-bold text-outline uppercase tracking-wider">Khu vực</label>
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 font-label-md text-label-md text-on-surface" placeholder="Quận, Thành phố..." type="text"/>
+</div>
+</div>
+<div class="flex-1 flex items-center px-4 py-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-outline mr-3">calendar_month</span>
+<div class="flex-1">
+<label class="block text-[10px] font-bold text-outline uppercase tracking-wider">Ngày giờ</label>
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 font-label-md text-label-md text-on-surface" type="datetime-local"/>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">search</span>
+                            Tìm kiếm
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Fields -->
+<section class="py-20 max-w-container-max mx-auto px-margin-desktop">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Sân nổi bật gần bạn</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Được đánh giá cao nhất bởi cộng đồng SportBooking</p>
+</div>
+<a class="text-primary font-bold flex items-center gap-1 hover:underline" href="#">
+                    Xem tất cả <span class="material-symbols-outlined">chevron_right</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Field Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="relative h-56 overflow-hidden">
+<img alt="Sân vận động" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A wide shot of a pristine, professional turf soccer field in a modern urban stadium during the golden hour. The sunlight is soft and warm, casting long shadows across the perfectly manicured grass. The overall aesthetic is clean, professional, and inviting, with a palette of deep greens and bright whites under a clear sky. The image captures the high-end, reliable quality of the sports facility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCISWpe61bh0LSlYGCNyoQVAX91hSso117sAS6wzZxf3BynPZnTfsI6Hbhu6AH48hVNpk5zbeN_-JNWDg3pIKIe2cfPbhAdN_GnR5Vjvq5nb8bT8sFbcJ1PiACCRDTSBp0rxFGYaWpAyOMKEecWRsw1iaV7-v1h6DRUyOIG_OpFBBRWfTjVNMF8Ak6JLBCJrqwNaiSZLWea0DLGJOdbxOGlR80H5FerEBmZVPcYguj5-dPP1ZS4LzpKp9Em1zIQzf2c9tHch71UIwB5"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary font-label-sm text-label-sm px-3 py-1 rounded-full shadow-md">Còn chỗ</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Sân bóng Đại Thế Giới</h3>
+<div class="flex items-center gap-1 text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.8</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Quận 5, TP. Hồ Chí Minh
+                        </p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">Giá từ</span>
+<span class="font-headline-md text-headline-md text-primary">350.000đ/h</span>
+</div>
+<button class="bg-surface-container-high text-primary font-bold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-colors">Chi tiết</button>
+</div>
+</div>
+</div>
+<!-- Field Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="relative h-56 overflow-hidden">
+<img alt="Sân cầu lông" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="An interior shot of a premium, multi-court indoor badminton facility with professional flooring and bright, even LED lighting. The courts are meticulously clean, showing sharp white lines on a professional blue surface. The mood is calm and focused, reflecting a high-quality, professional environment. The lighting is bright and modern, emphasizing the cleanliness and reliability of the space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDGvgi1CT87_GVAZzfpLG_w1WDCkDaSFBMZVEZiztooWcYscl-Wc1RJjGXTvKJOnYOgBCAy1JTsAgP-odZ1f2qhVR6Ob9aZx6KIRFdzqrj0yrJ6bCF8NmSAbN7a1jH8QMkyPjxpK68KXBBbiW8cNGJI5r9bEcx4MAsVNVkfqklqPDORo8cUJimgzMLQ-PwTnz7cY_ch8aMxhuODAr8tqVXaooGsTpA3WIGzFWHPIx9Swyaa6j-5KhN24wvCxRXdg5hpRfvR92evrPh"/>
+<div class="absolute top-4 left-4 bg-error text-on-error font-label-sm text-label-sm px-3 py-1 rounded-full shadow-md">Hết sân</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Cầu lông Master Pro</h3>
+<div class="flex items-center gap-1 text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.9</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Quận 10, TP. Hồ Chí Minh
+                        </p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">Giá từ</span>
+<span class="font-headline-md text-headline-md text-primary">120.000đ/h</span>
+</div>
+<button class="bg-surface-container-high text-primary font-bold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-colors">Chi tiết</button>
+</div>
+</div>
+</div>
+<!-- Field Card 3 -->
+<div class="group bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="relative h-56 overflow-hidden">
+<img alt="Sân tennis" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A beautiful outdoor blue clay tennis court captured from a low angle, with a bright yellow tennis ball resting near the net. The lighting is brilliant and energetic, highlighting the texture of the court surface and the precision of the lines. The overall color palette features vibrant blues and contrasting yellows, creating a dynamic and professional sports atmosphere that feels fresh and inviting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA389LU2v2nj3t-n4BdRzQfbwh6dZZh2G1eke_SEqDyYgMuBwldZTsFtAcBKJB6C5iqw5nN96Z0kdJifwubRWp16gKGt3VK6ZaYPrz5D4w_PoNVVNtT5NC_tmWYzBCc4NFuhc0RlbzG5fOBKn6zolxvvj5ybaqMj3zzUVPMSIdv8k-sV0cpsdfoQVFZF-14TXtGJmPHH7pWcNKUnQUKRA7xTx2zCI8ykBwYBRNWh_NRSuzIrY_SdkwMpLerYB16SF4GjhUITEeJoEjm"/>
+<div class="absolute top-4 left-4 bg-tertiary text-on-tertiary font-label-sm text-label-sm px-3 py-1 rounded-full shadow-md">Ưu đãi</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Tennis Sunrise Club</h3>
+<div class="flex items-center gap-1 text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.7</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Quận 7, TP. Hồ Chí Minh
+                        </p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">Giá từ</span>
+<span class="font-headline-md text-headline-md text-primary">280.000đ/h</span>
+</div>
+<button class="bg-surface-container-high text-primary font-bold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-colors">Chi tiết</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Us -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Tại sao chọn SportBooking?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-3">Chúng tôi mang đến trải nghiệm đặt sân chuyên nghiệp và nhanh chóng nhất.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="text-center p-8 bg-surface-container-lowest rounded-2xl border border-outline-variant hover:-translate-y-2 transition-transform duration-300">
+<div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-[32px]">bolt</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-3">Thanh toán nhanh</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Xác nhận đặt sân tức thì qua nhiều phương thức thanh toán linh hoạt.</p>
+</div>
+<div class="text-center p-8 bg-surface-container-lowest rounded-2xl border border-outline-variant hover:-translate-y-2 transition-transform duration-300">
+<div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-[32px]">sell</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-3">Giá tốt nhất</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Cam kết mức giá cạnh tranh và thường xuyên có các mã giảm giá hấp dẫn.</p>
+</div>
+<div class="text-center p-8 bg-surface-container-lowest rounded-2xl border border-outline-variant hover:-translate-y-2 transition-transform duration-300">
+<div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-[32px]">verified</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-3">Chất lượng đảm bảo</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Các sân thể thao đều được chúng tôi kiểm duyệt kỹ lưỡng về cơ sở vật chất.</p>
+</div>
+<div class="text-center p-8 bg-surface-container-lowest rounded-2xl border border-outline-variant hover:-translate-y-2 transition-transform duration-300">
+<div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-[32px]">support_agent</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-3">Hỗ trợ 24/7</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ bạn bất cứ lúc nào.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-24 overflow-hidden">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-center mb-16">
+<div class="text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Đánh giá từ người dùng</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Hàng ngàn người chơi đã tin tưởng và hài lòng với dịch vụ của chúng tôi.</p>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">west</span>
+</button>
+<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">east</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Testimonial 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm border border-outline-variant relative">
+<span class="material-symbols-outlined text-primary/20 text-[64px] absolute top-4 right-4">format_quote</span>
+<div class="flex items-center gap-4 mb-6">
+<img alt="User" class="w-14 h-14 rounded-full object-cover" data-alt="A portrait of a confident, athletic man in his late 20s, wearing high-quality sports gear, with a friendly and satisfied expression. The lighting is natural and bright, captured in an outdoor setting like a sports park. The overall mood is positive and energetic, representing a satisfied user of a sports service. The style is modern and professional, with a soft focus on the background greenery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdGd1d33jSBtF2jrVGkHW_0IIcK0rcoTp2iGrcXsS0KtvooQvZw5AZXvixjURzmpV4zDswMmaeIYf4m6rrebGGZQIlJtsNgVHzP5NO6_w9EB-P-e82F9WUiINw1WzrkAbdi6M2O_S-tpzY7fXIrUl2aHf4TCQujTLmb_qBmBF8IWiH8SUo3B2cH0dCJ70sxgqjk88Llzc6sgoJlbM1JVHonmNX9LJ9LxhgJmsNDqVwEoTW1x8iUTM9-0oGYC_YF4wCkSM2tfOftHPJ"/>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface">Minh Tuấn</h5>
+<p class="text-[12px] text-outline">Đội trưởng FC Lão Tướng</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">"Từ ngày có SportBooking, mình không còn phải gọi điện từng nơi để hỏi sân nữa. App rất mượt, tìm sân nhanh và thanh toán cực kỳ tiện lợi."</p>
+<div class="flex gap-1 mt-6 text-[#FFB800]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm border border-outline-variant relative">
+<span class="material-symbols-outlined text-primary/20 text-[64px] absolute top-4 right-4">format_quote</span>
+<div class="flex items-center gap-4 mb-6">
+<img alt="User" class="w-14 h-14 rounded-full object-cover" data-alt="A portrait of a smiling young woman in her mid-20s, dressed in stylish athletic attire, holding a badminton racket. The setting is a brightly lit indoor sports facility with professional flooring. The lighting is clean and vibrant, highlighting her joyful and satisfied expression. The image conveys a sense of energy, health, and a positive user experience within a premium sports ecosystem." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgeQ6dyFY1TPwN8d9bWRQQHIsb_vWgb0DbYUIVY3d8M6wEwUnOlHshRbryziDD-DQlLM3IqbozOPmCwkfCXdEAz9IiITuEmOVolJqoGIRDIvZQRgi4ajgtXaqSjFKpYWu44mEvP3GW6cO2wD4bzJCcTcnSUhUBIk4lycYNPiA_HB4yTA-FhnQC3z59IR_A-hKyE-RyRQ6egZPOo_0TRS5IOy8xhgEuFmnoWn5rmISlYXBNspqCZyesg6b3d7CgNp9Qqe6gUp5li0kW"/>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface">Linh Chi</h5>
+<p class="text-[12px] text-outline">Người chơi Cầu lông</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">"Giao diện trực quan, dễ dùng. Thích nhất là tính năng xem được giờ trống của sân theo thời gian thực. Sẽ tiếp tục ủng hộ SportBooking lâu dài!"</p>
+<div class="flex gap-1 mt-6 text-[#FFB800]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm border border-outline-variant relative">
+<span class="material-symbols-outlined text-primary/20 text-[64px] absolute top-4 right-4">format_quote</span>
+<div class="flex items-center gap-4 mb-6">
+<img alt="User" class="w-14 h-14 rounded-full object-cover" data-alt="A portrait of a fit man in his 30s, dressed in a professional tennis polo, standing on an outdoor court. The lighting is bright daylight, creating a sharp and energetic aesthetic. His expression is one of satisfaction and confidence. The overall mood is professional and sporty, emphasizing the high-quality lifestyle associated with using a premium sports booking platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx8TtF-yeYYziI1CyB3yiAGpnX9GyM7WzfKzn3RL0H2v6IE7zHK4eoeGYZhgxFI43jvvsThDSJM0kkFr4nk3iDDiznn-DfwIuMYBZBlCVD_OtcJxXUN2Zvs74JWw4lzOhwViNhTpwcUuGQE-FACglBg0TjVL_IqvcYJibP-OzoH4ZSS-Glyp952_xweHHYKJRXywvDwS_nlmn-vDzThF1EUcMSWzNuWzfX7PxQgyzpwix6bBd9gEo6ZYJbhpnMVBE5Pb3wPHVVV0sx"/>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface">Quốc Bảo</h5>
+<p class="text-[12px] text-outline">Thành viên Tennis Club</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">"Dịch vụ chăm sóc khách hàng cực kỳ tốt. Có lần mình cần hủy sân đột xuất, các bạn nhân viên đã hỗ trợ rất nhiệt tình và hoàn tiền nhanh chóng."</p>
+<div class="flex gap-1 mt-6 text-[#FFB800]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-20 bg-primary">
+<div class="max-w-container-max mx-auto px-margin-desktop text-center">
+<h2 class="font-headline-lg text-headline-lg text-on-primary mb-6">Sẵn sàng ra sân ngay hôm nay?</h2>
+<p class="font-body-md text-body-md text-on-primary/80 mb-10 max-w-2xl mx-auto">Tham gia cùng hơn 100,000+ vận động viên đang sử dụng SportBooking để tìm kiếm niềm vui trong mỗi trận đấu.</p>
+<div class="flex flex-col md:flex-row justify-center gap-4">
+<button class="bg-surface-container-lowest text-primary font-bold px-10 py-4 rounded-full shadow-lg hover:opacity-90 active:scale-95 transition-all">Bắt đầu ngay</button>
+<button class="bg-primary-fixed-dim text-on-primary-fixed font-bold px-10 py-4 rounded-full shadow-lg hover:opacity-90 active:scale-95 transition-all">Tải ứng dụng</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline full-width bottom-0">
+<div class="w-full px-margin-desktop py-12 flex flex-col md:flex-row justify-between items-start gap-gutter max-w-container-max mx-auto">
+<div class="max-w-xs">
+<div class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface tracking-tight mb-4">SportBooking</div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant mb-6 leading-relaxed">Nền tảng đặt sân thể thao hàng đầu Việt Nam. Chúng tôi kết nối đam mê và cộng đồng thể thao.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">social_leaderboard</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">share</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-12 flex-1 md:justify-items-end">
+<div class="flex flex-col gap-4">
+<span class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-widest">Sản phẩm</span>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-primary transition-all" href="#">Về chúng tôi</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-primary transition-all" href="#">Tính năng</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-primary transition-all" href="#">Đối tác</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-widest">Hỗ trợ</span>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-primary transition-all" href="#">Trung tâm hỗ trợ</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-primary transition-all" href="#">Liên hệ</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-primary transition-all" href="#">Quy trình hoàn tiền</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-widest">Pháp lý</span>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-primary transition-all" href="#">Điều khoản sử dụng</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-primary transition-all" href="#">Chính sách bảo mật</a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 py-6 text-center max-w-container-max mx-auto px-margin-desktop">
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 SportBooking. Nền tảng đặt sân thể thao chuyên nghiệp.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions and simple effects
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', function() {
+                this.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', function() {
+                this.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', function() {
+                this.classList.remove('scale-95');
+            });
+        });
+
+        // Simple scroll reveal for cards
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.group, .text-center').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+    </script>
+</body></html>

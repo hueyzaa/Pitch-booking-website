@@ -5,13 +5,26 @@ import { UsersService } from '@core/users/users.service';
 import { SessionService } from '@core/session/session.service';
 import { UserService } from '@core/profile/profile.service';
 import { OtpService } from '@core/otp/otp.service';
+import { DataSource } from 'typeorm';
+import { NguoiDung } from '@database/entities/auth/nguoi-dung.entity';
+import { HelperService } from '@helper/helper.service';
 export declare class AuthController {
     private readonly authService;
     private readonly usersService;
     private readonly userService;
     private readonly sessionService;
     private readonly otpService;
-    constructor(authService: AuthService, usersService: UsersService, userService: UserService, sessionService: SessionService, otpService: OtpService);
+    private readonly helperService;
+    private readonly dataSource;
+    constructor(authService: AuthService, usersService: UsersService, userService: UserService, sessionService: SessionService, otpService: OtpService, helperService: HelperService, dataSource: DataSource);
+    register(body: any): Promise<{
+        message: string;
+        user: {
+            id: number;
+            tai_khoan: string;
+            email: string;
+        };
+    }>;
     login(loginUserDto: LoginUserDto, userReq: UserReqData): Promise<import("./interfaces/auth.interfaces").LoginResult>;
     logout(userReq: UserReqData): Promise<string>;
     forgotPassword(body: ForgotPassDto): Promise<string>;
@@ -59,5 +72,5 @@ export declare class AuthController {
         nguoi_dung_vai_tros: import("../../database/entities/auth/nguoi-dung-vai-tro.entity").NguoiDungVaiTro[];
     }>;
     setFirebaseToken(body: SetFirebaseTokenDto, userReq: UserReqData): Promise<string>;
-    updatePersonalRole(body: UpdatePersonalRoleDto, userReq: UserReqData): Promise<import("../../database/entities/auth/nguoi-dung.entity").NguoiDung>;
+    updatePersonalRole(body: UpdatePersonalRoleDto, userReq: UserReqData): Promise<NguoiDung>;
 }

@@ -7,12 +7,12 @@ import { appActions } from '@app/store/slices/appSlice';
 import { Actions } from '@app/interfaces/interfaces';
 import { createFilterQueryFromArray } from '@app/utils/utils';
 import { useEffect, useState } from 'react';
-import SuaSan from './SuaSan';
 import { BaseRow } from '@app/components/common/BaseRow/BaseRow';
 import { BaseCol } from '@app/components/common/BaseCol/BaseCol';
 import { useTranslation } from 'react-i18next';
 import { getSanColumns } from './config/columns.config';
 import SanFilterForm from './components/SanFilterForm';
+import { useNavigate } from 'react-router-dom';
 
 const DanhSachSan = ({ path, permission }: { path: string; permission: Actions }) => {
   const { t } = useTranslation();
@@ -23,6 +23,7 @@ const DanhSachSan = ({ path, permission }: { path: string; permission: Actions }
   const reload = useAppSelector((state) => state.app.reloadData['DANH_SACH']);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const getDanhSach = async () => {
     setIsLoading(true);
@@ -60,7 +61,7 @@ const DanhSachSan = ({ path, permission }: { path: string; permission: Actions }
     dateSearch,
     t,
     path,
-    SuaSan
+    navigate
   ).map((item: any) => ({
     ...item,
     width: item.width || '210px'

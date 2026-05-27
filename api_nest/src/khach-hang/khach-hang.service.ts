@@ -14,12 +14,14 @@ import { KhachHang } from '../database/entities/khach-hang.entity';
 import { NguoiDung } from '../database/entities/auth/nguoi-dung.entity';
 import { DoiTuong } from '../database/entities/doi-tuong.entity';
 import { CreateKhachHangDto, UpdateKhachHangDto } from './dto/khach-hang.dto';
+import { HelperService } from 'src/helper/helper.service';
 
 @Injectable()
 export class KhachHangService {
   private readonly logger = new Logger(KhachHangService.name);
   constructor(
     private readonly databaseService: DatabaseService,
+    private readonly helperService: HelperService,
 
     @InjectRepository(KhachHang)
     private khachHangRepo: Repository<KhachHang>,
@@ -30,7 +32,12 @@ export class KhachHangService {
     private readonly dataSource: DataSource,
   ) {}
 
-  create(createKhachHangDto: CreateKhachHangDto) {
+  async create(createKhachHangDto: CreateKhachHangDto) {
+    if (createKhachHangDto.mat_khau) {
+      createKhachHangDto.mat_khau = await this.helperService.genHashedPassword(
+        createKhachHangDto.mat_khau,
+      );
+    }
     return this.khachHangRepo.save(createKhachHangDto);
   }
 
@@ -84,6 +91,11 @@ export class KhachHangService {
   }
 
   async update(id: number, updateKhachHangDto: UpdateKhachHangDto) {
+    if (updateKhachHangDto.mat_khau) {
+      updateKhachHangDto.mat_khau = await this.helperService.genHashedPassword(
+        updateKhachHangDto.mat_khau,
+      );
+    }
     await this.khachHangRepo.update(id, updateKhachHangDto);
     return await this.findOneById(id);
   }
