@@ -18,6 +18,9 @@ const main_config_1 = require("../configs/main.config");
 const check_permission_decorator_1 = require("../core/decorators/check-permission.decorator");
 const user_decorator_1 = require("../core/decorators/user.decorator");
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer = require("multer");
+const sharp = require("sharp");
 const he_thong_dto_1 = require("./dto/he-thong.dto");
 const he_thong_service_1 = require("./he-thong.service");
 let HeThongController = HeThongController_1 = class HeThongController {
@@ -25,9 +28,16 @@ let HeThongController = HeThongController_1 = class HeThongController {
         this.heThongService = heThongService;
         this.logger = new common_1.Logger(HeThongController_1.name);
     }
-    create(createHeThongDto, user) {
+    async create(createHeThongDto, user, file) {
         createHeThongDto.nguoi_tao = user.id;
         createHeThongDto.nguoi_cap_nhat = user.id;
+        if (file) {
+            const resizedBuffer = await sharp(file.buffer)
+                .resize({ width: 1024, withoutEnlargement: true })
+                .jpeg({ quality: 80 })
+                .toBuffer();
+            createHeThongDto.logoUrl = `data:image/jpeg;base64,${resizedBuffer.toString('base64')}`;
+        }
         return this.heThongService.create(createHeThongDto);
     }
     async getLatestRecord() {
@@ -38,11 +48,13 @@ __decorate([
     (0, check_permission_decorator_1.CheckPermission)(main_config_1.ACTION.create),
     (0, common_1.HttpCode)(200),
     (0, common_1.Post)('/update-logo-va-ten'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', { storage: multer.memoryStorage() })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, user_decorator_1.UserReq)()),
+    __param(2, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [he_thong_dto_1.CreateHeThongDto, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [he_thong_dto_1.CreateHeThongDto, Object, Object]),
+    __metadata("design:returntype", Promise)
 ], HeThongController.prototype, "create", null);
 __decorate([
     (0, common_1.HttpCode)(200),

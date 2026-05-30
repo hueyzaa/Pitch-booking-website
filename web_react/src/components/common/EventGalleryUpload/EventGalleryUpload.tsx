@@ -121,7 +121,7 @@ const orderLabelStyle: React.CSSProperties = {
 
 const normalizeImageUrl = (baseAppUrl: string, url: string | undefined): string | undefined => {
   if (!url) return undefined;
-  if (url.includes('http')) return url;
+  if (url.includes('http') || url.startsWith('data:')) return url;
   const cleanPath = url.replace(/\\/g, '/').replace(/^\//, '');
   return `${baseAppUrl}/${cleanPath}`;
 };

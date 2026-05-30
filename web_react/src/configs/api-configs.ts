@@ -25,7 +25,6 @@ export const API_URL = {
   SAN: '/san',
   DOI_TUONG: '/doi-tuong',
 
-
   QUAN_LY_GIA: '/quan-ly-gia',
   THU_CHI: '/thu-chi',
   TRANG_THAI_SAN: '/trang-thai-san',

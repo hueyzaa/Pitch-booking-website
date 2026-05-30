@@ -23,7 +23,7 @@ export class CreateSanDto {
   anh_chinh?: string;
 
   @IsOptional()
-  anh_chi_tiet?: string[];
+  anh_chi_tiet?: string;
 
   @IsOptional()
   mo_ta?: string;
@@ -55,7 +55,7 @@ export class UpdateSanDto {
   anh_chinh?: string;
 
   @IsOptional()
-  anh_chi_tiet?: string[];
+  anh_chi_tiet?: string;
 
   @IsOptional()
   mo_ta?: string;

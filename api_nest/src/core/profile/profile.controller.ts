@@ -10,8 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import * as multer from 'multer';
 import { UserReq } from '../decorators/user.decorator';
 import { UserReqData } from '../users/interfaces/user-req.interface';
 import {
@@ -20,53 +19,37 @@ import {
   UpdateSelfDto,
 } from './dto/profile.dto';
 import { UserService as ProfileService } from './profile.service';
-import { UploadService } from 'src/upload/upload.service';
-import { LOAI_FILE } from '@configs/contanst';
 
 @Controller('profile')
 export class ProfileController {
-  constructor(
-    private readonly profileService: ProfileService,
-    private readonly uploadService: UploadService,
-  ) {}
+  constructor(private readonly profileService: ProfileService) {}
 
   //TODO: Import Excel
   @HttpCode(200)
   @Post('avatar')
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './public/uploads/avatar',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          return cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
+      storage: multer.memoryStorage(),
     }),
   )
   async uploadAvatar(
     @UploadedFile() file: Express.Multer.File,
     @UserReq() user: UserReqData,
   ) {
-    const data = {
-      original_name: file.originalname,
-      file_path: file.destination.replace(/^./, '') + '/' + file.filename,
-      mime_type: file.mimetype,
-      destination: file.destination,
-      file_name: file.filename,
-      path: file.path,
-      size: file.size,
-      file_type: file.mimetype,
-      loai_file: LOAI_FILE.PUBLIC,
-      nguoi_tao: user.id,
-      nguoi_cap_nhat: user.id,
-    };
-    this.uploadService.create(data);
+    if (!file) {
+      throw new Error('No file uploaded');
+    }
+    // Chuyển file sang Base64 data URI
+    const sharp = require('sharp');
+    const resizedBuffer = await sharp(file.buffer)
+      .resize({ width: 512, withoutEnlargement: true })
+      .jpeg({ quality: 80 })
+      .toBuffer();
+    const base64Avatar = `data:image/jpeg;base64,${resizedBuffer.toString(
+      'base64',
+    )}`;
 
-    return this.profileService.updateAvatar(user.id, data.file_path);
+    return this.profileService.updateAvatar(user.id, base64Avatar);
   }
 
   @HttpCode(200)

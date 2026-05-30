@@ -3,7 +3,6 @@ import { ArrowLeftOutlined, SaveOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getDataById } from '@app/api/getData.api';
 import { patchData } from '@app/api/updateData';
-import { apiInstance } from '@app/api/core.api';
 import { BaseButton } from '@app/components/common/BaseButton/BaseButton';
 import { BaseCard } from '@app/components/common/BaseCard/BaseCard';
 import { BaseForm } from '@app/components/common/forms/BaseForm/BaseForm';
@@ -79,55 +78,61 @@ const SuaSan = () => {
     }
   }, [numericId, path, form]);
 
-  const uploadImage = async (fileObj: any): Promise<string> => {
-    if (typeof fileObj === 'string') {
-      return fileObj;
-    }
-    const file = fileObj?.originFileObj || fileObj;
-    if (!(file instanceof File || file instanceof Blob)) {
-      return fileObj?.url || '';
-    }
-    const formData = new FormData();
-    formData.append('file', file);
-    const response = await apiInstance.post('upload', formData);
-    return response.data?.path || '';
-  };
 
   const onUpdate = async (values: any) => {
     setIsLoading(true);
     try {
-      // 1. Upload main image if exists and is a file
-      let anhChinhPath = '';
+      const formData = new FormData();
+
+      // Append text fields
+      if (values.ten_san) formData.append('ten_san', values.ten_san);
+      if (values.id_loai_san) formData.append('id_loai_san', values.id_loai_san);
+      if (values.dia_chi) formData.append('dia_chi', values.dia_chi);
+      if (values.tinh_id) formData.append('tinh_id', values.tinh_id);
+      if (values.xa_id) formData.append('xa_id', values.xa_id);
+      if (values.mo_ta) formData.append('mo_ta', values.mo_ta);
+      if (values.tien_ich && Array.isArray(values.tien_ich)) {
+        values.tien_ich.forEach((item: string) => formData.append('tien_ich', item));
+      }
+
+      // Append ảnh chính
       if (values.anh_chinh) {
         const fileList = Array.isArray(values.anh_chinh) ? values.anh_chinh : [values.anh_chinh];
-        if (fileList.length > 0) {
-          anhChinhPath = await uploadImage(fileList[0]);
+        const item = fileList[0];
+        if (item?.originFileObj) {
+          // File mới - gửi file
+          formData.append('anh_chinh', item.originFileObj);
+        } else if (typeof item === 'string') {
+          // Ảnh cũ (Base64 hoặc path) - giữ nguyên
+          formData.append('anh_chinh', item);
+        } else if (item?.url) {
+          formData.append('anh_chinh', item.url);
         }
       }
 
-      // 2. Upload detailed images if exist
-      const anhChiTietPaths: string[] = [];
+      // Append ảnh chi tiết
       if (values.anh_chi_tiet && Array.isArray(values.anh_chi_tiet)) {
+        const existingBase64: string[] = [];
         for (const item of values.anh_chi_tiet) {
-          const path = await uploadImage(item);
-          if (path) {
-            anhChiTietPaths.push(path);
+          if (item?.originFileObj) {
+            // File mới
+            formData.append('anh_chi_tiet', item.originFileObj);
+          } else if (typeof item === 'string') {
+            // Ảnh cũ (Base64)
+            existingBase64.push(item);
           }
         }
+        // Gửi ảnh cũ dạng JSON string qua field text
+        if (existingBase64.length > 0) {
+          formData.append('anh_chi_tiet', JSON.stringify(existingBase64));
+        }
       }
-
-      // 3. Prepare payload and submit
-      const payload = {
-        ...values,
-        anh_chinh: anhChinhPath || null,
-        anh_chi_tiet: anhChiTietPaths.length > 0 ? anhChiTietPaths : null
-      };
 
       const handleSuccess = () => {
         navigate('/san');
       };
 
-      await patchData(path, numericId, payload, handleSuccess);
+      await patchData(path, numericId, formData, handleSuccess);
     } catch (error) {
       console.error('Error updating pitch:', error);
     } finally {

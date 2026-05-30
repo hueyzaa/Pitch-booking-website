@@ -11,9 +11,12 @@ import * as S from './ProfileDropdown.styles';
 import { generateHashStringAndParamsString } from '@app/utils/utils';
 export const ProfileDropdown: React.FC = () => {
   const user = useAppSelector((state) => state.user.user);
-  const avatar = user?.avatar
-    ? `${apiURL}${user?.avatar}?${generateHashStringAndParamsString({ originalUrl: user?.avatar })}`
-    : avatarImg;
+  const getAvatarUrl = (avatarStr: string) => {
+    if (!avatarStr) return avatarImg;
+    if (avatarStr.startsWith('data:') || avatarStr.startsWith('http')) return avatarStr;
+    return `${apiURL}${avatarStr}?${generateHashStringAndParamsString({ originalUrl: avatarStr })}`;
+  };
+  const avatar = getAvatarUrl(user?.avatar);
 
   return user ? (
     <BasePopover content={<ProfileOverlay />} trigger='click'>

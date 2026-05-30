@@ -43,7 +43,7 @@ __decorate([
 ], CreateSanDto.prototype, "anh_chinh", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Array)
+    __metadata("design:type", String)
 ], CreateSanDto.prototype, "anh_chi_tiet", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
@@ -82,7 +82,7 @@ __decorate([
 ], UpdateSanDto.prototype, "anh_chinh", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Array)
+    __metadata("design:type", String)
 ], UpdateSanDto.prototype, "anh_chi_tiet", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),

@@ -38,7 +38,10 @@ let UsersService = class UsersService {
         this.cacheManager = cacheManager;
     }
     async create(createUsersDto) {
-        createUsersDto.ho_va_ten = (0, users_helpers_1.buildFullName)(createUsersDto.ho, createUsersDto.ten);
+        createUsersDto.ho_va_ten = (0, users_helpers_1.buildFullName)(createUsersDto.ho || '', createUsersDto.ten || '');
+        if (!createUsersDto.id_doi_tuong) {
+            createUsersDto.id_doi_tuong = null;
+        }
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
@@ -90,7 +93,20 @@ let UsersService = class UsersService {
         return this.usersRepo.findOneBy(where);
     }
     async update(id, updateUsersDto) {
-        updateUsersDto.ho_va_ten = (0, users_helpers_1.buildFullName)(updateUsersDto.ho, updateUsersDto.ten);
+        if (updateUsersDto.ho !== undefined || updateUsersDto.ten !== undefined) {
+            if (updateUsersDto.ho === undefined || updateUsersDto.ten === undefined) {
+                const existingUser = await this.usersRepo.findOneBy({ id });
+                if (existingUser) {
+                    updateUsersDto.ho_va_ten = (0, users_helpers_1.buildFullName)(updateUsersDto.ho !== undefined ? updateUsersDto.ho : existingUser.ho, updateUsersDto.ten !== undefined ? updateUsersDto.ten : existingUser.ten);
+                }
+            }
+            else {
+                updateUsersDto.ho_va_ten = (0, users_helpers_1.buildFullName)(updateUsersDto.ho, updateUsersDto.ten);
+            }
+        }
+        if (updateUsersDto.id_doi_tuong === '' || updateUsersDto.id_doi_tuong === 0) {
+            updateUsersDto.id_doi_tuong = null;
+        }
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();

@@ -10,13 +10,12 @@ exports.ProfileModule = void 0;
 const common_1 = require("@nestjs/common");
 const profile_controller_1 = require("./profile.controller");
 const profile_service_1 = require("./profile.service");
-const upload_service_1 = require("../../upload/upload.service");
 let ProfileModule = class ProfileModule {
 };
 ProfileModule = __decorate([
     (0, common_1.Module)({
         controllers: [profile_controller_1.ProfileController],
-        providers: [profile_service_1.UserService, upload_service_1.UploadService],
+        providers: [profile_service_1.UserService],
         exports: [profile_service_1.UserService],
     })
 ], ProfileModule);

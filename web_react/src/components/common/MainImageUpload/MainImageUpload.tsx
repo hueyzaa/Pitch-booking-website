@@ -93,7 +93,7 @@ const deleteButtonStyle: React.CSSProperties = {
 
 const getImageUrl = (baseAppUrl: string, path: string): string => {
   if (!path) return '';
-  if (path.startsWith('http')) return path;
+  if (path.startsWith('http') || path.startsWith('data:')) return path;
   const cleanPath = path.replace(/\\/g, '/').replace(/^\//, '');
   return `${baseAppUrl}/${cleanPath}`;
 };

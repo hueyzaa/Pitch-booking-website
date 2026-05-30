@@ -6,7 +6,7 @@ export declare class CreateSanDto {
     xa_id?: number;
     tien_ich?: string[];
     anh_chinh?: string;
-    anh_chi_tiet?: string[];
+    anh_chi_tiet?: string;
     mo_ta?: string;
     nguoi_tao?: number;
     nguoi_cap_nhat?: number;
@@ -19,7 +19,7 @@ export declare class UpdateSanDto {
     xa_id?: number;
     tien_ich?: string[];
     anh_chinh?: string;
-    anh_chi_tiet?: string[];
+    anh_chi_tiet?: string;
     mo_ta?: string;
     nguoi_cap_nhat?: number;
 }

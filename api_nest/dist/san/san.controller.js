@@ -20,6 +20,9 @@ const main_config_1 = require("../configs/main.config");
 const check_permission_decorator_1 = require("../core/decorators/check-permission.decorator");
 const user_decorator_1 = require("../core/decorators/user.decorator");
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer = require("multer");
+const sharp = require("sharp");
 const san_dto_1 = require("./dto/san.dto");
 const san_service_1 = require("./san.service");
 let SanController = SanController_1 = class SanController {
@@ -28,9 +31,24 @@ let SanController = SanController_1 = class SanController {
         this.helperService = helperService;
         this.logger = new common_1.Logger(SanController_1.name);
     }
-    create(createSanDto, user) {
+    async fileToBase64(file) {
+        const resizedBuffer = await sharp(file.buffer)
+            .resize({ width: 1024, withoutEnlargement: true })
+            .jpeg({ quality: 80 })
+            .toBuffer();
+        return `data:image/jpeg;base64,${resizedBuffer.toString('base64')}`;
+    }
+    async create(createSanDto, user, files) {
+        var _a, _b;
         createSanDto.nguoi_tao = user.id;
         createSanDto.nguoi_cap_nhat = user.id;
+        if ((_a = files === null || files === void 0 ? void 0 : files.anh_chinh) === null || _a === void 0 ? void 0 : _a[0]) {
+            createSanDto.anh_chinh = await this.fileToBase64(files.anh_chinh[0]);
+        }
+        if ((_b = files === null || files === void 0 ? void 0 : files.anh_chi_tiet) === null || _b === void 0 ? void 0 : _b.length) {
+            const base64Arr = await Promise.all(files.anh_chi_tiet.map((f) => this.fileToBase64(f)));
+            createSanDto.anh_chi_tiet = JSON.stringify(base64Arr);
+        }
         return this.sanService.create(createSanDto);
     }
     async exportExcel(filters, res) {
@@ -55,8 +73,29 @@ let SanController = SanController_1 = class SanController {
     findOne(id) {
         return this.sanService.findOneById(+id);
     }
-    update(id, updateSanDto, user) {
+    async update(id, updateSanDto, user, files) {
+        var _a, _b;
         updateSanDto.nguoi_cap_nhat = user.id;
+        if ((_a = files === null || files === void 0 ? void 0 : files.anh_chinh) === null || _a === void 0 ? void 0 : _a[0]) {
+            updateSanDto.anh_chinh = await this.fileToBase64(files.anh_chinh[0]);
+        }
+        if ((_b = files === null || files === void 0 ? void 0 : files.anh_chi_tiet) === null || _b === void 0 ? void 0 : _b.length) {
+            const base64Arr = await Promise.all(files.anh_chi_tiet.map((f) => this.fileToBase64(f)));
+            let existingImages = [];
+            if (updateSanDto.anh_chi_tiet &&
+                typeof updateSanDto.anh_chi_tiet === 'string') {
+                try {
+                    existingImages = JSON.parse(updateSanDto.anh_chi_tiet);
+                }
+                catch (_c) {
+                    existingImages = [];
+                }
+            }
+            updateSanDto.anh_chi_tiet = JSON.stringify([
+                ...existingImages,
+                ...base64Arr,
+            ]);
+        }
         return this.sanService.update(+id, updateSanDto);
     }
     remove(id) {
@@ -67,11 +106,16 @@ __decorate([
     (0, check_permission_decorator_1.CheckPermission)(main_config_1.ACTION.create),
     (0, common_1.HttpCode)(200),
     (0, common_1.Post)(),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
+        { name: 'anh_chinh', maxCount: 1 },
+        { name: 'anh_chi_tiet', maxCount: 10 },
+    ], { storage: multer.memoryStorage() })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, user_decorator_1.UserReq)()),
+    __param(2, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [san_dto_1.CreateSanDto, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [san_dto_1.CreateSanDto, Object, Object]),
+    __metadata("design:returntype", Promise)
 ], SanController.prototype, "create", null);
 __decorate([
     (0, check_permission_decorator_1.CheckPermission)(main_config_1.ACTION.export),
@@ -111,12 +155,17 @@ __decorate([
     (0, check_permission_decorator_1.CheckPermission)(main_config_1.ACTION.edit),
     (0, common_1.HttpCode)(200),
     (0, common_1.Patch)(':id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
+        { name: 'anh_chinh', maxCount: 1 },
+        { name: 'anh_chi_tiet', maxCount: 10 },
+    ], { storage: multer.memoryStorage() })),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, user_decorator_1.UserReq)()),
+    __param(3, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, san_dto_1.UpdateSanDto, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, san_dto_1.UpdateSanDto, Object, Object]),
+    __metadata("design:returntype", Promise)
 ], SanController.prototype, "update", null);
 __decorate([
     (0, check_permission_decorator_1.CheckPermission)(main_config_1.ACTION.delete),

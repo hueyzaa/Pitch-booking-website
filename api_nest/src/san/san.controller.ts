@@ -17,7 +17,12 @@ import {
   Query,
   Response,
   Logger,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import * as multer from 'multer';
+import * as sharp from 'sharp';
 import { CreateSanDto, UpdateSanDto } from './dto/san.dto';
 import { SanService } from './san.service';
 
@@ -29,12 +34,54 @@ export class SanController {
     private readonly helperService: HelperService,
   ) {}
 
+  /**
+   * Chuyển file buffer sang Base64 data URI, resize + compress bằng sharp
+   */
+  private async fileToBase64(file: Express.Multer.File): Promise<string> {
+    const resizedBuffer = await sharp(file.buffer)
+      .resize({ width: 1024, withoutEnlargement: true })
+      .jpeg({ quality: 80 })
+      .toBuffer();
+    return `data:image/jpeg;base64,${resizedBuffer.toString('base64')}`;
+  }
+
   @CheckPermission(ACTION.create)
   @HttpCode(200)
   @Post()
-  create(@Body() createSanDto: CreateSanDto, @UserReq() user: UserReqData) {
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'anh_chinh', maxCount: 1 },
+        { name: 'anh_chi_tiet', maxCount: 10 },
+      ],
+      { storage: multer.memoryStorage() },
+    ),
+  )
+  async create(
+    @Body() createSanDto: CreateSanDto,
+    @UserReq() user: UserReqData,
+    @UploadedFiles()
+    files: {
+      anh_chinh?: Express.Multer.File[];
+      anh_chi_tiet?: Express.Multer.File[];
+    },
+  ) {
     createSanDto.nguoi_tao = user.id;
     createSanDto.nguoi_cap_nhat = user.id;
+
+    // Chuyển ảnh chính sang Base64
+    if (files?.anh_chinh?.[0]) {
+      createSanDto.anh_chinh = await this.fileToBase64(files.anh_chinh[0]);
+    }
+
+    // Chuyển ảnh chi tiết sang Base64 (lưu dạng JSON array)
+    if (files?.anh_chi_tiet?.length) {
+      const base64Arr = await Promise.all(
+        files.anh_chi_tiet.map((f) => this.fileToBase64(f)),
+      );
+      createSanDto.anh_chi_tiet = JSON.stringify(base64Arr);
+    }
+
     return this.sanService.create(createSanDto);
   }
 
@@ -77,12 +124,55 @@ export class SanController {
   @CheckPermission(ACTION.edit)
   @HttpCode(200)
   @Patch(':id')
-  update(
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'anh_chinh', maxCount: 1 },
+        { name: 'anh_chi_tiet', maxCount: 10 },
+      ],
+      { storage: multer.memoryStorage() },
+    ),
+  )
+  async update(
     @Param('id') id: string,
     @Body() updateSanDto: UpdateSanDto,
     @UserReq() user: UserReqData,
+    @UploadedFiles()
+    files: {
+      anh_chinh?: Express.Multer.File[];
+      anh_chi_tiet?: Express.Multer.File[];
+    },
   ) {
     updateSanDto.nguoi_cap_nhat = user.id;
+
+    // Chuyển ảnh chính sang Base64 (nếu có file mới)
+    if (files?.anh_chinh?.[0]) {
+      updateSanDto.anh_chinh = await this.fileToBase64(files.anh_chinh[0]);
+    }
+
+    // Chuyển ảnh chi tiết sang Base64 (nếu có file mới)
+    if (files?.anh_chi_tiet?.length) {
+      const base64Arr = await Promise.all(
+        files.anh_chi_tiet.map((f) => this.fileToBase64(f)),
+      );
+      // Merge: giữ ảnh cũ (Base64 string) + ảnh mới
+      let existingImages: string[] = [];
+      if (
+        updateSanDto.anh_chi_tiet &&
+        typeof updateSanDto.anh_chi_tiet === 'string'
+      ) {
+        try {
+          existingImages = JSON.parse(updateSanDto.anh_chi_tiet as string);
+        } catch {
+          existingImages = [];
+        }
+      }
+      updateSanDto.anh_chi_tiet = JSON.stringify([
+        ...existingImages,
+        ...base64Arr,
+      ]);
+    }
+
     return this.sanService.update(+id, updateSanDto);
   }
 

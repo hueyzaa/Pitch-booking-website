@@ -65,12 +65,12 @@ __decorate([
     __metadata("design:type", Array)
 ], San.prototype, "tien_ich", void 0);
 __decorate([
-    (0, typeorm_1.Column)('varchar', { name: 'anh_chinh', length: 500, nullable: true }),
+    (0, typeorm_1.Column)('longtext', { name: 'anh_chinh', nullable: true }),
     __metadata("design:type", String)
 ], San.prototype, "anh_chinh", void 0);
 __decorate([
-    (0, typeorm_1.Column)('simple-array', { name: 'anh_chi_tiet', nullable: true }),
-    __metadata("design:type", Array)
+    (0, typeorm_1.Column)('longtext', { name: 'anh_chi_tiet', nullable: true }),
+    __metadata("design:type", String)
 ], San.prototype, "anh_chi_tiet", void 0);
 __decorate([
     (0, typeorm_1.Column)('text', { name: 'mo_ta', nullable: true }),

@@ -46,7 +46,11 @@ const CauHinhHeThong = () => {
 
   const fetchLogo = async () => {
     const res = await getListData(pathGet);
-    setPreviewImage(res?.logoUrl ? apiURL + '/' + res?.logoUrl : '/react-icon.svg');
+    let imageUrl = '/react-icon.svg';
+    if (res?.logoUrl) {
+      imageUrl = res.logoUrl.startsWith('data:') ? res.logoUrl : apiURL + '/' + res.logoUrl;
+    }
+    setPreviewImage(imageUrl);
     form.setFieldsValue({
       name: res?.name
     });
@@ -59,19 +63,15 @@ const CauHinhHeThong = () => {
   const onFinish = async (values: any) => {
     try {
       showLoading();
-      //Todo: Tạo form data
       const formData = new FormData();
+      formData.append('name', values.name);
 
       if (file) {
         formData.append('file', file);
-        //Todo: Tạo request upload
-        const response = await apiInstance.post('upload', formData);
-        if (!response) return;
-
-        //Todo: Gán lại giá trị cho logoUrl
-        values.logoUrl = response?.data?.path;
-      } else {
-        values.logoUrl = previewImage.replace(apiURL + '/', '');
+      } else if (previewImage && !previewImage.includes('react-icon.svg')) {
+        const existingUrl = previewImage.replace(apiURL + '/', '');
+        formData.append('logoUrl', existingUrl);
+        values.logoUrl = existingUrl;
       }
 
       persistSystemConfig(values);
@@ -80,7 +80,7 @@ const CauHinhHeThong = () => {
         dispatch(appActions.toggleReload('DANH_SACH'));
       };
 
-      postData(pathUpdate, values, closeModel, 'Cập nhật thành công!');
+      await postData(pathUpdate, formData, closeModel, 'Cập nhật thành công!');
     } catch (error) {
       console.log(error);
     } finally {

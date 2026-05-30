@@ -140,7 +140,7 @@ export class AuthController {
       xa_id: body.xa_id || 0,
       ma_vai_tro: 'USER',
       trang_thai: 1,
-      id_doi_tuong: 1,
+      id_doi_tuong: null,
       nguoi_tao: 0,
       nguoi_cap_nhat: 0,
     });
@@ -148,7 +148,9 @@ export class AuthController {
 
     const vaiTroRepo = this.dataSource.getRepository(VaiTro);
     const nguoiDungVaiTroRepo = this.dataSource.getRepository(NguoiDungVaiTro);
-    const customerRole = await vaiTroRepo.findOne({ where: { ma_vai_tro: 'USER' } });
+    const customerRole = await vaiTroRepo.findOne({
+      where: { ma_vai_tro: 'USER' },
+    });
     if (customerRole) {
       await nguoiDungVaiTroRepo.save(
         nguoiDungVaiTroRepo.create({

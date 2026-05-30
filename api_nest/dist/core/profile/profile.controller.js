@@ -15,34 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
-const multer_1 = require("multer");
-const path_1 = require("path");
+const multer = require("multer");
 const user_decorator_1 = require("../decorators/user.decorator");
 const profile_dto_1 = require("./dto/profile.dto");
 const profile_service_1 = require("./profile.service");
-const upload_service_1 = require("../../upload/upload.service");
-const contanst_1 = require("../../configs/contanst");
 let ProfileController = class ProfileController {
-    constructor(profileService, uploadService) {
+    constructor(profileService) {
         this.profileService = profileService;
-        this.uploadService = uploadService;
     }
     async uploadAvatar(file, user) {
-        const data = {
-            original_name: file.originalname,
-            file_path: file.destination.replace(/^./, '') + '/' + file.filename,
-            mime_type: file.mimetype,
-            destination: file.destination,
-            file_name: file.filename,
-            path: file.path,
-            size: file.size,
-            file_type: file.mimetype,
-            loai_file: contanst_1.LOAI_FILE.PUBLIC,
-            nguoi_tao: user.id,
-            nguoi_cap_nhat: user.id,
-        };
-        this.uploadService.create(data);
-        return this.profileService.updateAvatar(user.id, data.file_path);
+        if (!file) {
+            throw new Error('No file uploaded');
+        }
+        const sharp = require('sharp');
+        const resizedBuffer = await sharp(file.buffer)
+            .resize({ width: 512, withoutEnlargement: true })
+            .jpeg({ quality: 80 })
+            .toBuffer();
+        const base64Avatar = `data:image/jpeg;base64,${resizedBuffer.toString('base64')}`;
+        return this.profileService.updateAvatar(user.id, base64Avatar);
     }
     getProfile(user) {
         return this.profileService.findOneByUsernameOrEmailOrSDT(user.tai_khoan);
@@ -64,16 +55,7 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Post)('avatar'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
-        storage: (0, multer_1.diskStorage)({
-            destination: './public/uploads/avatar',
-            filename: (req, file, cb) => {
-                const randomName = Array(32)
-                    .fill(null)
-                    .map(() => Math.round(Math.random() * 16).toString(16))
-                    .join('');
-                return cb(null, `${randomName}${(0, path_1.extname)(file.originalname)}`);
-            },
-        }),
+        storage: multer.memoryStorage(),
     })),
     __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, user_decorator_1.UserReq)()),
@@ -126,8 +108,7 @@ __decorate([
 ], ProfileController.prototype, "remove", null);
 ProfileController = __decorate([
     (0, common_1.Controller)('profile'),
-    __metadata("design:paramtypes", [profile_service_1.UserService,
-        upload_service_1.UploadService])
+    __metadata("design:paramtypes", [profile_service_1.UserService])
 ], ProfileController);
 exports.ProfileController = ProfileController;
 //# sourceMappingURL=profile.controller.js.map

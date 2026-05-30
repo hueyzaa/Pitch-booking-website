@@ -28,7 +28,7 @@ const CauHinhTrang: React.FC = () => {
     fetchConfigs();
   }, []);
 
-  const handleUpdate = async (values: { key: string; value: string }[]) => {
+  const handleUpdate = async (values: any) => {
     try {
       await apiInstance.patch('cau-hinh-trang', values);
       notificationController.success({ message: 'Cập nhật cấu hình thành công' });

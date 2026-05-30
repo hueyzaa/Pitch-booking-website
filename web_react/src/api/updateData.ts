@@ -12,7 +12,7 @@ export const patchData = async (
   withId: boolean = true
 ) => {
   try {
-    const resp: IApiSuccess = await apiInstance.patch(`${path}/${withId ? id : ''}`, data);
+    const resp: IApiSuccess = await apiInstance.patch(withId ? `${path}/${id}` : path, data);
     if (resp.code === 200) {
       notificationController.success({
         message: resp.data?.message || 'Cập nhật thành công'

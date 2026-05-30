@@ -28,9 +28,12 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profileData }) => {
   const user = useAppSelector((state) => state.user.user);
   const token = useAppSelector((state) => state.auth.token);
   const device_id = readDeviceId();
-  const avatar = user?.avatar
-    ? `${apiURL}${user?.avatar}?${generateHashStringAndParamsString({ originalUrl: user?.avatar })}`
-    : avatarImg;
+  const getAvatarUrl = (avatarStr: string) => {
+    if (!avatarStr) return avatarImg;
+    if (avatarStr.startsWith('data:') || avatarStr.startsWith('http')) return avatarStr;
+    return `${apiURL}${avatarStr}?${generateHashStringAndParamsString({ originalUrl: avatarStr })}`;
+  };
+  const avatar = getAvatarUrl(user?.avatar);
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>('');
   const [file, setFile] = useState<any>(null);

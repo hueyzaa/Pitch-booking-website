@@ -14,7 +14,7 @@ export declare class San {
     xa_id: number | null;
     tien_ich: string[] | null;
     anh_chinh: string | null;
-    anh_chi_tiet: string[] | null;
+    anh_chi_tiet: string | null;
     mo_ta: string | null;
     loai_san: LoaiSan;
     tinh: Tinh;

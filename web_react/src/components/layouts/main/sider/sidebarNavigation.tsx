@@ -57,8 +57,6 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
     ]
   },
 
-
-
   {
     title: 'common.quan-ly-gia',
     key: 'quan-ly-gia',
@@ -110,8 +108,6 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
       }
     ]
   },
-
-
 
   {
     title: 'common.cau-hinh-he-thong',

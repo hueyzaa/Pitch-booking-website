@@ -47,9 +47,13 @@ export class UsersService {
   async create(createUsersDto: CreateUsersDto): Promise<NguoiDung> {
     // Build full name
     createUsersDto.ho_va_ten = buildFullName(
-      createUsersDto.ho,
-      createUsersDto.ten,
+      createUsersDto.ho || '',
+      createUsersDto.ten || '',
     );
+
+    if (!createUsersDto.id_doi_tuong) {
+      createUsersDto.id_doi_tuong = null;
+    }
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -164,11 +168,23 @@ export class UsersService {
    * @returns Updated user entity
    */
   async update(id: number, updateUsersDto: UpdateUsersDto): Promise<any> {
-    // Build full name
-    updateUsersDto.ho_va_ten = buildFullName(
-      updateUsersDto.ho,
-      updateUsersDto.ten,
-    );
+    if (updateUsersDto.ho !== undefined || updateUsersDto.ten !== undefined) {
+      if (updateUsersDto.ho === undefined || updateUsersDto.ten === undefined) {
+        const existingUser = await this.usersRepo.findOneBy({ id });
+        if (existingUser) {
+          updateUsersDto.ho_va_ten = buildFullName(
+            updateUsersDto.ho !== undefined ? updateUsersDto.ho : existingUser.ho,
+            updateUsersDto.ten !== undefined ? updateUsersDto.ten : existingUser.ten
+          );
+        }
+      } else {
+        updateUsersDto.ho_va_ten = buildFullName(updateUsersDto.ho, updateUsersDto.ten);
+      }
+    }
+
+    if (updateUsersDto.id_doi_tuong === '' as any || updateUsersDto.id_doi_tuong === 0) {
+      updateUsersDto.id_doi_tuong = null;
+    }
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();

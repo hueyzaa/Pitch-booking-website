@@ -17,7 +17,14 @@ export const FooterTab: React.FC<FooterTabProps> = ({ configs, onUpdate, loading
   const [form] = BaseForm.useForm();
   const transformToFileList = (path?: string) => {
     if (!path) return [];
-    return [{ uid: '-1', name: 'logo.png', status: 'done', url: path.startsWith('http') ? path : `${apiURL}/${path}` }];
+    return [
+      {
+        uid: '-1',
+        name: 'logo.png',
+        status: 'done',
+        url: path.startsWith('http') || path.startsWith('data:') ? path : `${apiURL}/${path}`
+      }
+    ];
   };
 
   React.useEffect(() => {
@@ -31,24 +38,25 @@ export const FooterTab: React.FC<FooterTabProps> = ({ configs, onUpdate, loading
   }, [configs, form]);
 
   const onFinish = async (values: any) => {
-    let logoPath = '';
+    const formData = new FormData();
+    const configs = [
+      { key: 'FOOTER_COPYRIGHT', value: values.FOOTER_COPYRIGHT || '' },
+      { key: 'FOOTER_DESCRIPTION', value: values.FOOTER_DESCRIPTION || '' }
+    ];
+
     if (values.FOOTER_LOGO && values.FOOTER_LOGO.length > 0) {
       const item = values.FOOTER_LOGO[0];
       if (item.originFileObj) {
-        const formData = new FormData();
-        formData.append('file', item.originFileObj);
-        const res = await apiInstance.post('upload', formData);
-        logoPath = res.data.path;
+        formData.append('FOOTER_LOGO', item.originFileObj);
       } else {
-        logoPath = item.url?.replace(`${apiURL}/`, '') || '';
+        configs.push({ key: 'FOOTER_LOGO', value: item.url?.replace(`${apiURL}/`, '') || '' });
       }
+    } else {
+      configs.push({ key: 'FOOTER_LOGO', value: '' });
     }
-    const payload = [
-      { key: 'FOOTER_COPYRIGHT', value: values.FOOTER_COPYRIGHT || '' },
-      { key: 'FOOTER_DESCRIPTION', value: values.FOOTER_DESCRIPTION || '' },
-      { key: 'FOOTER_LOGO', value: logoPath }
-    ];
-    await onUpdate(payload);
+
+    formData.append('configs', JSON.stringify(configs));
+    await onUpdate(formData as any);
   };
 
   return (

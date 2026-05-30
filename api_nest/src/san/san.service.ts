@@ -65,7 +65,7 @@ export class SanService {
               .where('trang_thai = 1')
               .groupBy('id_san'),
           'danh_gia_stats',
-          'danh_gia_stats.id_san = san.id'
+          'danh_gia_stats.id_san = san.id',
         )
         .leftJoin(
           (qb) =>
@@ -77,7 +77,7 @@ export class SanService {
               .andWhere('ds.trang_thai IN (0, 1)')
               .groupBy('id_san'),
           'dat_san_stats',
-          'dat_san_stats.id_san = san.id'
+          'dat_san_stats.id_san = san.id',
         ),
       [
         'san.id as id',
@@ -111,7 +111,11 @@ export class SanService {
           san.tien_ich = san.tien_ich.split(',').filter(Boolean);
         }
         if (san.anh_chi_tiet && typeof san.anh_chi_tiet === 'string') {
-          san.anh_chi_tiet = san.anh_chi_tiet.split(',').filter(Boolean);
+          try {
+            san.anh_chi_tiet = JSON.parse(san.anh_chi_tiet);
+          } catch {
+            san.anh_chi_tiet = san.anh_chi_tiet.split(',').filter(Boolean);
+          }
         }
         if (san.pricePerHour !== undefined) {
           san.pricePerHour = Number(san.pricePerHour);
@@ -174,7 +178,11 @@ export class SanService {
       san.tien_ich = san.tien_ich.split(',').filter(Boolean);
     }
     if (san.anh_chi_tiet && typeof san.anh_chi_tiet === 'string') {
-      san.anh_chi_tiet = san.anh_chi_tiet.split(',').filter(Boolean);
+      try {
+        san.anh_chi_tiet = JSON.parse(san.anh_chi_tiet);
+      } catch {
+        san.anh_chi_tiet = san.anh_chi_tiet.split(',').filter(Boolean);
+      }
     }
     if (san.pricePerHour !== undefined) {
       san.pricePerHour = Number(san.pricePerHour);

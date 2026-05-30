@@ -53,7 +53,13 @@ class AuthHelpers {
         return false;
     }
     static async generateAccessToken(helperService, user, options) {
-        return await helperService.signJWTToken(user, options);
+        const payload = {
+            id: user.id,
+            tai_khoan: user.tai_khoan,
+            email: user.email,
+            ma_vai_tro: user.ma_vai_tro,
+        };
+        return await helperService.signJWTToken(payload, options);
     }
     static async generateResetPasswordToken(jwtService, user) {
         const payload = {

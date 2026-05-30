@@ -25,26 +25,32 @@ export const HeaderTab: React.FC<HeaderTabProps> = ({ configs, onUpdate, loading
   }, [configs, form]);
   const transformToFileList = (path?: string) => {
     if (!path) return [];
-    return [{ uid: '-1', name: 'logo.png', status: 'done', url: path.startsWith('http') ? path : `${apiURL}/${path}` }];
+    return [
+      {
+        uid: '-1',
+        name: 'logo.png',
+        status: 'done',
+        url: path.startsWith('http') || path.startsWith('data:') ? path : `${apiURL}/${path}`
+      }
+    ];
   };
   const onFinish = async (values: any) => {
-    let logoPath = '';
+    const formData = new FormData();
+    const configs = [{ key: 'HEADER_TITLE', value: values.HEADER_TITLE || '' }];
+
     if (values.HEADER_LOGO && values.HEADER_LOGO.length > 0) {
       const item = values.HEADER_LOGO[0];
       if (item.originFileObj) {
-        const formData = new FormData();
-        formData.append('file', item.originFileObj);
-        const res = await apiInstance.post('upload', formData);
-        logoPath = res.data.path;
+        formData.append('HEADER_LOGO', item.originFileObj);
       } else {
-        logoPath = item.url?.replace(`${apiURL}/`, '') || '';
+        configs.push({ key: 'HEADER_LOGO', value: item.url?.replace(`${apiURL}/`, '') || '' });
       }
+    } else {
+      configs.push({ key: 'HEADER_LOGO', value: '' });
     }
-    const payload = [
-      { key: 'HEADER_TITLE', value: values.HEADER_TITLE },
-      { key: 'HEADER_LOGO', value: logoPath }
-    ];
-    await onUpdate(payload);
+
+    formData.append('configs', JSON.stringify(configs));
+    await onUpdate(formData as any);
   };
   return (
     <BaseForm form={form} layout='vertical' onFinish={onFinish}>

@@ -14,6 +14,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CauHinhTrangController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer = require("multer");
+const sharp = require("sharp");
 const cau_hinh_trang_service_1 = require("./cau-hinh-trang.service");
 const user_decorator_1 = require("../core/decorators/user.decorator");
 const check_permission_decorator_1 = require("../core/decorators/check-permission.decorator");
@@ -22,13 +25,42 @@ let CauHinhTrangController = class CauHinhTrangController {
     constructor(service) {
         this.service = service;
     }
+    async fileToBase64(file) {
+        const resizedBuffer = await sharp(file.buffer)
+            .resize({ width: 1024, withoutEnlargement: true })
+            .jpeg({ quality: 80 })
+            .toBuffer();
+        return `data:image/jpeg;base64,${resizedBuffer.toString('base64')}`;
+    }
     findAll() {
         return this.service.findAll();
     }
     findPublic() {
         return this.service.findPublic();
     }
-    updateMany(configs, user) {
+    async updateMany(body, user, files) {
+        let configs = [];
+        if (body.configs) {
+            configs =
+                typeof body.configs === 'string'
+                    ? JSON.parse(body.configs)
+                    : body.configs;
+        }
+        else if (Array.isArray(body)) {
+            configs = body;
+        }
+        if (files && files.length > 0) {
+            for (const file of files) {
+                const base64 = await this.fileToBase64(file);
+                const idx = configs.findIndex((c) => c.key === file.fieldname);
+                if (idx >= 0) {
+                    configs[idx].value = base64;
+                }
+                else {
+                    configs.push({ key: file.fieldname, value: base64 });
+                }
+            }
+        }
         return this.service.updateMany(configs, user);
     }
 };
@@ -51,11 +83,13 @@ __decorate([
     (0, check_permission_decorator_1.CheckPermission)(main_config_1.ACTION.edit),
     (0, common_1.HttpCode)(200),
     (0, common_1.Patch)(),
+    (0, common_1.UseInterceptors)((0, platform_express_1.AnyFilesInterceptor)({ storage: multer.memoryStorage() })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, user_decorator_1.UserReq)()),
+    __param(2, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object, Object, Array]),
+    __metadata("design:returntype", Promise)
 ], CauHinhTrangController.prototype, "updateMany", null);
 CauHinhTrangController = __decorate([
     (0, common_1.Controller)('cau-hinh-trang'),

@@ -71,7 +71,7 @@ export const PersonalInfo: React.FC = () => {
         }
       });
       if (user) {
-        const result = await patchData(API_URL.PROFILE, user.id, values, () => null);
+        const result = await patchData(API_URL.PROFILE, user.id, values, () => null, false);
         persistUser(result);
       }
     } catch (error) {

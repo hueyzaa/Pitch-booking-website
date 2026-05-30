@@ -50,7 +50,7 @@ const XemSan = ({ record }: { record: any }) => {
 
   const getImageUrlValue = (path: string): string => {
     if (!path) return '';
-    if (path.startsWith('http')) return path;
+    if (path.startsWith('http') || path.startsWith('data:')) return path;
     const cleanPath = path.replace(/\\/g, '/').replace(/^\//, '');
     return `${apiURL}/${cleanPath}`;
   };

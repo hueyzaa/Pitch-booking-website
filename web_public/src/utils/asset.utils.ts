@@ -10,8 +10,8 @@ export const resolveAssetUrl = (path: string | undefined): string => {
     return 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1000&auto=format&fit=crop';
   }
 
-  // If it's already an absolute URL, return it
-  if (path.startsWith('http')) {
+  // If it's already an absolute URL or Base64 data URI, return it
+  if (path.startsWith('http') || path.startsWith('data:')) {
     return path;
   }
 

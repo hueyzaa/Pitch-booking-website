@@ -86,7 +86,12 @@ let SanService = SanService_1 = class SanService {
                     san.tien_ich = san.tien_ich.split(',').filter(Boolean);
                 }
                 if (san.anh_chi_tiet && typeof san.anh_chi_tiet === 'string') {
-                    san.anh_chi_tiet = san.anh_chi_tiet.split(',').filter(Boolean);
+                    try {
+                        san.anh_chi_tiet = JSON.parse(san.anh_chi_tiet);
+                    }
+                    catch (_a) {
+                        san.anh_chi_tiet = san.anh_chi_tiet.split(',').filter(Boolean);
+                    }
                 }
                 if (san.pricePerHour !== undefined) {
                     san.pricePerHour = Number(san.pricePerHour);
@@ -141,7 +146,12 @@ let SanService = SanService_1 = class SanService {
             san.tien_ich = san.tien_ich.split(',').filter(Boolean);
         }
         if (san.anh_chi_tiet && typeof san.anh_chi_tiet === 'string') {
-            san.anh_chi_tiet = san.anh_chi_tiet.split(',').filter(Boolean);
+            try {
+                san.anh_chi_tiet = JSON.parse(san.anh_chi_tiet);
+            }
+            catch (_a) {
+                san.anh_chi_tiet = san.anh_chi_tiet.split(',').filter(Boolean);
+            }
         }
         if (san.pricePerHour !== undefined) {
             san.pricePerHour = Number(san.pricePerHour);

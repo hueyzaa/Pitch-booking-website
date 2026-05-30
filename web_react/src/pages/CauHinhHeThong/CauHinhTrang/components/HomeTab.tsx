@@ -34,34 +34,35 @@ export const HomeTab: React.FC<HomeTabProps> = ({ configs, onUpdate, loading }) 
   const transformToFileList = (path?: string) => {
     if (!path) return [];
     // If it's a relative path starting with src/ (like our default seed), we might need to handle it
-    const url = path.startsWith('http') ? path : `${apiURL}/${path}`;
+    const url = path.startsWith('http') || path.startsWith('data:') ? path : `${apiURL}/${path}`;
     return [{ uid: '-1', name: 'hero.png', status: 'done', url }];
   };
 
   const onFinish = async (values: any) => {
-    let imgPath = '';
+    const formData = new FormData();
+    const configs = [
+      { key: 'HOME_HERO_BADGE', value: values.HOME_HERO_BADGE || '' },
+      { key: 'HOME_HERO_TITLE_MAIN', value: values.HOME_HERO_TITLE_MAIN || '' },
+      { key: 'HOME_HERO_TITLE_ACCENT', value: values.HOME_HERO_TITLE_ACCENT || '' },
+      { key: 'HOME_HERO_TITLE_SUFFIX', value: values.HOME_HERO_TITLE_SUFFIX || '' },
+      { key: 'HOME_HERO_DESC', value: values.HOME_HERO_DESC || '' }
+    ];
+
     if (values.HOME_HERO_IMG && values.HOME_HERO_IMG.length > 0) {
       const item = values.HOME_HERO_IMG[0];
       if (item.originFileObj) {
-        const formData = new FormData();
-        formData.append('file', item.originFileObj);
-        const res = await apiInstance.post('upload', formData);
-        imgPath = res.data.path;
+        // Có file mới, append vào FormData
+        formData.append('HOME_HERO_IMG', item.originFileObj);
       } else {
-        imgPath = item.url?.replace(`${apiURL}/`, '') || '';
+        // Giữ nguyên url cũ (có thể là base64 hoặc path)
+        configs.push({ key: 'HOME_HERO_IMG', value: item.url?.replace(`${apiURL}/`, '') || '' });
       }
+    } else {
+      configs.push({ key: 'HOME_HERO_IMG', value: '' });
     }
 
-    const payload = [
-      { key: 'HOME_HERO_BADGE', value: values.HOME_HERO_BADGE },
-      { key: 'HOME_HERO_TITLE_MAIN', value: values.HOME_HERO_TITLE_MAIN },
-      { key: 'HOME_HERO_TITLE_ACCENT', value: values.HOME_HERO_TITLE_ACCENT },
-      { key: 'HOME_HERO_TITLE_SUFFIX', value: values.HOME_HERO_TITLE_SUFFIX },
-      { key: 'HOME_HERO_DESC', value: values.HOME_HERO_DESC },
-      { key: 'HOME_HERO_IMG', value: imgPath }
-    ];
-
-    await onUpdate(payload);
+    formData.append('configs', JSON.stringify(configs));
+    await onUpdate(formData as any);
   };
 
   return (

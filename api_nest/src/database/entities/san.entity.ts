@@ -48,11 +48,11 @@ export class San {
   @Column('simple-array', { name: 'tien_ich', nullable: true })
   tien_ich: string[] | null;
 
-  @Column('varchar', { name: 'anh_chinh', length: 500, nullable: true })
+  @Column('longtext', { name: 'anh_chinh', nullable: true })
   anh_chinh: string | null;
 
-  @Column('simple-array', { name: 'anh_chi_tiet', nullable: true })
-  anh_chi_tiet: string[] | null;
+  @Column('longtext', { name: 'anh_chi_tiet', nullable: true })
+  anh_chi_tiet: string | null;
 
   @Column('text', { name: 'mo_ta', nullable: true })
   mo_ta: string | null;
