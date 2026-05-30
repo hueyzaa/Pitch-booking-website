@@ -1,4 +1,4 @@
-import { KhachHang } from './khach-hang.entity';
+import { NguoiDung } from './auth/nguoi-dung.entity';
 import { San } from './san.entity';
 import { DoiTuong } from './doi-tuong.entity';
 export declare class DatSan {
@@ -18,7 +18,7 @@ export declare class DatSan {
     ngay_tao: Date;
     nguoi_cap_nhat: number | null;
     ngay_cap_nhat: Date;
-    khach_hang: KhachHang;
+    khach_hang: NguoiDung;
     san: San;
     doi_tuong: DoiTuong | null;
 }

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatSan = void 0;
 const typeorm_1 = require("typeorm");
-const khach_hang_entity_1 = require("./khach-hang.entity");
+const nguoi_dung_entity_1 = require("./auth/nguoi-dung.entity");
 const san_entity_1 = require("./san.entity");
 const doi_tuong_entity_1 = require("./doi-tuong.entity");
 let DatSan = class DatSan {
@@ -89,9 +89,9 @@ __decorate([
     __metadata("design:type", Date)
 ], DatSan.prototype, "ngay_cap_nhat", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => khach_hang_entity_1.KhachHang, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
+    (0, typeorm_1.ManyToOne)(() => nguoi_dung_entity_1.NguoiDung, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'id_khach_hang' }),
-    __metadata("design:type", khach_hang_entity_1.KhachHang)
+    __metadata("design:type", nguoi_dung_entity_1.NguoiDung)
 ], DatSan.prototype, "khach_hang", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => san_entity_1.San, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),

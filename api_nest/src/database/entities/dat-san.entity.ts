@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { KhachHang } from './khach-hang.entity';
+import { NguoiDung } from './auth/nguoi-dung.entity';
 import { San } from './san.entity';
 import { DoiTuong } from './doi-tuong.entity';
 
@@ -67,9 +67,9 @@ export class DatSan {
   })
   ngay_cap_nhat: Date;
 
-  @ManyToOne(() => KhachHang, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @ManyToOne(() => NguoiDung, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'id_khach_hang' })
-  khach_hang: KhachHang;
+  khach_hang: NguoiDung;
 
   @ManyToOne(() => San, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'id_san' })
